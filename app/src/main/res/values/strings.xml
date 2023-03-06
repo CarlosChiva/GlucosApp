@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">TFG</string>
+    <string name="mainbutton">mainButton</string>
+    <string name="configurationbutton">ConfigurationButton</string>
+    <string name="estadisticsbutton">EstadisticsButton</string>
+    <string name="historicbutton">HistoricButton</string>
+    <string name="wellcome">Wellcome</string>
+    <string name="what_do_you_wanna_do">what do you wanna do?</string>
+    <string name="medida">medida</string>
+    <string name="historial">Historial</string>
+    <string name="glucosa_maxima">Glucosa Maxima</string>
+    <string name="glucosa_minima">Glucosa Minima</string>
+    <string name="alarma">Alarma</string>
+    <string name="configuration">Configuration</string>
+    <string name="fab">fab</string>
+    <string name="glucmax">GlucMax</string>
+    <string name="glucmin">GlucMin</string>
+    <string name="h">h</string>
+    <string name="foodicon">foodIcon</string>
+    <string name="alarmicon">AlarmIcon</string>
+    <string name="pickicon">PickIcon</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
