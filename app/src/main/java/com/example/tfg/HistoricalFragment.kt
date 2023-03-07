@@ -23,6 +23,7 @@ class HistoricalFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,8 +36,11 @@ class HistoricalFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val hasMap: HashMap<String, Int> = hashMapOf()
+        hasMap!!["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
+        hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
         val motionLayout: MotionLayout = binding.motionLayoutHistorical
-        val controllerMotionLayout = ControllerMotionLayout(this.context!!, motionLayout,findNavController(),EnumActivitys.HISTORICAL)
+        val controllerMotionLayout = ControllerMotionLayout(this.context!!, motionLayout,findNavController(),hasMap)
         //Inicialization of reciclerView of the main View of this screen
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)

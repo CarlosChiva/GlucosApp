@@ -10,14 +10,16 @@ class ControllerMotionLayout(
     val context: Context,
     id: View,
     val nav: NavController,
-    val enum: EnumActivitys
+    val maping: HashMap<String,Int>
 ) :
     MotionLayout.TransitionListener {
     var motionLayout: MotionLayout
+    var map: HashMap<String, Int>? = null
 
     init {
         motionLayout = id as MotionLayout
         motionLayout.setTransitionListener(this)
+        this.map=maping
 
     }
 
@@ -39,15 +41,16 @@ class ControllerMotionLayout(
     {
         when (motionLayout?.currentState) {
             R.id.configurationEnd -> {
-                nav.navigate(getConfiguration()!!)
+                map?.getValue("configuration")?.let { nav.navigate(it) }
             }
             R.id.estadisticsEnd -> {
-                nav.navigate(getStadistics()!!)
+                nav.navigate(map!!.getValue("stadistics")!!)
             }
             R.id.medidaEnd -> {
+                nav.navigate(map!!.getValue("medida")!!)
             }
             R.id.hostoricEnd -> {
-                nav.navigate(getHistorical()!!)
+                map?.getValue("historical")?.let { nav.navigate(it) }
 
             }
 
@@ -61,58 +64,6 @@ class ControllerMotionLayout(
         positive: Boolean,
         progress: Float
     ) {
-    }
-
-    fun getConfiguration(): Int? {
-        return when (enum) {
-            EnumActivitys.MAIN -> R.id.action_MainFragment_to_ConfigurationFragment
-            EnumActivitys.HISTORICAL -> R.id.action_HistoricalFragment_to_ConfigurationFragment
-            EnumActivitys.STADISTICS -> R.id.action_stadisticsFragment_to_ConfigurationFragment
-
-            else -> {
-                null
-            }
-        }
-    }
-
-    fun getHistorical(): Int? {
-        return when (enum) {
-            EnumActivitys.MAIN -> {
-                R.id.action_MainFragment_to_HistoricalFragment
-            }
-            EnumActivitys.STADISTICS -> {
-                R.id.action_stadisticsFragment_to_historicalFragment
-            }
-
-            else -> {
-                null
-            }
-        }
-    }
-    fun getStadistics(): Int? {
-        return when (enum) {
-            EnumActivitys.MAIN -> {
-                R.id.action_MainFragment_to_stadisticsFragment
-            }
-            EnumActivitys.HISTORICAL -> {
-                R.id.action_historicalFragment_to_stadisticsFragment
-            }
-
-            else -> {
-                null
-            }
-        }
-    }
-    fun getMedida(): Int? {
-        return when (enum) {
-            EnumActivitys.MAIN -> {
-                R.id.action_MainFragment_to_HistoricalFragment
-            }
-
-            else -> {
-                null
-            }
-        }
     }
 
 

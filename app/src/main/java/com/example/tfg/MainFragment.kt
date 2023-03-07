@@ -18,8 +18,6 @@ class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -35,8 +33,14 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val motionLayout: MotionLayout = binding.root
-        val controllerLayout= ControllerMotionLayout(this.context!!,motionLayout,findNavController(),EnumActivitys.MAIN)
-        val fab=binding.mainButton
+        val hasMap: HashMap<String, Int> = hashMapOf()
+        hasMap["configuration"] = R.id.action_MainFragment_to_ConfigurationFragment
+        hasMap["stadistics"] = R.id.action_MainFragment_to_stadisticsFragment
+        hasMap["historical"] = R.id.action_MainFragment_to_HistoricalFragment
+
+        val controllerLayout =
+            ControllerMotionLayout(this.context!!, motionLayout, findNavController(), hasMap)
+        val fab = binding.mainButton
 
     }
 
