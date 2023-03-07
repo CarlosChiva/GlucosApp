@@ -1,6 +1,5 @@
 package com.example.tfg
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,12 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
-import com.example.tfg.controllers.ConfiguracionModel
-import com.example.tfg.controllers.EnumActivitys
+import com.example.tfg.models.ConfiguracionModel
+import com.example.tfg.models.EnumActivitys
 import com.example.tfg.databinding.FragmentConfigurationBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.

@@ -1,4 +1,4 @@
-package com.example.tfg.controllers
+package com.example.tfg.models
 
 import java.util.Date
 

@@ -1,7 +1,6 @@
-package com.example.tfg.controllers
+package com.example.tfg.models
 
 import android.content.Context
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import java.io.*
 

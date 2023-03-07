@@ -8,9 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfg.R
+import com.example.tfg.models.ConfiguracionModel
+import com.example.tfg.models.Datos
 
 
 //Adapter for View Historical who needs a context of activity and MutableList of dates to draw him on the recycler

@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_historicalFragment_to_ConfigurationFragment"
             app:destination="@id/ConfigurationFragment" />
+        <action
+            android:id="@+id/action_historicalFragment_self"
+            app:destination="@id/historicalFragment" />
     </fragment>
     <action
         android:id="@+id/action_HistoricalFragment_to_MainFragment"
@@ -58,5 +61,8 @@
         <action
             android:id="@+id/action_stadisticsFragment_to_ConfigurationFragment"
             app:destination="@id/ConfigurationFragment" />
+        <action
+            android:id="@+id/action_stadisticsFragment_self"
+            app:destination="@id/stadisticsFragment" />
     </fragment>
 </navigation>
