@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.controllers.Datos
+import com.example.tfg.controllers.EnumActivitys
 import com.example.tfg.controllers.HistoricalAdapter
 import com.example.tfg.databinding.FragmentHistoricalBinding
 import java.util.*
@@ -35,7 +36,7 @@ class HistoricalFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val motionLayout: MotionLayout = binding.motionLayoutHistorical
-        val controllerMotionLayout = ControllerMotionLayout(this.context!!, motionLayout,findNavController())
+        val controllerMotionLayout = ControllerMotionLayout(this.context!!, motionLayout,findNavController(),EnumActivitys.HISTORICAL)
         //Inicialization of reciclerView of the main View of this screen
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)

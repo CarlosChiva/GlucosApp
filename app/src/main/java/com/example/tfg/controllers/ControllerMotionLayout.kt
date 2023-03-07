@@ -6,7 +6,13 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import com.example.tfg.R
 
-class ControllerMotionLayout(val context: Context, id: View,val nav: NavController) : MotionLayout.TransitionListener {
+class ControllerMotionLayout(
+    val context: Context,
+    id: View,
+    val nav: NavController,
+    val enum: EnumActivitys
+) :
+    MotionLayout.TransitionListener {
     var motionLayout: MotionLayout
 
     init {
@@ -28,22 +34,25 @@ class ControllerMotionLayout(val context: Context, id: View,val nav: NavControll
 
     }
 
-    override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
-        // val currentState = motionLayout?.currentState
+    override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int)
+    // val currentState = motionLayout?.currentState
+    {
         when (motionLayout?.currentState) {
             R.id.configurationEnd -> {
-                nav.navigate(R.id.action_MainFragment_to_ConfigurationFragment)
-
+                nav.navigate(getConfiguration()!!)
             }
             R.id.estadisticsEnd -> {
+                nav.navigate(getStadistics()!!)
             }
             R.id.medidaEnd -> {
-          }
+            }
             R.id.hostoricEnd -> {
-                nav.navigate(R.id.action_MainFragment_to_HistoricalFragment)
+                nav.navigate(getHistorical()!!)
 
             }
+
         }
+
     }
 
     override fun onTransitionTrigger(
@@ -53,4 +62,58 @@ class ControllerMotionLayout(val context: Context, id: View,val nav: NavControll
         progress: Float
     ) {
     }
+
+    fun getConfiguration(): Int? {
+        return when (enum) {
+            EnumActivitys.MAIN -> R.id.action_MainFragment_to_ConfigurationFragment
+            EnumActivitys.HISTORICAL -> R.id.action_HistoricalFragment_to_ConfigurationFragment
+            EnumActivitys.STADISTICS -> R.id.action_stadisticsFragment_to_ConfigurationFragment
+
+            else -> {
+                null
+            }
+        }
+    }
+
+    fun getHistorical(): Int? {
+        return when (enum) {
+            EnumActivitys.MAIN -> {
+                R.id.action_MainFragment_to_HistoricalFragment
+            }
+            EnumActivitys.STADISTICS -> {
+                R.id.action_stadisticsFragment_to_historicalFragment
+            }
+
+            else -> {
+                null
+            }
+        }
+    }
+    fun getStadistics(): Int? {
+        return when (enum) {
+            EnumActivitys.MAIN -> {
+                R.id.action_MainFragment_to_stadisticsFragment
+            }
+            EnumActivitys.HISTORICAL -> {
+                R.id.action_historicalFragment_to_stadisticsFragment
+            }
+
+            else -> {
+                null
+            }
+        }
+    }
+    fun getMedida(): Int? {
+        return when (enum) {
+            EnumActivitys.MAIN -> {
+                R.id.action_MainFragment_to_HistoricalFragment
+            }
+
+            else -> {
+                null
+            }
+        }
+    }
+
+
 }

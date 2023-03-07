@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.controllers.ControllerMotionLayout
+import com.example.tfg.controllers.EnumActivitys
 import com.example.tfg.databinding.FragmentMainBinding
 
 /**
@@ -34,7 +35,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val motionLayout: MotionLayout = binding.root
-        val controllerLayout= ControllerMotionLayout(this.context!!,motionLayout,findNavController())
+        val controllerLayout= ControllerMotionLayout(this.context!!,motionLayout,findNavController(),EnumActivitys.MAIN)
         val fab=binding.mainButton
 
     }

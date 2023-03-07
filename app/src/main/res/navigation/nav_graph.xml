@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_MainFragment_to_HistoricalFragment"
             app:destination="@id/historicalFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_stadisticsFragment"
+            app:destination="@id/stadisticsFragment" />
     </fragment>
     <fragment
         android:id="@+id/ConfigurationFragment"
@@ -30,8 +33,30 @@
         android:id="@+id/historicalFragment"
         android:name="com.example.tfg.HistoricalFragment"
         android:label="@null"
-        tools:layout="@layout/fragment_historical" />
+        tools:layout="@layout/fragment_historical" >
+        <action
+            android:id="@+id/action_historicalFragment_to_stadisticsFragment"
+            app:destination="@id/stadisticsFragment" />
+        <action
+            android:id="@+id/action_historicalFragment_to_ConfigurationFragment"
+            app:destination="@id/ConfigurationFragment" />
+    </fragment>
     <action
         android:id="@+id/action_HistoricalFragment_to_MainFragment"
         app:destination="@id/MainFragment" />
+    <action
+        android:id="@+id/action_HistoricalFragment_to_ConfigurationFragment"
+        app:destination="@id/ConfigurationFragment" />
+    <fragment
+        android:id="@+id/stadisticsFragment"
+        android:name="com.example.tfg.StadisticsFragment"
+        android:label="fragment_stadistics"
+        tools:layout="@layout/fragment_stadistics" >
+        <action
+            android:id="@+id/action_stadisticsFragment_to_historicalFragment"
+            app:destination="@id/historicalFragment" />
+        <action
+            android:id="@+id/action_stadisticsFragment_to_ConfigurationFragment"
+            app:destination="@id/ConfigurationFragment" />
+    </fragment>
 </navigation>
