@@ -21,6 +21,7 @@ class StadisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap!!["configuration"] = R.id.action_stadisticsFragment_to_ConfigurationFragment
         hasMap["historical"] = R.id.action_stadisticsFragment_to_historicalFragment

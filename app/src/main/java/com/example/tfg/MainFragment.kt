@@ -32,12 +32,12 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val motionLayout: MotionLayout = binding.root
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap["configuration"] = R.id.action_MainFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_MainFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_MainFragment_to_HistoricalFragment
-
         val controllerLayout =
             ControllerMotionLayout(motionLayout, findNavController(), hasMap)
         val fab = binding.mainButton

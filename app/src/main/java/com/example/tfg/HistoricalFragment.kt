@@ -28,21 +28,23 @@ class HistoricalFragment : Fragment() {
         _binding = FragmentHistoricalBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+//inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap!!["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_historicalFragment_self
-
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        val controllerMotionLayout = ControllerMotionLayout(motionLayout,findNavController(),hasMap)
+        val controllerMotionLayout =
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
         //Inicialization of reciclerView of the main View of this screen
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = HistoricalAdapter(this.context!!, demoList())
     }
+
     //Function demo for addd information for testing class adapter
     fun demoList(): MutableList<Datos> {
         return mutableListOf(
@@ -65,6 +67,7 @@ class HistoricalFragment : Fragment() {
 
         )
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
