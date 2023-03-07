@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.controllers.ControllerMotionLayout
-import com.example.tfg.controllers.EnumActivitys
 import com.example.tfg.databinding.FragmentMainBinding
+import com.example.tfg.databinding.MotionlayoutBinding
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -39,7 +39,7 @@ class MainFragment : Fragment() {
         hasMap["historical"] = R.id.action_MainFragment_to_HistoricalFragment
 
         val controllerLayout =
-            ControllerMotionLayout(this.context!!, motionLayout, findNavController(), hasMap)
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
         val fab = binding.mainButton
 
     }

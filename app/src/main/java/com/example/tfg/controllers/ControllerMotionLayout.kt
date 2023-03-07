@@ -1,25 +1,30 @@
 package com.example.tfg.controllers
 
+import android.app.Activity
 import android.content.Context
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import com.example.tfg.R
+import com.example.tfg.databinding.MotionlayoutBinding
 
 class ControllerMotionLayout(
-    val context: Context,
-    id: View,
+
+    id: MotionLayout?,
     val nav: NavController,
-    val maping: HashMap<String,Int>
+    val maping: HashMap<String, Int>,
+
 ) :
     MotionLayout.TransitionListener {
     var motionLayout: MotionLayout
     var map: HashMap<String, Int>? = null
+    val activity = Activity()
 
     init {
-        motionLayout = id as MotionLayout
+        motionLayout = id!!
+
         motionLayout.setTransitionListener(this)
-        this.map=maping
+        this.map = maping
 
     }
 
@@ -37,7 +42,7 @@ class ControllerMotionLayout(
     }
 
     override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int)
-    // val currentState = motionLayout?.currentState
+// val currentState = motionLayout?.currentState
     {
         when (motionLayout?.currentState) {
             R.id.configurationEnd -> {

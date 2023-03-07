@@ -1,5 +1,7 @@
 package com.example.tfg
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,11 +11,9 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.tfg.controllers.ControllerMotionLayout
-import com.example.tfg.controllers.Datos
-import com.example.tfg.controllers.EnumActivitys
-import com.example.tfg.controllers.HistoricalAdapter
+import com.example.tfg.controllers.*
 import com.example.tfg.databinding.FragmentHistoricalBinding
+import com.example.tfg.databinding.MotionlayoutBinding
 import java.util.*
 
 class HistoricalFragment : Fragment() {
@@ -34,13 +34,15 @@ class HistoricalFragment : Fragment() {
         return binding.root
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap!!["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
-        val motionLayout: MotionLayout = binding.motionLayoutHistorical
-        val controllerMotionLayout = ControllerMotionLayout(this.context!!, motionLayout,findNavController(),hasMap)
+        val activity:Activity
+        val motionLayout: MotionLayout = view.findViewById<MotionLayout>(R.id.motion)
+        val controllerMotionLayout = ControllerMotionLayout(motionLayout,findNavController(),hasMap)
         //Inicialization of reciclerView of the main View of this screen
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
