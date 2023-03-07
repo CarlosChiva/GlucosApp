@@ -24,7 +24,7 @@ class HistoricalFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHistoricalBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -33,7 +33,7 @@ class HistoricalFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
-        hasMap!!["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
+        hasMap["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_historicalFragment_self
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)

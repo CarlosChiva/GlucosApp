@@ -23,7 +23,7 @@ class StadisticsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
-        hasMap!!["configuration"] = R.id.action_stadisticsFragment_to_ConfigurationFragment
+        hasMap["configuration"] = R.id.action_stadisticsFragment_to_ConfigurationFragment
         hasMap["historical"] = R.id.action_stadisticsFragment_to_historicalFragment
         hasMap["stadistics"] = R.id.action_stadisticsFragment_self
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)

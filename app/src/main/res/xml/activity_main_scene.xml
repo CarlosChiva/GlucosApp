@@ -139,9 +139,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent" >
-
-        </Constraint>
+            motion:layout_constraintTop_toTopOf="parent"/>
         <Constraint
             android:id="@+id/mainButton"
             android:layout_width="wrap_content"

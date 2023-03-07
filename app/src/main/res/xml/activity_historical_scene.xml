@@ -5,7 +5,8 @@
         motion:constraintSetEnd="@+id/half"
         motion:constraintSetStart="@id/start"
         motion:duration="1000">
-        <KeyFrameSet></KeyFrameSet>
+        <KeyFrameSet>
+        </KeyFrameSet>
         <OnClick
             motion:clickAction="transitionToEnd"
             motion:targetId="@+id/mainButton" />
@@ -64,7 +65,8 @@
             android:layout_marginBottom="300dp"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent" />
+            motion:layout_constraintStart_toStartOf="parent"
+            android:visibility="invisible"/>
     </ConstraintSet>
     <Transition
         motion:autoTransition="animateToEnd"
@@ -72,7 +74,7 @@
         motion:constraintSetStart="@+id/half" />
 
     <ConstraintSet android:id="@+id/end">
-          <Constraint
+        <Constraint
             android:id="@+id/ConfigurationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +83,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent" >
+            motion:layout_constraintTop_toTopOf="parent">
 
         </Constraint>
         <Constraint
@@ -92,7 +94,7 @@
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toBottomOf="@id/title" />
+            />
         <Constraint
             android:id="@+id/estadisticsButton"
             android:layout_width="wrap_content"
@@ -124,7 +126,6 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
-
 
 
     <ConstraintSet android:id="@+id/estadisticsEnd">
