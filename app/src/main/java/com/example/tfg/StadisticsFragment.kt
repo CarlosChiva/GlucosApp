@@ -12,24 +12,21 @@ import java.util.HashMap
 
 
 class StadisticsFragment : Fragment() {
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_stadistics, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap!!["configuration"] = R.id.action_stadisticsFragment_to_ConfigurationFragment
         hasMap["historical"] = R.id.action_stadisticsFragment_to_historicalFragment
-       hasMap["stadistics"]=R.id.action_stadisticsFragment_self
+        hasMap["stadistics"] = R.id.action_stadisticsFragment_self
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        val controllerMotionLayout = ControllerMotionLayout(motionLayout,findNavController(),hasMap)
+        val controllerMotionLayout =
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
     }
 }

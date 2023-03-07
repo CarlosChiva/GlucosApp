@@ -15,11 +15,9 @@ import com.example.tfg.databinding.FragmentHistoricalBinding
 import com.example.tfg.models.Datos
 import java.util.*
 
+@Suppress("DEPRECATION")
 class HistoricalFragment : Fragment() {
     private var _binding: FragmentHistoricalBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
 
@@ -27,13 +25,9 @@ class HistoricalFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        //Inicialization of motion layout for add him a listener to controller the state of MotionLayout
-
         _binding = FragmentHistoricalBinding.inflate(inflater, container, false)
         return binding.root
-
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

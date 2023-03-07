@@ -1,12 +1,9 @@
 package com.example.tfg.controllers
 
 import android.app.Activity
-import android.content.Context
-import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.NavController
 import com.example.tfg.R
-import com.example.tfg.databinding.MotionlayoutBinding
 
 class ControllerMotionLayout(
 
@@ -14,7 +11,7 @@ class ControllerMotionLayout(
     val nav: NavController,
     val maping: HashMap<String, Int>,
 
-) :
+    ) :
     MotionLayout.TransitionListener {
     var motionLayout: MotionLayout
     var map: HashMap<String, Int>? = null
@@ -22,7 +19,6 @@ class ControllerMotionLayout(
 
     init {
         motionLayout = id!!
-
         motionLayout.setTransitionListener(this)
         this.map = maping
 
@@ -38,12 +34,9 @@ class ControllerMotionLayout(
         endId: Int,
         progress: Float
     ) {
-
     }
 
-    override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int)
-// val currentState = motionLayout?.currentState
-    {
+    override fun onTransitionCompleted(motionLayout: MotionLayout?, currentId: Int) {
         when (motionLayout?.currentState) {
             R.id.configurationEnd -> {
                 map?.getValue("configuration")?.let { nav.navigate(it) }
@@ -58,9 +51,7 @@ class ControllerMotionLayout(
                 map?.getValue("historical")?.let { nav.navigate(it) }
 
             }
-
         }
-
     }
 
     override fun onTransitionTrigger(
@@ -70,6 +61,4 @@ class ControllerMotionLayout(
         progress: Float
     ) {
     }
-
-
 }
