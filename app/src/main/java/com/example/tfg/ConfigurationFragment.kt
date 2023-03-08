@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
+import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.EnumActivitys
 import com.example.tfg.databinding.FragmentConfigurationBinding
+import java.util.HashMap
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -24,8 +27,6 @@ class ConfigurationFragment : Fragment() {
     lateinit var alarm: TextView
     private var _binding: FragmentConfigurationBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -53,7 +54,14 @@ class ConfigurationFragment : Fragment() {
         val cardAlarm = binding.cardAlarm
         val cardRoot = binding.cardRoot
         val saveButton = binding.saveButton
-
+//inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
+        val hasMap: HashMap<String, Int> = hashMapOf()
+        hasMap["configuration"] = R.id.action_ConfigurationFragment_self
+        hasMap["stadistics"] = R.id.action_ConfigurationFragment_to_stadisticsFragment
+        hasMap["historical"] = R.id.action_ConfigurationFragment_to_historicalFragment
+        val motionLayout: MotionLayout = view.findViewById(R.id.motion)
+        val controllerMotionLayout =
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
         glucMin.text = configuration.glucosaMinima.toString()
         glucMax.text = configuration.glucosaMaxima.toString()
@@ -141,3 +149,17 @@ class ConfigurationFragment : Fragment() {
         _binding = null
     }
 }
+/*val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
+val view = layoutInflater.inflate(R.layout.login_user, null)
+builder.setTitle("Login User")
+builder.setView(view)
+
+//Fields for user login
+email_login = view.findViewById(R.id.user_email_login)
+password_login = view.findViewById(R.id.user_password_login)
+
+view.findViewById<AppCompatButton>(R.id.button_user_login).setOnClickListener {
+    loginUser()
+}
+
+builder.show()}*/

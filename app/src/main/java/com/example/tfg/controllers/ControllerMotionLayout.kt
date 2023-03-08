@@ -6,7 +6,6 @@ import androidx.navigation.NavController
 import com.example.tfg.R
 
 class ControllerMotionLayout(
-
     id: MotionLayout?,
     val nav: NavController,
     val maping: HashMap<String, Int>,
@@ -15,7 +14,6 @@ class ControllerMotionLayout(
     MotionLayout.TransitionListener {
     var motionLayout: MotionLayout
     var map: HashMap<String, Int>? = null
-    val activity = Activity()
 
     init {
         motionLayout = id!!

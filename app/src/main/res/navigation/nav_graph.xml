@@ -28,6 +28,15 @@
         <action
             android:id="@+id/action_ConfigurationFragment_to_MainFragment"
             app:destination="@id/MainFragment" />
+        <action
+            android:id="@+id/action_ConfigurationFragment_to_historicalFragment"
+            app:destination="@id/historicalFragment" />
+        <action
+            android:id="@+id/action_ConfigurationFragment_to_stadisticsFragment"
+            app:destination="@id/stadisticsFragment" />
+        <action
+            android:id="@+id/action_ConfigurationFragment_self"
+            app:destination="@id/ConfigurationFragment" />
     </fragment>
     <fragment
         android:id="@+id/historicalFragment"

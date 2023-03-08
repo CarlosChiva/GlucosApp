@@ -95,6 +95,7 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             />
+
         <Constraint
             android:id="@+id/estadisticsButton"
             android:layout_width="wrap_content"
