@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/blackground"
     android:orientation="vertical"
-    tools:context=".ConfigurationFragment">
+    tools:context=".views.ConfigurationFragment">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardRoot"
@@ -164,17 +164,17 @@
                 android:textAlignment="center"
                 android:textSize="24sp" />
 
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_margin="20dp"
-                android:contentDescription="@string/fab"
-                android:foreground="@drawable/ic_baseline_save_24"
-                android:foregroundGravity="center" />
-        </LinearLayout>
 
+        </LinearLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="20dp"
+            android:contentDescription="@string/fab"
+            android:foreground="@drawable/ic_baseline_save_24"
+            android:foregroundGravity="center" />
         <include
             android:id="@+id/motion"
             layout="@layout/motionlayout" />

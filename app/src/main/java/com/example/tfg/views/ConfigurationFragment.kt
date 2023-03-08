@@ -1,4 +1,4 @@
-package com.example.tfg
+package com.example.tfg.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,6 +9,7 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
+import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.EnumActivitys

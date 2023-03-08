@@ -1,4 +1,4 @@
-package com.example.tfg
+package com.example.tfg.views
 
 
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.tfg.R
 import com.example.tfg.controllers.*
 import com.example.tfg.databinding.FragmentHistoricalBinding
 import com.example.tfg.models.Datos

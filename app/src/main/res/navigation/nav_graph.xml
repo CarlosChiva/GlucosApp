@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MainFragment"
-        android:name="com.example.tfg.MainFragment"
+        android:name="com.example.tfg.views.MainFragment"
         tools:layout="@layout/fragment_main">
 
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/ConfigurationFragment"
-        android:name="com.example.tfg.ConfigurationFragment"
+        android:name="com.example.tfg.views.ConfigurationFragment"
         tools:layout="@layout/fragment_configuration">
 
         <action
@@ -40,7 +40,7 @@
     </fragment>
     <fragment
         android:id="@+id/historicalFragment"
-        android:name="com.example.tfg.HistoricalFragment"
+        android:name="com.example.tfg.views.HistoricalFragment"
         android:label="@null"
         tools:layout="@layout/fragment_historical" >
         <action
@@ -61,7 +61,7 @@
         app:destination="@id/ConfigurationFragment" />
     <fragment
         android:id="@+id/stadisticsFragment"
-        android:name="com.example.tfg.StadisticsFragment"
+        android:name="com.example.tfg.views.StadisticsFragment"
         android:label="fragment_stadistics"
         tools:layout="@layout/fragment_stadistics" >
         <action

@@ -1,4 +1,4 @@
-package com.example.tfg
+package com.example.tfg.views
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
+import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.databinding.FragmentMainBinding
 

@@ -18,7 +18,7 @@
         android:layout_marginTop="700dp"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@null"
-        android:src="@drawable/ic_baseline_keyboard_double_arrow_up_24" />
+        android:src="@drawable/baseline_radio_button_checked_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/ConfigurationButton"
