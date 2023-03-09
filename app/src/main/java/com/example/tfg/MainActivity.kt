@@ -25,8 +25,11 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+        //----------------------------------------------------------------------------------------- sql controller
         val sql =SQLController(this,"db",null,1,null)
         val qsl : SQLiteDatabase=sql.writableDatabase
+        sql.close()
+        sql.close()
 
     }
 

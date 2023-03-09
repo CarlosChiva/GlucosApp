@@ -1,5 +1,6 @@
 package com.example.tfg.views
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
@@ -27,7 +29,7 @@ class ConfigurationFragment : Fragment() {
     lateinit var glucMax: TextView
     lateinit var alarm: TextView
     private var _binding: FragmentConfigurationBinding? = null
-
+    private var configuration: ConfiguracionModel? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -43,7 +45,7 @@ class ConfigurationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //-------------------------Inicialize the ConfigurationModel to load the values recorded before
-        val configuration = ConfiguracionModel(this.context!!)
+        configuration = ConfiguracionModel(this.context!!)
         //-------------------------------------------------Inicialize the components of view
         glucMin = binding.glucMin
         glucMax = binding.glucMaxim
@@ -60,13 +62,14 @@ class ConfigurationFragment : Fragment() {
         hasMap["configuration"] = R.id.action_ConfigurationFragment_self
         hasMap["stadistics"] = R.id.action_ConfigurationFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_ConfigurationFragment_to_historicalFragment
+        hasMap["measure"] = R.id.action_ConfigurationFragment_to_measureFragment
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
             ControllerMotionLayout(motionLayout, findNavController(), hasMap)
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
-        glucMin.text = configuration.glucosaMinima.toString()
-        glucMax.text = configuration.glucosaMaxima.toString()
-        alarm.text = configuration.alarma.toString()
+        glucMin.text = configuration!!.glucosaMinima.toString()
+        glucMax.text = configuration!!.glucosaMaxima.toString()
+        alarm.text = configuration!!.alarma.toString()
 
 //---------------------------------------------------------------------------Listener of the differents card views
         cardRoot.setOnClickListener {
@@ -87,11 +90,7 @@ class ConfigurationFragment : Fragment() {
             seekbarChange(alarm)
         }
         saveButton.setOnClickListener {
-            configuration.glucosaMaximaSet((glucMax.text as String).toInt())
-            configuration.glucosaMinimaSet((glucMin.text as String).toInt())
-            configuration.alarmaSet((alarm.text as String).toInt())
-            configuration.saveVAlues()
-            onBackPressed()
+            alertDialog()
         }
         //------------------------------------- Method fo Seekbar to setter the value of cards views
 
@@ -128,6 +127,7 @@ class ConfigurationFragment : Fragment() {
         })
 
     }
+
     fun valuesOfRating(enumActivitys: EnumActivitys): Array<Int> {
         var number: Array<Int>
         when (enumActivitys) {
@@ -138,10 +138,11 @@ class ConfigurationFragment : Fragment() {
         }
         return number
     }
+
     //Method to controller when user press back button, begins the activity
     @Deprecated("Deprecated in Java")
     fun onBackPressed() {
-     findNavController().navigate(R.id.action_ConfigurationFragment_to_MainFragment)
+        findNavController().navigate(R.id.action_ConfigurationFragment_to_MainFragment)
     }
 
 
@@ -149,18 +150,33 @@ class ConfigurationFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    fun alertDialog() {
+        val builder = AlertDialog.Builder(
+            this.context
+        )
+        builder.setMessage("Quieres guardar los cambios?")
+        val view = layoutInflater.inflate(R.layout.alert_save, null)
+        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+            saveData()
+
+        }
+        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+            Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
+        }
+        builder.setTitle("Guardar")
+        builder.setView(view)
+        builder.show()
+
+    }
+
+    fun saveData() {
+        configuration!!.glucosaMaximaSet((glucMax.text as String).toInt())
+        configuration!!.glucosaMinimaSet((glucMin.text as String).toInt())
+        configuration!!.alarmaSet((alarm.text as String).toInt())
+        configuration!!.saveVAlues()
+        onBackPressed()
+    }
 }
-/*val builder = AlertDialog.Builder(this, R.style.CustomAlertDialog)
-val view = layoutInflater.inflate(R.layout.login_user, null)
-builder.setTitle("Login User")
-builder.setView(view)
 
-//Fields for user login
-email_login = view.findViewById(R.id.user_email_login)
-password_login = view.findViewById(R.id.user_password_login)
 
-view.findViewById<AppCompatButton>(R.id.button_user_login).setOnClickListener {
-    loginUser()
-}
-
-builder.show()}*/

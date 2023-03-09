@@ -43,7 +43,7 @@ class ControllerMotionLayout(
                 map?.getValue("stadistics")?.let { nav.navigate(it) }
             }
             R.id.medidaEnd -> {
-                map?.getValue("medida")?.let { nav.navigate(it) }
+                map?.getValue("measure")?.let { nav.navigate(it) }
             }
             R.id.hostoricEnd -> {
                 map?.getValue("historical")?.let { nav.navigate(it) }

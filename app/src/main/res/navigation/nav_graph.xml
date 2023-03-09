@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_MainFragment_to_stadisticsFragment"
             app:destination="@id/stadisticsFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_measureFragment"
+            app:destination="@id/measureFragment" />
     </fragment>
     <fragment
         android:id="@+id/ConfigurationFragment"
@@ -37,6 +40,9 @@
         <action
             android:id="@+id/action_ConfigurationFragment_self"
             app:destination="@id/ConfigurationFragment" />
+        <action
+            android:id="@+id/action_ConfigurationFragment_to_measureFragment"
+            app:destination="@id/measureFragment" />
     </fragment>
     <fragment
         android:id="@+id/historicalFragment"
@@ -52,6 +58,9 @@
         <action
             android:id="@+id/action_historicalFragment_self"
             app:destination="@id/historicalFragment" />
+        <action
+            android:id="@+id/action_historicalFragment_to_measureFragment"
+            app:destination="@id/measureFragment" />
     </fragment>
     <action
         android:id="@+id/action_HistoricalFragment_to_MainFragment"
@@ -73,5 +82,26 @@
         <action
             android:id="@+id/action_stadisticsFragment_self"
             app:destination="@id/stadisticsFragment" />
+        <action
+            android:id="@+id/action_stadisticsFragment_to_measureFragment"
+            app:destination="@id/measureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/measureFragment"
+        android:name="com.example.tfg.views.MeasureFragment"
+        android:label="fragment_measure"
+        tools:layout="@layout/fragment_measure" >
+        <action
+            android:id="@+id/action_measureFragment_self"
+            app:destination="@id/measureFragment" />
+        <action
+            android:id="@+id/action_measureFragment_to_stadisticsFragment"
+            app:destination="@id/stadisticsFragment" />
+        <action
+            android:id="@+id/action_measureFragment_to_ConfigurationFragment"
+            app:destination="@id/ConfigurationFragment" />
+        <action
+            android:id="@+id/action_measureFragment_to_historicalFragment"
+            app:destination="@id/historicalFragment" />
     </fragment>
 </navigation>

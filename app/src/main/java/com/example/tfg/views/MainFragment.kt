@@ -36,6 +36,7 @@ class MainFragment : Fragment() {
         hasMap["configuration"] = R.id.action_MainFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_MainFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_MainFragment_to_HistoricalFragment
+        hasMap["measure"] = R.id.action_MainFragment_to_measureFragment
         val controllerLayout =
             ControllerMotionLayout(motionLayout, findNavController(), hasMap)
 

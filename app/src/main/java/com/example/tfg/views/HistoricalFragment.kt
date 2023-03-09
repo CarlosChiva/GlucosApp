@@ -36,6 +36,7 @@ class HistoricalFragment : Fragment() {
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
+        hasMap["measure"] = R.id.action_historicalFragment_to_measureFragment
         hasMap["historical"] = R.id.action_historicalFragment_self
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
