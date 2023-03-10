@@ -64,8 +64,7 @@ class ConfigurationFragment : Fragment() {
         hasMap["historical"] = R.id.action_ConfigurationFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_ConfigurationFragment_to_measureFragment
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        val controllerMotionLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap)
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
         glucMin.text = configuration!!.glucosaMinima.toString()
         glucMax.text = configuration!!.glucosaMaxima.toString()
