@@ -2,13 +2,15 @@ package com.example.tfg
 
 import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.tfg.controllers.SQLController
+import com.example.tfg.models.SQLMaker
 import com.example.tfg.databinding.ActivityMainBinding
+import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,13 +28,24 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         //----------------------------------------------------------------------------------------- sql controller
-        val sql =SQLController(this,"db",null,1,null)
-        val qsl : SQLiteDatabase=sql.writableDatabase
+
+        val sql = SQLMaker(this, "db", null, 1, null)
+        val qsl: SQLiteDatabase = sql.writableDatabase
+        val currentDateTime = LocalDateTime.now()
+        val currentYear = currentDateTime.year
+        val currentMonth = currentDateTime.monthValue
+        val currentDay = currentDateTime.dayOfMonth
+        val currentHour = currentDateTime.hour
+        val currentMinute = currentDateTime.minute
+        val currentSecond = currentDateTime.second
+        val dateTimeString = "$currentYear-$currentMonth-$currentDay $currentHour:$currentMinute:$currentSecond"
+        Log.d("current date", dateTimeString)
+        qsl.execSQL("insert into medida(fecha) values('$dateTimeString');")
+        qsl.close()
         sql.close()
         sql.close()
 
     }
-
 
 
     override fun onSupportNavigateUp(): Boolean {
