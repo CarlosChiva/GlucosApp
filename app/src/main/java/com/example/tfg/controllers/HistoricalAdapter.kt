@@ -47,7 +47,7 @@ class HistoricalAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listItems[position]
         holder.glucosa.text = "${item.glucosa}\n mg/dl"
-        holder.date.text = date(item)
+     //   holder.date.text = date(item)
         holder.signalVAlue.setBackgroundColor(backgroundView(item.glucosa))
         viewIcons(holder, item)
     }
@@ -55,10 +55,10 @@ class HistoricalAdapter(
     override fun getItemCount(): Int = listItems.size
 
     //Method for refactorized the date of the item on the list for put on the card view
-    fun date(item: Datos): String {
-        return "${item.fecha.day}/${item.fecha.month}/${item.fecha.year}  ${item.fecha.hours}:${item.fecha.minutes}:${item.fecha.seconds}"
-
-    }
+//    fun date(item: Datos): String {
+//        return "${item.fecha.day}/${item.fecha.month}/${item.fecha.year}  ${item.fecha.hours}:${item.fecha.minutes}:${item.fecha.seconds}"
+//
+//    }
 
     //Method who analized differents parametres of item of the list for draw his signal (if it have it) on the card view
     fun viewIcons(holder: ViewHolder, item: Datos) {
