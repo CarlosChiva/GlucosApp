@@ -5,7 +5,7 @@
     <string name="estadisticsbutton">EstadisticsButton</string>
     <string name="historicbutton">HistoricButton</string>
     <string name="wellcome">Wellcome</string>
-    <string name="what_do_you_wanna_do">what do you wanna do?</string>
+    <string name="what_do_you_wanna_do">what do you want to do?</string>
     <string name="medida">medida</string>
     <string name="historial">Historial</string>
     <string name="glucosa_maxima">Glucosa Maxima</string>
@@ -21,4 +21,6 @@
     <string name="pickicon">PickIcon</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="old_value">Old value</string>
+    <string name="new_value">New value</string>
 </resources>
