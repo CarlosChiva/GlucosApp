@@ -23,7 +23,7 @@ class SQLController(context: Context) {
         this.sqlQueryer = sqlMaker.writableDatabase
     }
 
-    fun transformDate(localDateTime: LocalDateTime): Timestamp {
+    private fun transformDate(localDateTime: LocalDateTime): Timestamp {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, localDateTime.year)
         calendar.set(
@@ -80,7 +80,7 @@ class SQLController(context: Context) {
 
     }
 
-    fun closeAll() {
+   private fun closeAll() {
         this.sqlQueryer.close()
         this.sqlMaker.close()
     }

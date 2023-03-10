@@ -26,13 +26,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        //----------------------------------------------------------------------------------------- sql controller
-        val currentDateTime = LocalDateTime.now()
-        val controller = SQLController(this)
-        val list= listOf(100,200,300,500,50,180,400,30)
-        val datos=Datos(currentDateTime, list.get(list.size-1), 5, true, 100, false)
-        controller.insertIntofOREIGNMedida(list.subList(0, list.size-2),currentDateTime)
-       controller.insertIntoMedida(datos)
+
 
 
     }
