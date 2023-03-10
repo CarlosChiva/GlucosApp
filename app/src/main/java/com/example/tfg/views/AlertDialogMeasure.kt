@@ -3,12 +3,9 @@ package com.example.tfg.views
 import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.ColorFilter
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.*
 import com.example.tfg.R
-import com.example.tfg.controllers.HistoricalAdapter
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.Datos
@@ -83,7 +80,14 @@ class AlertDialogMeasure(context: Context, values: List<Int>) {
 
         builder.setPositiveButton(android.R.string.ok)
         { dialog, which ->
-            val datos = Datos(currentDateTime, values.get(values.size - 1), (insulinTake.text.toString()).toInt(), hasMapBooleans.getValue(ALARM), (chfood.text.toString()).toInt(), hasMapBooleans.getValue(FOOD))
+            val datos = Datos(
+                currentDateTime,
+                values.get(values.size - 1),
+                (insulinTake.text.toString()).toInt(),
+                hasMapBooleans.getValue(ALARM),
+                (chfood.text.toString()).toInt(),
+                hasMapBooleans.getValue(FOOD)
+            )
             controller.insertIntofOREIGNMedida(values.subList(0, values.size - 2), currentDateTime)
             controller.insertIntoMedida(datos)
 
