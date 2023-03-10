@@ -31,31 +31,13 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         //----------------------------------------------------------------------------------------- sql controller
-        //        val sql = SQLMaker(this, "db", null, 1, null)
-        //val qsl: SQLiteDatabase = sql.writableDatabase
         val currentDateTime = LocalDateTime.now()
         val controller = SQLController(this)
-        val datos=Datos(currentDateTime, 80, 5, true, 100, false)
+        val list= listOf(100,200,300,500,50,180,400,30)
+        val datos=Datos(currentDateTime, list.get(list.size-1), 5, true, 100, false)
+        controller.insertIntofOREIGNMedida(list.subList(0, list.size-2),currentDateTime)
+       controller.insertIntoMedida(datos)
 
-
-        controller.insertIntoMedida(datos)
-        println("Lectura de datos")
-        controller.loadDatesMedida()
-//        val currentYear = currentDateTime.year
-//        val currentMonth = currentDateTime.monthValue
-//        val currentDay = currentDateTime.dayOfMonth
-//        val currentHour = currentDateTime.hour
-//        val currentMinute = currentDateTime.minute
-//        val currentSecond = currentDateTime.second
-//        val dateTimeString = "$currentYear-$currentMonth-$currentDay $currentHour:$currentMinute:$currentSecond"
-//        Log.d("current date", dateTimeString)
-
-//        qsl.execSQL("insert into medida(fecha) values('$dateTimeString');")
-
-
-        //        qsl.close()
-//        sql.close()
-//        sql.close()
 
     }
 
