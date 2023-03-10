@@ -1,19 +1,15 @@
 package com.example.tfg
 
-import android.database.sqlite.SQLiteDatabase
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.tfg.controllers.SQLController
-import com.example.tfg.models.SQLMaker
 import com.example.tfg.databinding.ActivityMainBinding
 import com.example.tfg.models.Datos
 import java.time.LocalDateTime
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 

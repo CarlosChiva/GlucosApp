@@ -15,13 +15,13 @@ import com.example.tfg.models.Datos
 
 //Adapter for View Historical who needs a context of activity and MutableList of dates to draw him on the recycler
 class HistoricalAdapter(
-    private var context: Context, val listItems: MutableList<Datos>,
+     context: Context, val listItems: MutableList<Datos>,
 ) :
     RecyclerView.Adapter<HistoricalAdapter.ViewHolder>() {
     val configurationModel = ConfiguracionModel(context)
 
     //Inner Class who inicializes the differents components of cards Views of what makes up the items
-    class ViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val glucosa: TextView = itemView.findViewById(R.id.glucValue)
         val date: TextView = itemView.findViewById(R.id.dateOfMedicion)
         val pick: ImageView = itemView.findViewById(R.id.pickIcon)
@@ -37,9 +37,7 @@ class HistoricalAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.historical_item, parent, false),
-            context
-        )
+            LayoutInflater.from(parent.context).inflate(R.layout.historical_item, parent, false))
     }
 
     //Set values of differents items on cardViews denpendson item of the list and his individuals values
