@@ -1,6 +1,7 @@
 package com.example.tfg.controllers
 
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.example.tfg.models.Datos
 import com.example.tfg.models.SQLMaker
@@ -41,7 +42,7 @@ class SQLController(context: Context) {
 
     fun insertIntoMedida(datos: Datos) {
         val date = transformDate(datos.fecha)
-        sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucosa},${datos.pick},${datos.alarma},${datos.CHfood},${datos.food});")
+        sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucosa},${datos.pick},${datos.pickIcon},${datos.alarma},${datos.CHfood},${datos.food});")
         closeAll()
     }
 
@@ -67,9 +68,10 @@ class SQLController(context: Context) {
                     fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                     result.getInt(1),
                     result.getInt(2),
-                    result.getInt(3) != 0,
-                    result.getInt(4),
-                    result.getInt(5) != 0
+                    getBooleans(result.getInt(3)),
+                    getBooleans(result.getInt(4)),
+                    result.getInt(5),
+                    getBooleans(result.getInt(6))
                 )
             )
         }
@@ -80,7 +82,11 @@ class SQLController(context: Context) {
 
     }
 
-   private fun closeAll() {
+    fun getBooleans(cursor: Int): Boolean {
+    return cursor!=0 && cursor!=null
+    }
+
+    private fun closeAll() {
         this.sqlQueryer.close()
         this.sqlMaker.close()
     }

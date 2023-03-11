@@ -84,12 +84,13 @@
                     android:id="@+id/insulinTake"
                     android:layout_width="50dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="5dp"
                     android:textAlignment="center"
                     android:textSize="20sp"
                     android:inputType="number"
                     android:textColor="@color/gray"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:autofillHints="" />
 
                 <EditText
                     android:id="@+id/chOfFood"
@@ -100,7 +101,8 @@
                     android:textSize="17sp"
                     android:inputType="number"
                     android:textColor="@color/gray"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:autofillHints="" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

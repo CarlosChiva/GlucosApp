@@ -12,26 +12,26 @@ import com.example.tfg.models.Datos
 import com.google.android.material.imageview.ShapeableImageView
 import java.time.LocalDateTime
 
-class AlertDialogMeasure(context: Context, values: List<Int>) {
+class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDateTime) {
     //----------------------------------------------------------------------------------------- sql controller
-    var currentDateTime: LocalDateTime
     var controller: SQLController
-    val values: List<Int>
+    val value: Int
     val context: Context
     var hasMapBooleans: HashMap<String, Boolean> = hashMapOf()
     val ALARM = "alarm"
     val PICK = "pick"
     val FOOD = "food"
+    val currentDateTime: LocalDateTime
 
     init {
-        this.currentDateTime = LocalDateTime.now()
+        this.currentDateTime=currentDateTime
         this.controller = SQLController(context)
-        this.values = values
+        this.value = value
         this.context = context
         createDialog()
-        hasMapBooleans.put(ALARM, false)
-        hasMapBooleans.put(PICK, false)
-        hasMapBooleans.put(FOOD, false)
+        hasMapBooleans[ALARM] = false
+        hasMapBooleans[PICK] = false
+        hasMapBooleans[FOOD] = false
     }
 
 
@@ -45,11 +45,12 @@ class AlertDialogMeasure(context: Context, values: List<Int>) {
         val view = inflater.inflate(R.layout.measure_alert, null)
 
         val gluc = view.findViewById<TextView>(R.id.glucValue)
-        gluc.text = values.get(values.size - 1).toString()
+        gluc.text = value.toString()
 
         val date = view.findViewById<TextView>(R.id.dateOfMedicion)
         date.text =
             "${currentDateTime.dayOfWeek.value}-${currentDateTime.month.value}-${currentDateTime.year} ${currentDateTime.hour}:${currentDateTime.minute}:${currentDateTime.second} "
+
 
         val pick = view.findViewById<ImageView>(R.id.pickIcon)
         pick.setImageResource(R.drawable.ic_pick)
@@ -67,7 +68,7 @@ class AlertDialogMeasure(context: Context, values: List<Int>) {
             selectedIcon(foodIcon, FOOD)
         }
         val signalVAlue = view.findViewById<ShapeableImageView>(R.id.signalCard)
-        signalVAlue.setBackgroundColor(backgroundView(values.get(values.size - 1)))
+        signalVAlue.setBackgroundColor(backgroundView(value))
 
 
 //----------------------------------------------------------------------------------------------------------
@@ -82,14 +83,17 @@ class AlertDialogMeasure(context: Context, values: List<Int>) {
         { dialog, which ->
             val datos = Datos(
                 currentDateTime,
-                values.get(values.size - 1),
-                (insulinTake.text.toString()).toInt(),
+                value,
+                if (!insulinTake.text.toString()
+                        .equals("")
+                ) (insulinTake.text.toString()).toInt() else null,
+                hasMapBooleans.getValue(PICK),
                 hasMapBooleans.getValue(ALARM),
-                (chfood.text.toString()).toInt(),
+                if (!chfood.text.toString().equals("")) (chfood.text.toString()).toInt() else null,
                 hasMapBooleans.getValue(FOOD)
             )
-            controller.insertIntofOREIGNMedida(values.subList(0, values.size - 2), currentDateTime)
             controller.insertIntoMedida(datos)
+
 
         }
 
@@ -102,10 +106,10 @@ class AlertDialogMeasure(context: Context, values: List<Int>) {
 
         if (!hasMapBooleans.getValue(key)) {
             imageView.setColorFilter(Color.YELLOW)
-            hasMapBooleans.put(key, true)
+            hasMapBooleans[key] = true
         } else {
             imageView.setColorFilter(Color.GRAY)
-            hasMapBooleans.put(key, false)
+            hasMapBooleans[key] = false
         }
     }
 
@@ -119,5 +123,4 @@ class AlertDialogMeasure(context: Context, values: List<Int>) {
         }
 
     }
-
 }

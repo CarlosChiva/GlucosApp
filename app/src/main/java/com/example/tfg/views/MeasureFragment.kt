@@ -1,21 +1,16 @@
 package com.example.tfg.views
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.FragmentMeasureBinding
-import com.example.tfg.models.Datos
 import java.time.LocalDateTime
 import java.util.HashMap
 
@@ -42,18 +37,22 @@ class MeasureFragment : Fragment() {
         hasMap["historical"] = R.id.action_measureFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_measureFragment_self
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        val controllerMotionLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap)
         button.setOnClickListener {
             val listValues: List<Int> = loadValues()
-            alertDialog(listValues)
+            val currentDateTime= LocalDateTime.now()
+
+            val controller=SQLController(this.context!!)
+            controller.insertIntofOREIGNMedida(listValues.subList(0, listValues.size - 2), currentDateTime)
+
+            alertDialog(listValues.get(listValues.size-1),currentDateTime)
         }
 
 
     }
 
-    fun alertDialog(values:List<Int>) {
-      AlertDialogMeasure(this.context!!,values)
+    fun alertDialog(value:Int,currentDateTime:LocalDateTime) {
+     val alert= AlertDialogMeasure(this.context!!,value,currentDateTime)
     }
 
     private fun loadValues(): List<Int> {

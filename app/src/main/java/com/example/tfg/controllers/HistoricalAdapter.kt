@@ -15,7 +15,7 @@ import com.example.tfg.models.Datos
 
 //Adapter for View Historical who needs a context of activity and MutableList of dates to draw him on the recycler
 class HistoricalAdapter(
-     context: Context, val listItems: MutableList<Datos>,
+    context: Context, val listItems: MutableList<Datos>,
 ) :
     RecyclerView.Adapter<HistoricalAdapter.ViewHolder>() {
     val configurationModel = ConfiguracionModel(context)
@@ -27,7 +27,8 @@ class HistoricalAdapter(
         val pick: ImageView = itemView.findViewById(R.id.pickIcon)
         val food: ImageView = itemView.findViewById(R.id.foodIcon)
         val alarm: ImageView = itemView.findViewById(R.id.alarmIcon)
-       // val card: LinearLayout = itemView.findViewById(R.id.card)
+
+        // val card: LinearLayout = itemView.findViewById(R.id.card)
         val insulin: TextView = itemView.findViewById(R.id.insulinTake)
         val chOfFoof: TextView = itemView.findViewById(R.id.chOfFood)
         val signalVAlue: ImageView = itemView.findViewById(R.id.signalCard)
@@ -37,7 +38,8 @@ class HistoricalAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.historical_item, parent, false))
+            LayoutInflater.from(parent.context).inflate(R.layout.historical_item, parent, false)
+        )
     }
 
     //Set values of differents items on cardViews denpendson item of the list and his individuals values
@@ -59,18 +61,24 @@ class HistoricalAdapter(
 
     //Method who analized differents parametres of item of the list for draw his signal (if it have it) on the card view
     fun viewIcons(holder: ViewHolder, item: Datos) {
-        if (item.alarma != null && item.alarma == true) {
+        if (item.alarma != false ) {
             holder.alarm.setImageResource(R.drawable.ic_alarm)
         }
-        if (item.pick != null) {
+        if (item.pickIcon != false ){
+            holder.pick.setImageResource(R.drawable.ic_pick)
+
+        }
+        if (item.pick != 0) {
             holder.pick.setImageResource(R.drawable.ic_pick)
             holder.insulin.text = item.pick.toString()
         }
-        if (item.food != null) {
+        if (item.food == true) {
             holder.food.setImageResource(R.drawable.ic_baseline_fastfood_24)
-            if (item.CHfood != null) {
-                holder.chOfFoof.text = "${item.CHfood} gr"
-            }
+
+        }
+        if (item.CHfood !=0) {
+            holder.chOfFoof.text = "${item.CHfood} gr"
+            holder.food.setImageResource(R.drawable.ic_baseline_fastfood_24)
         }
     }
 
@@ -78,9 +86,9 @@ class HistoricalAdapter(
 //Falta añadir la configuracion
     fun backgroundView(glucosa: Int?): Int {
         when {
-            glucosa!! >= configurationModel.glucosaMaxima ||glucosa < configurationModel.glucosaMinima-10 -> return Color.RED
+            glucosa!! >= configurationModel.glucosaMaxima || glucosa < configurationModel.glucosaMinima - 10 -> return Color.RED
             glucosa in configurationModel.glucosaMaxima - 20 until configurationModel.glucosaMaxima -> return Color.YELLOW
-            glucosa in configurationModel.glucosaMinima-10..configurationModel.glucosaMinima -> return Color.YELLOW
+            glucosa in configurationModel.glucosaMinima - 10..configurationModel.glucosaMinima -> return Color.YELLOW
             else -> return Color.GREEN
         }
 
