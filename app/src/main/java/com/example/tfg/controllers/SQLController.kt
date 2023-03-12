@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
+import kotlin.collections.HashMap
 
 class SQLController(context: Context) {
     var context: Context
@@ -58,7 +59,7 @@ class SQLController(context: Context) {
 
 
     fun loadDatesMedida(): MutableList<Datos> {
-        val dateFormat = SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val result = sqlQueryer.rawQuery("select * from $MEDIDA", null)
         val datos = mutableListOf<Datos>()
         while (result.moveToNext()) {
@@ -82,18 +83,33 @@ class SQLController(context: Context) {
 
     }
 
-    fun read2hoursmore(dateTime: LocalDateTime): MutableList<Int> {
-        val traduc = transformDate(dateTime)
-        val result = sqlQueryer.rawQuery(
-            "SELECT m.glucosa FROM medida m  WHERE m.fecha > datetime('$traduc', '+2 hours')",
-            null
-        )
-        var mutable = mutableListOf<Int>()
-        while (result.moveToNext()){
-            mutable.add(result.getInt(0))
-        }
-        return mutable
-    }
+//    fun readAllDatesToStadistics(): HashMap<LocalDateTime, MutableList<Int>> {
+//       var hasmap= hashMapOf<LocalDateTime, MutableList<Int>>()
+//        val result = sqlQueryer.rawQuery(
+//            "SELECT DISTINCT  m.fecha,m.glucosa FROM medida m UNION ALL SELECT DISTINCT f.fecha, f.glucosa FROM foreignMedida f order by 1 ASC ;",
+//            null
+//        )
+//        var mutable = mutableListOf<Int>()
+//        while (result.moveToNext()) {
+//            val dateFormat = SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault())
+//            val fecha = dateFormat.parse(result.getString(0))
+//            fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+//
+//        }
+//    }
+    //-------------------------------------------Proximamente en analisis de glucosa
+//    fun read2hoursmore(dateTime: LocalDateTime): MutableList<Int> {
+//        val traduc = transformDate(dateTime)
+//        val result = sqlQueryer.rawQuery(
+//            "SELECT m.glucosa FROM medida m  WHERE m.fecha > datetime('$traduc', '+2 hours')",
+//            null
+//        )
+//        var mutable = mutableListOf<Int>()
+//        while (result.moveToNext()){
+//            mutable.add(result.getInt(0))
+//        }
+//        return mutable
+//    }
 
     fun getBooleans(cursor: Int): Boolean {
         return cursor != 0 && cursor != null

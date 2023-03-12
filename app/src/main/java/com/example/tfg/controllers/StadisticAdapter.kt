@@ -18,7 +18,8 @@ class StadisticAdapter(
 
     //Inner Class who inicializes the differents components of cards Views of what makes up the items
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val number=itemView.findViewById<TextView>(R.id.number)
+        val fecha=itemView.findViewById<TextView>(R.id.fecha)
+        val number=itemView.findViewById<TextView>(R.id.number)
     }
 //inner Method who draw inner layout in specified screen
 
@@ -31,6 +32,7 @@ class StadisticAdapter(
     //Set values of differents items on cardViews denpendson item of the list and his individuals values
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listItems[position]
+        holder.fecha.text="${item.toString()}:  "
         holder.number.text=item.toString()
     }
 
