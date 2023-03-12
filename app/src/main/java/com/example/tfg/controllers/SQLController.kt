@@ -7,6 +7,7 @@ import com.example.tfg.models.Datos
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -29,6 +30,7 @@ class SQLController(context: Context) {
     private fun transformDate(localDateTime: LocalDateTime): Timestamp {
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.YEAR, localDateTime.year)
+
         calendar.set(
             Calendar.MONTH,
             localDateTime.monthValue - 1
@@ -103,10 +105,12 @@ class SQLController(context: Context) {
         return list
     }
     //-------------------------------------------Proximamente en analisis de glucosa
-    fun read2hoursmore(dateTime: LocalDateTime): MutableList<String> {
-        val traduc = transformDate(dateTime)
-        val result = sqlQueryer.rawQuery(
-            "SELECT m.fecha ,m.glucosa FROM medida m  WHERE DATE(m.fecha) = DATE(?)",arrayOf(traduc.toString()))
+    fun readDatesInRange(startDate: LocalDateTime, endDate: LocalDateTime): MutableList<String> {
+
+        val start = startDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        val end = endDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)"
+        val result = sqlQueryer.rawQuery(query, arrayOf(start, end))
         var mutable = mutableListOf<String>()
         while (result.moveToNext()){
             mutable.add("${result.getString(0)}<${result.getInt(1)}")

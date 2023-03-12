@@ -14,6 +14,7 @@ import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.controllers.StadisticAdapter
 import com.example.tfg.databinding.FragmentStadisticsBinding
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -46,6 +47,7 @@ class StadisticsFragment : Fragment() {
     }
     fun demoList():MutableList<String>{
         val sqlController= SQLController(this.context!!)
-        return sqlController.read2hoursmore(LocalDateTime.now())
-    }
+       // val threeMonthsAgo = LocalDate.now() // Fecha de tres meses antes
+        val threeMonthsAgo = LocalDateTime.now().minusMonths(1)
+        return sqlController.readDatesInRange(threeMonthsAgo, LocalDateTime.now())    }
 }

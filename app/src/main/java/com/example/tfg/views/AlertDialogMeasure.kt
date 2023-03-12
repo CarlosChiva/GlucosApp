@@ -49,7 +49,7 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
 
         val date = view.findViewById<TextView>(R.id.dateOfMedicion)
         date.text =
-            "${currentDateTime.dayOfWeek.value}-${currentDateTime.month.value}-${currentDateTime.year} ${currentDateTime.hour}:${currentDateTime.minute}:${currentDateTime.second} "
+            "${currentDateTime.dayOfMonth}-${currentDateTime.month.value}-${currentDateTime.year} ${currentDateTime.hour}:${currentDateTime.minute}:${currentDateTime.second} "
 
 
         val pick = view.findViewById<ImageView>(R.id.pickIcon)
