@@ -118,7 +118,7 @@ class SQLController(context: Context) {
 
         val start = startDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val end = endDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
-        val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)"
+        val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)UNION ALL SELECT  f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) BETWEEN DATE(?) AND DATE(?)  order by 1 asc"
         val result = sqlQueryer.rawQuery(query, arrayOf(start, end))
         var mutable = mutableListOf<String>()
         while (result.moveToNext()){

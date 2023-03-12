@@ -33,7 +33,7 @@ class NineMonthFragment : Fragment() {
     }
     fun demoList():MutableList<String>{
         val sqlController= SQLController(this.context!!)
-        val read = LocalDateTime.now().minusMonths(1)
+        val read = LocalDateTime.now().minusMonths(9)
         return sqlController.readDatesInRange(read, LocalDateTime.now())
 
     }
