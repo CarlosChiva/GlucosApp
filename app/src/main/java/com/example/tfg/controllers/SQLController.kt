@@ -82,8 +82,21 @@ class SQLController(context: Context) {
 
     }
 
+    fun read2hoursmore(dateTime: LocalDateTime): MutableList<Int> {
+        val traduc = transformDate(dateTime)
+        val result = sqlQueryer.rawQuery(
+            "SELECT m.glucosa FROM medida m  WHERE m.fecha > datetime('$traduc', '+2 hours')",
+            null
+        )
+        var mutable = mutableListOf<Int>()
+        while (result.moveToNext()){
+            mutable.add(result.getInt(0))
+        }
+        return mutable
+    }
+
     fun getBooleans(cursor: Int): Boolean {
-    return cursor!=0 && cursor!=null
+        return cursor != 0 && cursor != null
     }
 
     private fun closeAll() {
