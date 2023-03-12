@@ -32,7 +32,7 @@ class WeekFragment : Fragment() {
         recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
     }
     fun demoList():MutableList<String>{
-        val sqlController= SQLController(this.context!!)
+        val sqlController= SQLController(requireContext())
         val read = LocalDateTime.now().minusDays(7)
         return sqlController.readDatesInRange(read, LocalDateTime.now())
 
