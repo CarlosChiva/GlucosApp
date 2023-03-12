@@ -41,7 +41,7 @@ class MeasureFragment : Fragment() {
         button.setOnClickListener {
             val listValues: List<Int> = loadValues()
             val currentDateTime= LocalDateTime.now()
-
+            //val currentDateTime= LocalDateTime.now().withYear(2022)
             val controller=SQLController(this.context!!)
             controller.insertIntofOREIGNMedida(listValues.subList(0, listValues.size - 2), currentDateTime)
 

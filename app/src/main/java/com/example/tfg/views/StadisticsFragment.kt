@@ -47,7 +47,8 @@ class StadisticsFragment : Fragment() {
     }
     fun demoList():MutableList<String>{
         val sqlController= SQLController(this.context!!)
-       // val threeMonthsAgo = LocalDate.now() // Fecha de tres meses antes
-        val threeMonthsAgo = LocalDateTime.now().minusMonths(1)
-        return sqlController.readDatesInRange(threeMonthsAgo, LocalDateTime.now())    }
+//        val read = LocalDateTime.now().minusMonths(3)
+//        return sqlController.readDatesInRange(read, LocalDateTime.now())
+        return sqlController.readDatesAtDay()
+    }
 }
