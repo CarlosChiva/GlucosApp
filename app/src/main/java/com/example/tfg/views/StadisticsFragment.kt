@@ -42,12 +42,10 @@ class StadisticsFragment : Fragment() {
             ControllerMotionLayout(motionLayout, findNavController(), hasMap)
         val recyclerView = binding.recyStadis
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-      //  recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
+        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
     }
-//    fun demoList():MutableList<Int>{
-//        val sqlController= SQLController(this.context!!)
-//        val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.S")
-//        val datetime = LocalDateTime.parse("2023-03-11 18:27:20.0", formatter)
-//        return sqlController.read2hoursmore(datetime)
-//    }
+    fun demoList():MutableList<String>{
+        val sqlController= SQLController(this.context!!)
+        return sqlController.readAllDatesToStadistics()
+    }
 }

@@ -9,6 +9,7 @@ import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -83,20 +84,24 @@ class SQLController(context: Context) {
 
     }
 
-//    fun readAllDatesToStadistics(): HashMap<LocalDateTime, MutableList<Int>> {
-//       var hasmap= hashMapOf<LocalDateTime, MutableList<Int>>()
-//        val result = sqlQueryer.rawQuery(
-//            "SELECT DISTINCT  m.fecha,m.glucosa FROM medida m UNION ALL SELECT DISTINCT f.fecha, f.glucosa FROM foreignMedida f order by 1 ASC ;",
-//            null
-//        )
-//        var mutable = mutableListOf<Int>()
-//        while (result.moveToNext()) {
-//            val dateFormat = SimpleDateFormat("yyyy-mm-dd HH:mm:ss", Locale.getDefault())
-//            val fecha = dateFormat.parse(result.getString(0))
-//            fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-//
-//        }
-//    }
+    fun readAllDatesToStadistics(): MutableList<String> {
+        var list = mutableListOf <String>()
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val result = sqlQueryer.rawQuery(
+            "SELECT DISTINCT  m.fecha,m.glucosa FROM medida m UNION ALL SELECT DISTINCT f.fecha, f.glucosa FROM foreignMedida f order by 1 ASC ;",
+            null
+        )
+
+        while (result.moveToNext()) {
+            val fecha = dateFormat.parse(result.getString(0))
+           val fechaString=fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().toString()
+
+            list.add("$fechaString<${result.getInt(1)}")
+        }
+        result.close()
+        closeAll()
+        return list
+    }
     //-------------------------------------------Proximamente en analisis de glucosa
 //    fun read2hoursmore(dateTime: LocalDateTime): MutableList<Int> {
 //        val traduc = transformDate(dateTime)
