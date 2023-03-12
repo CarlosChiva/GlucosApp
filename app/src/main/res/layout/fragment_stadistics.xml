@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".views.StadisticsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyStadis"
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
     <include

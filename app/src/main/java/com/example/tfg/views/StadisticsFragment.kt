@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.controllers.StadisticAdapter
+import com.example.tfg.controllers.ViewPagerAdapter
 import com.example.tfg.databinding.FragmentStadisticsBinding
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -41,14 +44,21 @@ class StadisticsFragment : Fragment() {
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
             ControllerMotionLayout(motionLayout, findNavController(), hasMap)
-        val recyclerView = binding.recyStadis
-        recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
+
+
+
+        val viewPager = binding.viewPager
+        val adapter= ViewPagerAdapter(childFragmentManager)
+        viewPager.adapter=adapter
+
+
+//        recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
+//        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
     }
-    fun demoList():MutableList<String>{
-        val sqlController= SQLController(this.context!!)
-//        val read = LocalDateTime.now().minusMonths(3)
-//        return sqlController.readDatesInRange(read, LocalDateTime.now())
-        return sqlController.readDatesAtDay()
-    }
+//    fun demoList():MutableList<String>{
+//        val sqlController= SQLController(this.context!!)
+////        val read = LocalDateTime.now().minusMonths(3)
+////        return sqlController.readDatesInRange(read, LocalDateTime.now())
+//        return sqlController.readDatesAtDay()
+//    }
 }
