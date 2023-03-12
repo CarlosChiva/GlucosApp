@@ -103,18 +103,16 @@ class SQLController(context: Context) {
         return list
     }
     //-------------------------------------------Proximamente en analisis de glucosa
-//    fun read2hoursmore(dateTime: LocalDateTime): MutableList<Int> {
-//        val traduc = transformDate(dateTime)
-//        val result = sqlQueryer.rawQuery(
-//            "SELECT m.glucosa FROM medida m  WHERE m.fecha > datetime('$traduc', '+2 hours')",
-//            null
-//        )
-//        var mutable = mutableListOf<Int>()
-//        while (result.moveToNext()){
-//            mutable.add(result.getInt(0))
-//        }
-//        return mutable
-//    }
+    fun read2hoursmore(dateTime: LocalDateTime): MutableList<String> {
+        val traduc = transformDate(dateTime)
+        val result = sqlQueryer.rawQuery(
+            "SELECT m.fecha ,m.glucosa FROM medida m  WHERE DATE(m.fecha) = DATE(?)",arrayOf(traduc.toString()))
+        var mutable = mutableListOf<String>()
+        while (result.moveToNext()){
+            mutable.add("${result.getString(0)}<${result.getInt(1)}")
+        }
+        return mutable
+    }
 
     fun getBooleans(cursor: Int): Boolean {
         return cursor != 0 && cursor != null

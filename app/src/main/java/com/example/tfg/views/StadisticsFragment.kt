@@ -46,6 +46,6 @@ class StadisticsFragment : Fragment() {
     }
     fun demoList():MutableList<String>{
         val sqlController= SQLController(this.context!!)
-        return sqlController.readAllDatesToStadistics()
+        return sqlController.read2hoursmore(LocalDateTime.now())
     }
 }
