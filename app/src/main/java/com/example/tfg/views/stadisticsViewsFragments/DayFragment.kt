@@ -32,9 +32,7 @@ class DayFragment : Fragment() {
        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
     }
     fun demoList():MutableList<String>{
-        val sqlController= SQLController(this.context!!)
-//        val read = LocalDateTime.now().minusMonths(3)
-//        return sqlController.readDatesInRange(read, LocalDateTime.now())
-        return sqlController.readDatesAtDay()
+        val sqlController= SQLController(requireContext())
+     return sqlController.readDatesAtDay()
     }
 }

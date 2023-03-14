@@ -106,12 +106,14 @@ class SQLController(context: Context) {
     }
     //-------------------------------------------Proximamente en analisis de glucosa
     fun readDatesAtDay():MutableList<String>{
-        val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) = CURRENT_DATE UNION ALL SELECT DISTINCT f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
+        val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) = CURRENT_DATE UNION ALL SELECT f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
         val result = sqlQueryer.rawQuery(query, null)
         var mutable = mutableListOf<String>()
         while (result.moveToNext()){
             mutable.add("${result.getString(0)}<${result.getInt(1)}")
         }
+        result.close()
+        closeAll()
         return mutable
     }
     fun readDatesInRange(startDate: LocalDateTime, endDate: LocalDateTime): MutableList<String> {
@@ -119,11 +121,13 @@ class SQLController(context: Context) {
         val start = startDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val end = endDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)UNION ALL SELECT  f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) BETWEEN DATE(?) AND DATE(?)  order by 1 asc"
-        val result = sqlQueryer.rawQuery(query, arrayOf(start, end))
+        val result = sqlQueryer.rawQuery(query, arrayOf(start, end,start, end))
         var mutable = mutableListOf<String>()
         while (result.moveToNext()){
             mutable.add("${result.getString(0)}<${result.getInt(1)}")
         }
+        result.close()
+        closeAll()
         return mutable
     }
 
