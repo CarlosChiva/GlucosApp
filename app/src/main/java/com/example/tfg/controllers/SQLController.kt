@@ -1,18 +1,15 @@
 package com.example.tfg.controllers
 
 import android.content.Context
-import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import com.example.tfg.models.Datos
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.HashMap
 
 class SQLController(context: Context) {
     var context: Context
@@ -47,15 +44,14 @@ class SQLController(context: Context) {
     fun insertIntoMedida(datos: Datos) {
         val date = transformDate(datos.fecha)
         sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucosa},${datos.pick},${datos.pickIcon},${datos.alarma},${datos.CHfood},${datos.food});")
-        closeAll()
+
     }
 
-    fun insertIntofOREIGNMedida(medidas: List<Int>, fecha: LocalDateTime) {
-        val date = transformDate(fecha)
-        var indice = 1
-        medidas.forEach {
-            sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,id,glucosa) values('$date',$indice,$it);")
-            indice++
+    fun insertIntofOREIGNMedida(lista:List<Pair<LocalDateTime, Int>>) {
+        lista.forEach {
+            val date = transformDate(it.first)
+
+            sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
         }
 
     }
