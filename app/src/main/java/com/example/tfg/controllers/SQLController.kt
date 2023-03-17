@@ -101,26 +101,36 @@ class SQLController(context: Context) {
         return list
     }
     //-------------------------------------------Proximamente en analisis de glucosa
-    fun readDatesAtDay():MutableList<String>{
+    fun readDatesAtDay():List<Pair<LocalDateTime, Int>>{
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
         val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) = CURRENT_DATE UNION ALL SELECT f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
         val result = sqlQueryer.rawQuery(query, null)
-        var mutable = mutableListOf<String>()
-        while (result.moveToNext()){
-            mutable.add("${result.getString(0)}<${result.getInt(1)}")
+        var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
+        while (result.moveToNext()) {
+            val fecha = dateFormat.parse(result.getString(0))
+            val localDateTime = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+
+            val glucosa = result.getInt(1)
+            mutable.add(localDateTime to glucosa)
         }
         result.close()
         closeAll()
         return mutable
     }
-    fun readDatesInRange(startDate: LocalDateTime, endDate: LocalDateTime): MutableList<String> {
-
+    fun readDatesInRange(startDate: LocalDateTime, endDate: LocalDateTime): List<Pair<LocalDateTime, Int>> {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val start = startDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val end = endDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val query = "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)UNION ALL SELECT  f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) BETWEEN DATE(?) AND DATE(?)  order by 1 asc"
         val result = sqlQueryer.rawQuery(query, arrayOf(start, end,start, end))
-        var mutable = mutableListOf<String>()
-        while (result.moveToNext()){
-            mutable.add("${result.getString(0)}<${result.getInt(1)}")
+        var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
+        while (result.moveToNext()) {
+            val fecha = dateFormat.parse(result.getString(0))
+            val localDateTime = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+
+            val glucosa = result.getInt(1)
+            mutable.add(localDateTime to glucosa)
         }
         result.close()
         closeAll()

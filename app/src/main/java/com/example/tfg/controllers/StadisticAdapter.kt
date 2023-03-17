@@ -11,7 +11,7 @@ import java.time.LocalDateTime
 
 
 class StadisticAdapter(
-    context: Context, val listItems: MutableList<String>,
+    context: Context, val listItems: List<Pair<LocalDateTime, Int>>,
 ) :
     RecyclerView.Adapter<StadisticAdapter.ViewHolder>() {
 
@@ -26,16 +26,10 @@ class StadisticAdapter(
         )
     }
 
-    private fun array(string: String): Array<String> {
-    return string.split("<").toTypedArray()
-
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+      override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listItems[position]
-        val arrayValores=array(item)
-        holder.fecha.text = arrayValores[0]+":     "
-        holder.number.text = arrayValores[1]
+        holder.fecha.text = item.first.toString()
+        holder.number.text = item.second.toString()
     }
 
     override fun getItemCount(): Int = listItems.size

@@ -30,7 +30,7 @@ class ThreeMonthFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
     }
-    fun demoList():MutableList<String>{
+    fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(this.context!!)
         val read = LocalDateTime.now().minusMonths(3)
         return sqlController.readDatesInRange(read, LocalDateTime.now())
