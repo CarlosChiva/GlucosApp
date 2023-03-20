@@ -57,6 +57,8 @@ class DemoDatosBase(context: Context) {
         var valorInt = 80
         var subiendo = true
         val datos = mutableListOf<Pair<LocalDateTime, Int>>()
+        var valorMaximo = 180
+        var valorMinimo = 80
 
         while (fechaActual <= fechaFinal) {
             if (!horasAEvitar.contains(fechaActual)) {
@@ -64,20 +66,27 @@ class DemoDatosBase(context: Context) {
             }
 
             fechaActual = fechaActual.plusMinutes(5)
-
+            if (fechaActual.monthValue % 2 != 0) {
+                valorMaximo = 80
+                valorMinimo = 40
+            } else {
+                valorMaximo = 250
+                valorMinimo = 80
+            }
             if (fechaActual.minute % 10 == 0) {
                 if (subiendo) {
                     valorInt += 5
-                    if (valorInt >= 180) {
+                    if (valorInt >= valorMaximo) {
                         subiendo = false
                     }
                 } else {
                     valorInt -= 5
-                    if (valorInt <= 80) {
+                    if (valorInt <= valorMinimo) {
                         subiendo = true
                     }
                 }
             }
+
         }
 
         return datos

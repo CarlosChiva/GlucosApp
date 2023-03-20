@@ -29,9 +29,6 @@ class MonthFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dataPairs = demoList()
-        val recyclerView=binding.reciclerMonth
-        recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = StadisticAdapter(this.context!!, dataPairs)
         val chart: LineChart = binding.lineStadistics
         val pieChart=binding.pieChart
         val stadisticsGraphics=StadisticsGraphics(requireContext(),chart,pieChart,dataPairs)

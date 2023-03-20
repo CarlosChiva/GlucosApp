@@ -22,11 +22,7 @@
                 android:text="At Day"
                 android:textAlignment="center" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reciclerDay"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_marginTop="50dp" />
+
 
 
             <com.github.mikephil.charting.charts.LineChart
@@ -52,9 +48,15 @@
                 android:textAlignment="center" />
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/pieChart"
-                android:layout_width="100dp"
-                android:layout_height="100dp"/>
-
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_marginStart="50dp"/>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/reciclerDay"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_marginTop="50dp" />
         </LinearLayout>
+
     </androidx.core.widget.NestedScrollView>
 </FrameLayout>

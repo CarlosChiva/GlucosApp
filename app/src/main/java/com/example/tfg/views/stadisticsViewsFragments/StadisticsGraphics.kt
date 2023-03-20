@@ -49,14 +49,17 @@ class StadisticsGraphics(
         // Configurar los datos de la gráfica
         val entries: MutableList<Entry> = ArrayList()
         for (i in 0 until lista.size) {
-            entries.add(Entry(i.toFloat(), lista[i].second.toFloat()))
+            val valor = lista[i].second.toFloat()
+            val color = if (valor > 180) Color.RED else Color.BLACK
+            entries.add(Entry(i.toFloat(), valor, color))
         }
         val dataSet = LineDataSet(entries, "Nivel de Glucosa")
-        dataSet.color = Color.RED
-        dataSet.setCircleColor(Color.RED)
+        dataSet.color = Color.BLACK
+        dataSet.setCircleColors(Color.RED)
         dataSet.circleRadius = 1f
         dataSet.lineWidth = 1f
         dataSet.valueTextSize = 10f
+        dataSet.fillColor = Color.RED // Agregar el color del relleno
         val lineData = LineData(dataSet)
 
 // Agregar los datos de la gráfica a la vista de la gráfica
