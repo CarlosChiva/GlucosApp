@@ -11,6 +11,7 @@ import com.example.tfg.controllers.SQLController
 import com.example.tfg.controllers.StadisticAdapter
 import com.example.tfg.databinding.FragmentMonthBinding
 import com.example.tfg.databinding.FragmentWeekBinding
+import com.github.mikephil.charting.charts.LineChart
 import java.time.LocalDateTime
 
 class MonthFragment : Fragment() {
@@ -31,6 +32,10 @@ class MonthFragment : Fragment() {
         val recyclerView=binding.reciclerMonth
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = StadisticAdapter(this.context!!, dataPairs)
+        val chart: LineChart = binding.lineStadistics
+        val pieChart=binding.pieChart
+        val stadisticsGraphics=StadisticsGraphics(requireContext(),chart,pieChart,dataPairs)
+
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(this.context!!)

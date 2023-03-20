@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.controllers.StadisticAdapter
 import com.example.tfg.databinding.FragmentSixMonthBinding
+import com.github.mikephil.charting.charts.LineChart
 import java.time.LocalDateTime
 
 class SixMonthFragment : Fragment() {
@@ -26,9 +27,14 @@ class SixMonthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val recyclerView=binding.reciclerSixMonth
+        val list=demoList()
+        val recyclerView=binding.reciclerSixMonths
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
+        recyclerView.adapter = StadisticAdapter(this.context!!, list)
+        val chart: LineChart = binding.lineStadistics
+        val pieChart=binding.pieChart
+        val stadisticsGraphics=StadisticsGraphics(requireContext(),chart,pieChart,list)
+
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(this.context!!)
