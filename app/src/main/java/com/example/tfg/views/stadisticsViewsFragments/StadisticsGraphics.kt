@@ -3,6 +3,7 @@ package com.example.tfg.views.stadisticsViewsFragments
 import android.content.Context
 import android.graphics.Color
 import android.view.View
+import com.example.tfg.models.ConfiguracionModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
@@ -17,11 +18,16 @@ class StadisticsGraphics(
     viewPie: PieChart,
     list: List<Pair<LocalDateTime, Int>>
 ) {
+    var minimValue=0
+    var maxValue=0
     val chart: LineChart
     val pieChart: PieChart
     val lista: List<Pair<LocalDateTime, Int>>
 
     init {
+        val values=ConfiguracionModel(context)
+        this.minimValue=values.glucosaMinima
+        this.maxValue=values.glucosaMaxima
         this.chart = viewLineal
         this.pieChart = viewPie
         this.lista = list
@@ -49,7 +55,7 @@ class StadisticsGraphics(
         val entries: MutableList<Entry> = ArrayList()
         for (i in 0 until lista.size) {
             val valor = lista[i].second.toFloat()
-            entries.add(Entry(lista[i].first.minute.toInt().toFloat(), valor))
+            entries.add(Entry(i.toFloat(), valor))
         }
         val dataSet = LineDataSet(entries, "Nivel de Glucosa")
         dataSet.color = Color.BLACK
@@ -65,7 +71,6 @@ class StadisticsGraphics(
 // Actualizar la vista de la gráfica
         chart.invalidate()
         //-----------------------------------------------------------------
-
 
         // Contadores para los diferentes rangos de glucosa
         var above180 = 0
@@ -96,7 +101,7 @@ class StadisticsGraphics(
 
         // Crear el conjunto de datos y configurar sus propiedades
         val dataSetPie = PieDataSet(entriesPie, "Tiempo en diferentes rangos de glucosa")
-        dataSetPie.colors = listOf(Color.RED, Color.GREEN, Color.BLUE)
+        dataSetPie.colors = listOf(Color.RED, Color.GREEN, Color.CYAN)
         dataSetPie.sliceSpace = 3f
         dataSetPie.selectionShift = 5f
 

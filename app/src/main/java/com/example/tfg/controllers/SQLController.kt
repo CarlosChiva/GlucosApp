@@ -84,20 +84,19 @@ class SQLController(context: Context) {
 
     }
 
-    fun readAllDatesToStadistics(): MutableList<String> {
-        var list = mutableListOf<String>()
+    fun readAllDatesToStadistics(): Int {
+        var list =0
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val result = sqlQueryer.rawQuery(
-            "SELECT DISTINCT  m.fecha,m.glucosa FROM medida m UNION ALL SELECT f.fecha, f.glucosa FROM foreignMedida f order by 1 ASC ;",
+            "SELECT m.fecha,m.glucosa FROM medida m where m.alarm=1 or m.pickIcon=1 order by 1 asc ;",
             null
         )
-
         while (result.moveToNext()) {
+
             val fecha = dateFormat.parse(result.getString(0))
             val fechaString =
                 fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().toString()
 
-            list.add("$fechaString<${result.getInt(1)}")
         }
         result.close()
         closeAll()
