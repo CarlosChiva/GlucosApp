@@ -9,6 +9,7 @@ import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import java.time.Duration
 import java.time.LocalDateTime
+import kotlin.time.Duration.Companion.minutes
 
 class StadisticsGraphics(
     context: Context,
@@ -29,9 +30,7 @@ class StadisticsGraphics(
 
     fun drawing() {
 // Configurar las propiedades de la vista de la gráfica
-        chart.xAxis.labelCount = 5
-        chart.xAxis.valueFormatter =
-            IndexAxisValueFormatter(listOf("00:00", "06:00", "12:00", "18:00", "24:00"))
+        chart.xAxis.labelCount = lista.size
         chart.xAxis.textSize = 12f
         chart.axisLeft.textSize = 12f
         val yAxis = chart.axisLeft
@@ -42,16 +41,15 @@ class StadisticsGraphics(
         chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
-        chart.xAxis.granularity = 5f
+        chart.axisRight.isEnabled = false
+        chart.xAxis.granularity = 6f
         chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.WHITE)
-
         // Configurar los datos de la gráfica
         val entries: MutableList<Entry> = ArrayList()
         for (i in 0 until lista.size) {
             val valor = lista[i].second.toFloat()
-            val color = if (valor > 180) Color.RED else Color.BLACK
-            entries.add(Entry(i.toFloat(), valor, color))
+            entries.add(Entry(lista[i].first.minute.toInt().toFloat(), valor))
         }
         val dataSet = LineDataSet(entries, "Nivel de Glucosa")
         dataSet.color = Color.BLACK
@@ -61,7 +59,6 @@ class StadisticsGraphics(
         dataSet.valueTextSize = 10f
         dataSet.fillColor = Color.RED // Agregar el color del relleno
         val lineData = LineData(dataSet)
-
 // Agregar los datos de la gráfica a la vista de la gráfica
         chart.data = lineData
 

@@ -88,7 +88,7 @@ class SQLController(context: Context) {
         var list = mutableListOf<String>()
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val result = sqlQueryer.rawQuery(
-            "SELECT DISTINCT  m.fecha,m.glucosa FROM medida m UNION ALL SELECT DISTINCT f.fecha, f.glucosa FROM foreignMedida f order by 1 ASC ;",
+            "SELECT DISTINCT  m.fecha,m.glucosa FROM medida m UNION ALL SELECT f.fecha, f.glucosa FROM foreignMedida f order by 1 ASC ;",
             null
         )
 
