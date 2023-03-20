@@ -27,9 +27,10 @@ class MonthFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val dataPairs = demoList()
         val recyclerView=binding.reciclerMonth
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
+        recyclerView.adapter = StadisticAdapter(this.context!!, dataPairs)
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(this.context!!)

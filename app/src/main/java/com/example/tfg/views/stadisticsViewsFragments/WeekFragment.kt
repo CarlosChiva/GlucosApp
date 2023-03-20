@@ -27,9 +27,10 @@ class WeekFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val list=demoList()
         val recyclerView=binding.reciclerWeek
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
+        recyclerView.adapter = StadisticAdapter(this.context!!, list)
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(requireContext())
