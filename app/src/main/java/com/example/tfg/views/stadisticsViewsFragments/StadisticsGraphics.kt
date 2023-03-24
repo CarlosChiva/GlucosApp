@@ -11,6 +11,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.time.Duration
 import java.time.LocalDateTime
+import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
 
 class StadisticsGraphics(
@@ -55,7 +56,7 @@ class StadisticsGraphics(
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
         chart.axisRight.isEnabled = true
-        chart.xAxis.granularity = 6f
+        chart.xAxis.granularity = 5f
         chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.WHITE)
        chart.xAxis.labelCount = 6
@@ -70,7 +71,7 @@ class StadisticsGraphics(
                     150 -> "12:00"
                     200 -> "16:00"
                     250 -> "20:00"
-                    300 -> "24:00"
+                    301 -> "24:00"
                     else -> "" // Devolver una cadena vacía para las etiquetas que no se muestran
                 }
             }
