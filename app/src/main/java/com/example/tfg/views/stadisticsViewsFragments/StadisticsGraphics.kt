@@ -8,6 +8,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import java.time.Duration
 import java.time.LocalDateTime
 import kotlin.time.Duration.Companion.minutes
@@ -36,9 +37,15 @@ class StadisticsGraphics(
 
     fun drawing() {
 // Configurar las propiedades de la vista de la gráfica
-        chart.xAxis.labelCount = lista.size
-        chart.xAxis.textSize = 12f
+        chart.xAxis.textSize = 10f
         chart.axisLeft.textSize = 12f
+        val rightAxis = chart.axisRight
+        rightAxis.textSize = 12f
+        rightAxis.axisMinimum = 50f
+        rightAxis.axisMaximum = 400f
+        rightAxis.setDrawAxisLine(true)
+        rightAxis.setDrawGridLines(false)
+        rightAxis.setDrawLabels(true)
         val yAxis = chart.axisLeft
         yAxis.axisMinimum = 50f
         yAxis.axisMaximum = 400f
@@ -47,11 +54,29 @@ class StadisticsGraphics(
         chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
-        chart.axisRight.isEnabled = false
+        chart.axisRight.isEnabled = true
         chart.xAxis.granularity = 6f
         chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.WHITE)
-        // Configurar los datos de la gráfica
+       chart.xAxis.labelCount = 6
+        chart.xAxis.setValueFormatter(object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+
+                // Devolver la etiqueta correspondiente según el valor
+                return when (value.toInt()) {
+                    0 -> "00:00"
+                    50 -> "04:00"
+                    100-> "08:00"
+                    150 -> "12:00"
+                    200 -> "16:00"
+                    250 -> "20:00"
+                    300 -> "24:00"
+                    else -> "" // Devolver una cadena vacía para las etiquetas que no se muestran
+                }
+            }
+        })
+
+// Configurar los datos de la gráfica
         val entries: MutableList<Entry> = ArrayList()
         for (i in 0 until lista.size) {
             val valor = lista[i].second.toFloat()
@@ -65,6 +90,7 @@ class StadisticsGraphics(
         dataSet.valueTextSize = 10f
         dataSet.fillColor = Color.RED // Agregar el color del relleno
         val lineData = LineData(dataSet)
+
 // Agregar los datos de la gráfica a la vista de la gráfica
         chart.data = lineData
 
