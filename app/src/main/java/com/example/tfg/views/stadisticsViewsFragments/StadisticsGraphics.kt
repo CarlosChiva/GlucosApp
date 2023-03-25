@@ -42,36 +42,33 @@ class StadisticsGraphics(
         chart.axisLeft.textSize = 12f
         val rightAxis = chart.axisRight
         rightAxis.textSize = 12f
-        rightAxis.axisMinimum = 50f
-        rightAxis.axisMaximum = 400f
+
         rightAxis.setDrawAxisLine(true)
         rightAxis.setDrawGridLines(false)
-        rightAxis.setDrawLabels(true)
+        rightAxis.setDrawLabels(false)
         val yAxis = chart.axisLeft
-        yAxis.axisMinimum = 50f
-        yAxis.axisMaximum = 400f
+        yAxis.axisMinimum = 40f
+        yAxis.axisMaximum = 300f
         chart.description.isEnabled = false
         chart.setTouchEnabled(true)
         chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
         chart.axisRight.isEnabled = true
-        chart.xAxis.granularity = 5f
+        chart.xAxis.granularity = 1f
         chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.WHITE)
-       chart.xAxis.labelCount = 6
+       chart.xAxis.labelCount = lista.size
         chart.xAxis.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
                 // Devolver la etiqueta correspondiente según el valor
                 return when (value.toInt()) {
                     0 -> "00:00"
-                    50 -> "04:00"
-                    100-> "08:00"
-                    150 -> "12:00"
-                    200 -> "16:00"
-                    250 -> "20:00"
-                    301 -> "24:00"
+                    72->"06:00"
+                    144 -> "12:00"
+                    216 -> "18:00"
+                    288 -> "24:00"
                     else -> "" // Devolver una cadena vacía para las etiquetas que no se muestran
                 }
             }

@@ -32,11 +32,10 @@ class DemoDatosBase(context: Context) {
     fun createDatosMedida(fechas: LocalDateTime): List<Datos> {
         val fecha = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val objects = mutableListOf<Datos>()
-        objects.add(Datos(fecha.withHour(9), 100, 20, true, false, 50, true))
-        objects.add(Datos(fecha.withHour(11), 120, 30, false, true, 60, false))
-        objects.add(Datos(fecha.withHour(14), 150, 40, true, true, 70, true))
-        objects.add(Datos(fecha.withHour(16), 80, 10, false, false, 80, false))
-        objects.add(Datos(fecha.withHour(21), 110, 25, true, true, 90, true))
+        objects.add(Datos(fecha.withHour(6), 100, 20, true, false, 50, true))
+        objects.add(Datos(fecha.withHour(12), 120, 30, false, true, 60, false))
+        objects.add(Datos(fecha.withHour(18), 150, 40, true, true, 70, true))
+        objects.add(Datos(fecha.withHour(0), 80, 10, false, false, 80, false))
         return objects
     }
 
@@ -45,12 +44,10 @@ class DemoDatosBase(context: Context) {
         val fechaFinal = fechas.withHour(23).withMinute(59).withSecond(59).withNano(0)
 
         val horasAEvitar = listOf(
-            fechaInicial.withHour(9),
-            fechaInicial.withHour(11),
-            fechaInicial.withHour(14),
-            fechaInicial.withHour(16),
-            fechaInicial.withHour(21),
-            fechaInicial.withHour(23)
+            fechaInicial.withHour(6),
+            fechaInicial.withHour(12),
+            fechaInicial.withHour(18),
+            fechaInicial.withHour(0)
         )
 
         var fechaActual = fechaInicial
