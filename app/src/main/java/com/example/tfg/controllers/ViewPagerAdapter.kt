@@ -19,7 +19,7 @@ class ViewPagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(
             2->  return MonthFragment()
             3->  return ThreeMonthFragment()
             4->  return SixMonthFragment()
-            5->  return NineMonthFragment();
+            5->  return StadisticResultFragment();
             else->
                 return DayFragment()
         }}
