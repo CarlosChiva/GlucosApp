@@ -31,7 +31,6 @@ class StadisticResultFragment : Fragment() {
         val ratioRap=binding.ratioInsulRapida
         val insulRapRecom=binding.insulRapidaRecomendada
 
-
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(this.context!!)
