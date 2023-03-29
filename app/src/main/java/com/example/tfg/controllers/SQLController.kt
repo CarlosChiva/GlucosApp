@@ -62,7 +62,7 @@ class SQLController(context: Context) {
     //--------------------------------------------------------------Loads
     fun loadDatesMedida(): MutableList<Datos> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val result = sqlQueryer.rawQuery("select * from $MEDIDA", null)
+        val result = sqlQueryer.rawQuery("select * from $MEDIDA order by fecha desc", null)
         val datos = mutableListOf<Datos>()
         while (result.moveToNext()) {
             val fecha = dateFormat.parse(result.getString(0))
@@ -109,7 +109,7 @@ class SQLController(context: Context) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
         val query =
-            "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) = CURRENT_DATE UNION ALL SELECT f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
+            "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) = CURRENT_DATE UNION SELECT f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
         val result = sqlQueryer.rawQuery(query, null)
         var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
         while (result.moveToNext()) {
