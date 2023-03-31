@@ -2,6 +2,7 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.example.tfg.models.Datos
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
@@ -38,7 +39,7 @@ class SQLController(context: Context) {
         calendar.set(Calendar.HOUR_OF_DAY, localDateTime.hour)
         calendar.set(Calendar.MINUTE, localDateTime.minute)
         calendar.set(Calendar.SECOND, localDateTime.second)
-        calendar.set(Calendar.MILLISECOND, 0) // Establecer milisegundos en cero
+        calendar.set(Calendar.MILLISECOND, (Math.random() * 1000).toInt()) // Establecer milisegundos en cero
         return Timestamp(calendar.timeInMillis)
 
     }
@@ -53,7 +54,7 @@ class SQLController(context: Context) {
     fun insertIntofOREIGNMedida(lista: List<Pair<LocalDateTime, Int>>) {
         lista.forEach {
             val date = transformDate(it.first)
-
+println("fecha $date")
             sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
         }
 

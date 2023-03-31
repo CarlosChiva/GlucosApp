@@ -15,7 +15,7 @@ class DemoDatosBase(context: Context) {
     }
 
     fun initInsertDAta() {
-        for (i in 180 downTo 0) {
+        for (i in 0 .. 180) {
             val long = i.toLong()
 
             val datosMedida = createDatosMedida(fehca_actual.minusDays(long))
@@ -58,7 +58,6 @@ class DemoDatosBase(context: Context) {
 
         while (fechaActual <= fechaFinal) {
             if (!horasAEvitar.contains(fechaActual)) {
-                println(valorInt)
                 datos.add(Pair(fechaActual, valorInt))
             }
 
