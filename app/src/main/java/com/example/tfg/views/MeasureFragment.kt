@@ -42,11 +42,8 @@ class MeasureFragment : Fragment() {
             val listValues: List<Pair<LocalDateTime, Int>> = loadValues()
             //   val currentDateTime= LocalDateTime.now().withYear(2022)
             val controller = SQLController(this.context!!)
-            println("button measure----------------------------------- ")
-            println(listValues.size)
-            controller.insertIntofOREIGNMedida(listValues.subList(0, listValues.size - 2))
-
-            alertDialog(listValues.get(listValues.size - 1).second, LocalDateTime.now())
+            controller.insertIntofOREIGNMedida(listValues)
+              alertDialog(listValues.get(listValues.size-1).second+10, LocalDateTime.now())
         }
 
 
@@ -66,7 +63,7 @@ class MeasureFragment : Fragment() {
         var value: Int = 0
         var direccionValues = true
         println("Date loaded in Measure---------------------------------------")
-        while (dateLoaded <= now) {
+        while (dateLoaded < now) {
             // Generate a random value between 0 and 100
             if (direccionValues) {
                 if (valueLoaded <= 180) {
