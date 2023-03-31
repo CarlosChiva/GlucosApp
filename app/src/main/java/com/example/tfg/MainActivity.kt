@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-         val demoDatosBse = DemoDatosBase(this)
+    // val demoDatosBse = DemoDatosBase(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {

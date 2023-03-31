@@ -39,39 +39,64 @@ class MeasureFragment : Fragment() {
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         ControllerMotionLayout(motionLayout, findNavController(), hasMap)
         button.setOnClickListener {
-            val listValues: List<Pair<LocalDateTime,Int>> = loadValues()
-         //   val currentDateTime= LocalDateTime.now().withYear(2022)
-            val controller=SQLController(this.context!!)
+            val listValues: List<Pair<LocalDateTime, Int>> = loadValues()
+            //   val currentDateTime= LocalDateTime.now().withYear(2022)
+            val controller = SQLController(this.context!!)
+            println("button measure----------------------------------- ")
+            println(listValues.size)
             controller.insertIntofOREIGNMedida(listValues.subList(0, listValues.size - 2))
 
-            alertDialog(listValues.get(listValues.size-1).second, LocalDateTime.now())
+            alertDialog(listValues.get(listValues.size - 1).second, LocalDateTime.now())
         }
 
 
     }
 
-    fun alertDialog(value:Int,currentDateTime:LocalDateTime) {
-     val alert= AlertDialogMeasure(this.context!!,value,currentDateTime)
+    fun alertDialog(value: Int, currentDateTime: LocalDateTime) {
+        val alert = AlertDialogMeasure(this.context!!, value, currentDateTime)
     }
 
-    private fun loadValues(): List<Pair<LocalDateTime,Int>> {
-val sQLController=SQLController(this.context!!)
-        val ultimFecha=sQLController.loadDatesMedida().get(0).fecha
-        val now = LocalDateTime.now().withHour(0).withMinute(0).withMinute(0).withSecond(0)
+    private fun loadValues(): List<Pair<LocalDateTime, Int>> {
+        val sQLController = SQLController(this.context!!)
+        val ultimFecha = sQLController.readLastDatesToMeasure()
+        val now = LocalDateTime.now()
         val values = mutableListOf<Pair<LocalDateTime, Int>>()
-        var date = ultimFecha
-
-        while (date > now) {
+        var dateLoaded = ultimFecha.first.plusMinutes(5)
+        var valueLoaded = ultimFecha.second
+        var value: Int = 0
+        var direccionValues = true
+        println("Date loaded in Measure---------------------------------------")
+        while (dateLoaded <= now) {
             // Generate a random value between 0 and 100
-            val value = (Math.random() * 100).toInt()
+            if (direccionValues) {
+                if (valueLoaded <= 180) {
+                    value = valueLoaded
+                    valueLoaded++
+                }
 
-            values.add(date to value)
+            } else {
+                direccionValues = false
+            }
+            if (!direccionValues) {
+                if (valueLoaded >= 80) {
+                    value = valueLoaded
+                    valueLoaded--
+                }
 
-            date = date.minusMinutes(5) // Increment the date by 30 minutes
+            } else {
+                direccionValues = true
+
+            }
+
+            println(dateLoaded)
+            values.add(dateLoaded to value)
+
+            dateLoaded = dateLoaded.plusMinutes(5)
         }
 
         return values
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

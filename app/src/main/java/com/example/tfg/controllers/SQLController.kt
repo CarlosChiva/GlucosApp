@@ -39,7 +39,10 @@ class SQLController(context: Context) {
         calendar.set(Calendar.HOUR_OF_DAY, localDateTime.hour)
         calendar.set(Calendar.MINUTE, localDateTime.minute)
         calendar.set(Calendar.SECOND, localDateTime.second)
-        calendar.set(Calendar.MILLISECOND, (Math.random() * 1000).toInt()) // Establecer milisegundos en cero
+        calendar.set(
+            Calendar.MILLISECOND,
+            (Math.random() * 1000).toInt()
+        ) // Establecer milisegundos en cero
         return Timestamp(calendar.timeInMillis)
 
     }
@@ -54,7 +57,8 @@ class SQLController(context: Context) {
     fun insertIntofOREIGNMedida(lista: List<Pair<LocalDateTime, Int>>) {
         lista.forEach {
             val date = transformDate(it.first)
-println("fecha $date")
+            println("Fecha insert----------------------------")
+            println("$date")
             sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
         }
 
@@ -86,23 +90,54 @@ println("fecha $date")
 
     }
 
-    fun readAllDatesToStadistics(): Int {
-        var list = 0
+    fun readLastDatesToMeasure(): Pair<LocalDateTime, Int> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val result = sqlQueryer.rawQuery(
-            "SELECT m.fecha,m.glucosa FROM medida m where m.alarm=1 or m.pickIcon=1 order by 1 asc ;",
+        var dateForeign: Pair<LocalDateTime, Int>? = null
+        var dateMedida: Pair<LocalDateTime, Int>? = null
+        var dateResult: Pair<LocalDateTime, Int>
+        var result = sqlQueryer.rawQuery(
+            "SELECT fecha, glucosa FROM $FOREIGN_MEDIDA " +
+                    "WHERE fecha <= CURRENT_DATE " +
+                    "ORDER BY fecha DESC " +
+                    "LIMIT 1;",
             null
         )
-        while (result.moveToNext()) {
+        result.moveToFirst()
+        println("RESULT FIRST QUERY  :      ${result.getString(0)}    ${result.getInt(1)}")
+        val fechaforeign = dateFormat.parse(result.getString(0))
+        val fechaString =
+            fechaforeign!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .toString()
+        val glucForeign = result.getInt(1)
+        dateForeign = Pair(LocalDateTime.parse(fechaString), glucForeign)
 
-            val fecha = dateFormat.parse(result.getString(0))
-            val fechaString =
-                fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().toString()
 
+
+        result = sqlQueryer.rawQuery(
+            "SELECT fecha, glucosa FROM $MEDIDA " +
+                    "WHERE fecha <= CURRENT_DATE " +
+                    "ORDER BY fecha DESC " +
+                    "LIMIT 1;", null
+        )
+        result.moveToFirst()
+        println("RESULT Second QUERY  :      ${result.getString(0)}    ${result.getInt(1)}")
+
+        val fechaMedida = dateFormat.parse(result.getString(0))
+        val fechaString2 =
+            fechaMedida!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .toString()
+        val glucMedida = result.getInt(1)
+        dateMedida = Pair(LocalDateTime.parse(fechaString), glucMedida)
+
+        if (dateForeign?.first?.isAfter(dateMedida?.first)!!) {
+            dateResult = dateForeign!!
+        } else {
+            dateResult = dateMedida!!
         }
+        println(dateResult)
         result.close()
         closeAll()
-        return list
+        return dateResult
     }
 
     //-------------------------------------------Proximamente en analisis de glucosa
@@ -199,7 +234,8 @@ println("fecha $date")
         closeAll()
         return mutable
     }
-//------------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------------
     fun getBooleans(cursor: Int): Boolean {
         return cursor != 0 && cursor != null
     }

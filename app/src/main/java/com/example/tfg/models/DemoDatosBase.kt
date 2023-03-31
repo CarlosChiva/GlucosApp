@@ -15,7 +15,7 @@ class DemoDatosBase(context: Context) {
     }
 
     fun initInsertDAta() {
-        for (i in 0 .. 180) {
+        for (i in 1 .. 180) {
             val long = i.toLong()
 
             val datosMedida = createDatosMedida(fehca_actual.minusDays(long))

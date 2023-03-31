@@ -34,6 +34,7 @@ class DayFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val dataPairs = demoList()
+        dataPairs.forEach { println(it.first) }
         val chart: LineChart = binding.lineStadistics
         val pieChart=binding.pieChart
         val stadisticsGraphics=StadisticsGraphics(requireContext(),chart,pieChart,dataPairs)
