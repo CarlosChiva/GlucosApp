@@ -44,26 +44,27 @@ class AlertDialogLowInsulin(context: Context) {
         val value = view.findViewById<TextView>(R.id.lowInsulinValue)
         value.text = valueLoaded.toString()
         var seekbar = view.findViewById<SeekBar>(R.id.seekbarLowInsulin)
-        seekbar.max=80
-        seekbar.min=0
+        seekbar.max = 80
+        seekbar.min = 0
         val builder = AlertDialog.Builder(context)
 
             .setPositiveButton(android.R.string.ok) { dialog, which ->
 
             }
+
             .setTitle("Insulina Accion Lenta")
             .setView(view)
+
         builder.show()
 
 
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
                 value.text = progress.toString()
-                if (value.text.equals(valueLoaded.toString())) {
-                    label.text = "Unidades Insulina Lenta"
-                } else {
-                    label.text = "Nuevo valor Unidades"
-                }
+
+                label.text =
+                    if (value.text.equals(valueLoaded.toString())) "Unidades Insulina Lenta" else "Nuevo valor Unidades"
+
 
             }
 
@@ -76,9 +77,6 @@ class AlertDialogLowInsulin(context: Context) {
 //                value = 0
             }
         })
-
-
-//        value.text = configuracionModel.lowInsulin.toString()
 
         // items de la view    seekbar, despues saveValues() en configuration model
 
