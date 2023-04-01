@@ -227,8 +227,29 @@ class SQLController(context: Context) {
         return valueGlucAVG.toInt()
     }
 
+    fun getInsuln_CH(): List<Array<Int>> {
+        var listResult = mutableListOf<Array<Int>>()
+        val query =
+            "SELECT m.fecha, m.pick, m.glucosa FROM $MEDIDA m WHERE pick IS NOT NULL AND m.fecha BETWEEN datetime('now', '-7 days') AND datetime('now','-0 days') order by 1 desc;"
+        val result = sqlQueryer.rawQuery(query, null)
+        while (result.moveToNext()) {
+            var fechaComparar = result.getString(0)
+            var glucosaInicial=result.getInt(2)
+            val query2 =
+                "SELECT AVG(glucosa) FROM $FOREIGN_MEDIDA WHERE fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+3 hours')"
+            val result2 = sqlQueryer.rawQuery(query2, null)
+            if (result2.moveToFirst()) {
+                val glucosaResult = result2.getInt(0)
+                val pick = result.getInt(1)
+                listResult.add(arrayOf(pick,glucosaInicial,glucosaResult))
+            }
+        }
+        return listResult
+
+    }
+
     //------------------------------------------------------------------------------
-    fun getBooleans(cursor: Int): Boolean {
+    private fun getBooleans(cursor: Int): Boolean {
         return cursor != 0 && cursor != null
     }
 

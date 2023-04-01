@@ -26,6 +26,10 @@ class StadisticResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val datesGluc_CH=loadArrayGLuc_CH()
+        datesGluc_CH.forEach {
+            for (i in it.indices step 3)
+            println("insulina:  ${it.get(i)}  glucosaInicial: ${it.get(i+1)}   glucosa final:  ${it.get(i+2)}   ")}
         val glucMañana=binding.valGlucPromMa
         glucMañana.text=loadGlucMorning().toString()
         val insulLenRegis=binding.valInsulRegistrada
@@ -38,7 +42,6 @@ class StadisticResultFragment : Fragment() {
     }
     fun loadGlucMorning():Int{
         val sqlController= SQLController(this.context!!)
-
         return sqlController.readAvgMorning()
 
     }
@@ -46,6 +49,11 @@ class StadisticResultFragment : Fragment() {
         val sqlController= SQLController(this.context!!)
         val read = LocalDateTime.now().minusMonths(6)
         return sqlController.readDatesInRange(read, LocalDateTime.now())
+
+    }
+    fun loadArrayGLuc_CH():List<Array<Int>>{
+        val sqlController= SQLController(this.context!!)
+        return sqlController.getInsuln_CH()
 
     }
 }
