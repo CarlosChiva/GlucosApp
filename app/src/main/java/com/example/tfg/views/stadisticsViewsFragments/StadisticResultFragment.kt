@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.FragmentStadisticResultBinding
+import com.example.tfg.models.ConfiguracionModel
 import com.github.mikephil.charting.charts.LineChart
 import java.time.LocalDateTime
 
@@ -30,6 +31,8 @@ class StadisticResultFragment : Fragment() {
         val insulLenRecom=binding.valdosisLenRecomendada
         val ratioRap=binding.ratioInsulRapida
         val insulRapRecom=binding.insulRapidaRecomendada
+        var configurationModel=ConfiguracionModel(this.context!!)
+        insulLenRegis.text= configurationModel.lowInsulin.toString()
 
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
