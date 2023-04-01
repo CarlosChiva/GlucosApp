@@ -37,6 +37,8 @@ class DemoDatosBase(context: Context) {
         objects.add(Datos(fecha.withHour(12), 120, 30, false, true, 60, false))
         objects.add(Datos(fecha.withHour(18), 150, 40, true, true, 70, true))
         objects.add(Datos(fecha.withHour(0), 80, 10, false, false, 80, false))
+        objects.add(Datos(fecha.withHour(2), 80, 10, false, false, 80, false))
+
         return objects
     }
 
@@ -49,7 +51,8 @@ class DemoDatosBase(context: Context) {
             fechaInicial.withHour(6),
             fechaInicial.withHour(12),
             fechaInicial.withHour(18),
-            fechaInicial.withHour(0)
+            fechaInicial.withHour(0),
+            fechaInicial.withHour(2)
         )
 
         var fechaActual = fechaInicial

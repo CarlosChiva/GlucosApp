@@ -230,23 +230,37 @@ class SQLController(context: Context) {
     fun getInsuln_CH(): List<Array<Int>> {
         var listResult = mutableListOf<Array<Int>>()
         val query =
-            "SELECT m.fecha, m.pick, m.glucosa FROM $MEDIDA m WHERE pick IS NOT NULL AND m.fecha BETWEEN datetime('now', '-7 days') AND datetime('now','-0 days') order by 1 desc;"
+            "SELECT m.fecha, m.pick, m.glucosa FROM $MEDIDA m WHERE pick IS NOT NULL AND m.fecha BETWEEN datetime('now', '-7 days') AND datetime('now','-0 days') order by 1 asc;"
         val result = sqlQueryer.rawQuery(query, null)
         while (result.moveToNext()) {
             var fechaComparar = result.getString(0)
-            var glucosaInicial=result.getInt(2)
+            var glucosaInicial = result.getInt(2)
+
             val query2 =
-                "SELECT AVG(glucosa) FROM $FOREIGN_MEDIDA WHERE fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+3 hours')"
+                "SELECT fecha, AVG(glucosa)" +
+                        "FROM (" +
+                        "  SELECT f.fecha, f.glucosa" +
+                        "  FROM foreignMedida f" +
+                        "  WHERE f.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+124 minutes')" +
+                        "  UNION ALL" +
+                        "  SELECT m.fecha, m.glucosa" +
+                        "  FROM medida m" +
+                        "  WHERE m.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+124 minutes')" +
+                        ") " +
+                        "GROUP BY fecha" +
+                        " ORDER BY ABS(STRFTIME('%s', fecha) - STRFTIME('%s', datetime('$fechaComparar', '+2 hours')))" +
+                        "LIMIT 1"
             val result2 = sqlQueryer.rawQuery(query2, null)
             if (result2.moveToFirst()) {
-                val glucosaResult = result2.getInt(0)
+                val glucosaResult = result2.getInt(1)
                 val pick = result.getInt(1)
-                listResult.add(arrayOf(pick,glucosaInicial,glucosaResult))
+                listResult.add(arrayOf(pick, glucosaInicial, glucosaResult))
             }
         }
         return listResult
 
     }
+
 
     //------------------------------------------------------------------------------
     private fun getBooleans(cursor: Int): Boolean {
