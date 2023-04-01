@@ -230,11 +230,12 @@ class SQLController(context: Context) {
     fun getInsuln_CH(): List<Array<Int>> {
         var listResult = mutableListOf<Array<Int>>()
         val query =
-            "SELECT m.fecha, m.pick, m.glucosa FROM $MEDIDA m WHERE pick IS NOT NULL AND m.fecha BETWEEN datetime('now', '-7 days') AND datetime('now','-0 days') order by 1 asc;"
+            "SELECT m.fecha, m.pick, m.glucosa,m.CHfood FROM $MEDIDA m WHERE pick IS NOT NULL AND m.fecha BETWEEN datetime('now', '-7 days') AND datetime('now','-0 days') order by 1 asc;"
         val result = sqlQueryer.rawQuery(query, null)
         while (result.moveToNext()) {
             var fechaComparar = result.getString(0)
             var glucosaInicial = result.getInt(2)
+            var carbohidratos=result.getInt(3)
 
             val query2 =
                 "SELECT fecha, AVG(glucosa)" +
@@ -254,7 +255,7 @@ class SQLController(context: Context) {
             if (result2.moveToFirst()) {
                 val glucosaResult = result2.getInt(1)
                 val pick = result.getInt(1)
-                listResult.add(arrayOf(pick, glucosaInicial, glucosaResult))
+                listResult.add(arrayOf(pick,carbohidratos ,glucosaInicial, glucosaResult))
             }
         }
         return listResult
