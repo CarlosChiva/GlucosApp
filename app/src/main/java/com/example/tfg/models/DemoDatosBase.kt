@@ -28,7 +28,8 @@ class DemoDatosBase(context: Context) {
         }
 
     }
-//datos de medida Demo
+
+    //datos de medida Demo
     fun createDatosMedida(fechas: LocalDateTime): List<Datos> {
         val fecha = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val objects = mutableListOf<Datos>()
@@ -38,7 +39,8 @@ class DemoDatosBase(context: Context) {
         objects.add(Datos(fecha.withHour(0), 80, 10, false, false, 80, false))
         return objects
     }
-//datos para foreignMedida
+
+    //datos para foreignMedida
     fun crearDatosCada5Minutos(fechas: LocalDateTime): List<Pair<LocalDateTime, Int>> {
         val fechaInicial = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val fechaFinal = fechas.withHour(23).withMinute(59).withSecond(59).withNano(0)
@@ -56,10 +58,9 @@ class DemoDatosBase(context: Context) {
         val datos = mutableListOf<Pair<LocalDateTime, Int>>()
         var valorMaximo = 180
         var valorMinimo = 80
-
         while (fechaActual <= fechaFinal) {
             if (!horasAEvitar.contains(fechaActual)) {
-                datos.add(Pair(fechaActual, valorInt))
+                  datos.add(Pair(fechaActual, valorInt))
             }
 
             fechaActual = fechaActual.plusMinutes(5)

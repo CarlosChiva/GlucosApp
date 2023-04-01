@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
         //val demoDatosBse = DemoDatosBase(this)
-        AlertDialogLowInsulin(this)
+      //  AlertDialogLowInsulin(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {

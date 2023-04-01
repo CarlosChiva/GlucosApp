@@ -27,12 +27,19 @@ class StadisticResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val glucMañana=binding.valGlucPromMa
+        glucMañana.text=loadGlucMorning().toString()
         val insulLenRegis=binding.valInsulRegistrada
         val insulLenRecom=binding.valdosisLenRecomendada
         val ratioRap=binding.ratioInsulRapida
         val insulRapRecom=binding.insulRapidaRecomendada
         var configurationModel=ConfiguracionModel(this.context!!)
         insulLenRegis.text= configurationModel.lowInsulin.toString()
+
+    }
+    fun loadGlucMorning():Int{
+        val sqlController= SQLController(this.context!!)
+
+        return sqlController.readAvgMorning()
 
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
