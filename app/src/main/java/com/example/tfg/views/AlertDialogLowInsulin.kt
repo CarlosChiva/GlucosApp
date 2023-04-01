@@ -46,10 +46,12 @@ class AlertDialogLowInsulin(context: Context) {
         var seekbar = view.findViewById<SeekBar>(R.id.seekbarLowInsulin)
         seekbar.max = 80
         seekbar.min = 0
+        seekbar.progress = valueLoaded!!.toInt()
         val builder = AlertDialog.Builder(context)
 
             .setPositiveButton(android.R.string.ok) { dialog, which ->
-
+                configuracionModel!!.lowInsulinSet((value.text.toString()).toInt())
+         configuracionModel!!.saveVAlues()
             }
 
             .setTitle("Insulina Accion Lenta")
@@ -72,9 +74,7 @@ class AlertDialogLowInsulin(context: Context) {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
-//                textView.setText(value.toString())
-//                previewValue.visibility = View.INVISIBLE
-//                value = 0
+//
             }
         })
 
