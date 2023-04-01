@@ -36,10 +36,12 @@ class MeasureFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_measureFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_measureFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_measureFragment_self
-        val motionLayout: MotionLayout = view.findViewById(R.id.motion)
+        val motionLayout: MotionLayout =  view.findViewById(R.id.motion)
+        //cedemos control del motion layout a la clase encargada
         ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        //boton para insertar datos cargados desde la ultima medicion y creacion de la medicion actual
         button.setOnClickListener {
-            val listValues: List<Pair<LocalDateTime, Int>> = loadValues()
+            val listValues: List<Pair<LocalDateTime, Int>> = loadValuesDemo()
             //   val currentDateTime= LocalDateTime.now().withYear(2022)
             val controller = SQLController(this.context!!)
             controller.insertIntofOREIGNMedida(listValues)
@@ -48,12 +50,12 @@ class MeasureFragment : Fragment() {
 
 
     }
-
+//Llamada a alertDialog para configuracion de la medida actual
     fun alertDialog(value: Int, currentDateTime: LocalDateTime) {
         val alert = AlertDialogMeasure(this.context!!, value, currentDateTime)
     }
-
-    private fun loadValues(): List<Pair<LocalDateTime, Int>> {
+//Carga de datos Demo
+    private fun loadValuesDemo(): List<Pair<LocalDateTime, Int>> {
         val sQLController = SQLController(this.context!!)
         val ultimFecha = sQLController.readLastDatesToMeasure()
         val now = LocalDateTime.now()
@@ -62,9 +64,7 @@ class MeasureFragment : Fragment() {
         var valueLoaded = ultimFecha.second
         var value: Int = 0
         var direccionValues = true
-        println("Date loaded in Measure---------------------------------------")
         while (dateLoaded < now) {
-            // Generate a random value between 0 and 100
             if (direccionValues) {
                 if (valueLoaded <= 180) {
                     value = valueLoaded

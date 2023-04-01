@@ -15,7 +15,8 @@ class DemoDatosBase(context: Context) {
     }
 
     fun initInsertDAta() {
-        for (i in 1 .. 180) {
+        //generacion de datos desde el dia mas lejano hasta un dia antes para demo e insercion en la bd
+        for (i in 180 downTo 1) {
             val long = i.toLong()
 
             val datosMedida = createDatosMedida(fehca_actual.minusDays(long))
@@ -27,7 +28,7 @@ class DemoDatosBase(context: Context) {
         }
 
     }
-
+//datos de medida Demo
     fun createDatosMedida(fechas: LocalDateTime): List<Datos> {
         val fecha = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val objects = mutableListOf<Datos>()
@@ -37,7 +38,7 @@ class DemoDatosBase(context: Context) {
         objects.add(Datos(fecha.withHour(0), 80, 10, false, false, 80, false))
         return objects
     }
-
+//datos para foreignMedida
     fun crearDatosCada5Minutos(fechas: LocalDateTime): List<Pair<LocalDateTime, Int>> {
         val fechaInicial = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val fechaFinal = fechas.withHour(23).withMinute(59).withSecond(59).withNano(0)
