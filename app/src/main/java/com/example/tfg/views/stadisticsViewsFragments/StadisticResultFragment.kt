@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.FragmentStadisticResultBinding
 import com.example.tfg.models.ConfiguracionModel
@@ -16,7 +17,7 @@ class StadisticResultFragment : Fragment() {
 
     private var _binding: FragmentStadisticResultBinding? = null
     private val binding get() = _binding!!
-
+    val glucMañana: TextView? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,14 +29,13 @@ class StadisticResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val datesGluc_CH = loadArrayGLuc_CH()
-
         val glucMañana = binding.valGlucPromMa
         glucMañana.text = loadGlucMorning().toString()
         val insulLenRegis = binding.valInsulRegistrada
         val insulLenRecom = binding.valdosisLenRecomendada
-
+     //   insulLenRecom.text = "${lenRemcom()}"
         val ratioRap = binding.ratioInsulRapida
-        ratioRap.text = analizeInsulCH(datesGluc_CH)
+        ratioRap.text = "${analizeInsulCH(datesGluc_CH)} por Racioin"
         var configurationModel = ConfiguracionModel(this.context!!)
         insulLenRegis.text = configurationModel.lowInsulin.toString()
 
@@ -82,4 +82,15 @@ class StadisticResultFragment : Fragment() {
         // Calculate the insulin ratio
         return (insulinToCarbRatio * insulinSensitivityFactor).toString()
     }
+
+//    private fun lenRemcom(): String {
+//        val factorSensibilidad = 50 // Ejemplo, ajustar al factor individual
+//        val unidadesInsulina = mediaGlucosaBasal / factorSensibilidad
+//        return unidadesInsulina.toDouble()
+//    }
+//    fun calcularFactorSensibilidad(dosisDiariaTotal: Int): Int {
+//        val factorSensibilidad = 1700 / dosisDiariaTotal
+//        return factorSensibilidad
+//    }
+
 }
