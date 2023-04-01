@@ -44,6 +44,8 @@ class AlertDialogLowInsulin(context: Context) {
         val value = view.findViewById<TextView>(R.id.lowInsulinValue)
         value.text = valueLoaded.toString()
         var seekbar = view.findViewById<SeekBar>(R.id.seekbarLowInsulin)
+        seekbar.max=80
+        seekbar.min=0
         val builder = AlertDialog.Builder(context)
 
             .setPositiveButton(android.R.string.ok) { dialog, which ->
