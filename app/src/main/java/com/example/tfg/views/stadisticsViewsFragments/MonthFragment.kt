@@ -33,6 +33,7 @@ class MonthFragment : Fragment() {
         val pieChart=binding.pieChart
         val stadisticsGraphics=StadisticsGraphics(requireContext(),chart,pieChart,dataPairs)
 
+
     }
     fun demoList():List<Pair<LocalDateTime, Int>>{
         val sqlController= SQLController(this.context!!)
