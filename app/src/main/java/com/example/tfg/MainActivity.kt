@@ -10,6 +10,7 @@ import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.ActivityMainBinding
 import com.example.tfg.models.Datos
 import com.example.tfg.models.DemoDatosBase
+import com.example.tfg.views.AlertDialogLowInsulin
 import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
@@ -27,7 +28,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-        //val demoDatosBse = DemoDatosBase(this)
+        // val demoDatosBse = DemoDatosBase(this)
+      //  AlertDialogLowInsulin(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {

@@ -111,8 +111,6 @@ class SQLController(context: Context) {
         val glucForeign = result.getInt(1)
         dateForeign = Pair(LocalDateTime.parse(fechaString), glucForeign)
 
-
-
         result = sqlQueryer.rawQuery(
             "SELECT fecha, glucosa FROM $MEDIDA " +
                     "WHERE fecha <= CURRENT_DATE " +
@@ -199,44 +197,74 @@ class SQLController(context: Context) {
 
     //---------------------------------------------------------------------
     fun readAvgMorning(
-        startDate: LocalDateTime,
-        endDate: LocalDateTime
-    ): List<Pair<LocalDateTime, Int>> {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val start = startDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
-        val end = endDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
+    ): Int {
         val query =
-            " SELECT strftime('%H:%M:%S', fecha) AS hora, AVG(media_glucosa) AS media_glucosa" +
-                    " FROM (" +
-                    "   SELECT datetime(m.fecha) AS fecha, AVG(m.glucosa) AS media_glucosa" +
-                    "   FROM medida m" +
-                    "   WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)" +
-                    " GROUP BY strftime('%Y-%m-%d %H:%M',m.fecha)" +
-                    "   UNION ALL" +
-                    "   SELECT datetime(f.fecha) AS fecha, AVG(f.glucosa) AS media_glucosa" +
-                    "   FROM foreignMedida f" +
-                    "   WHERE DATE(f.fecha) BETWEEN DATE(?) AND DATE(?)" +
-                    " GROUP BY strftime('%Y-%m-%d %H:%M',f.fecha)" +
-                    " ) AS subquery GROUP BY 1 ORDER BY 1 ASC"
-        val result = sqlQueryer.rawQuery(query, arrayOf(start, end, start, end))
-        var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
-        val formatOutput = DateTimeFormatter.ofPattern("HH:mm:ss")
-        while (result.moveToNext()) {
-            val hora = result.getString(0)
-            if (!hora.isNullOrBlank()) {
-                val fechaHora: LocalDateTime =
-                    LocalTime.parse(hora, formatOutput).atDate(LocalDate.MIN)
-                val glucosa = result.getInt(1)
-                mutable.add(fechaHora to glucosa)
-            }
+            "SELECT AVG(media_glucosa) AS media_glucosa " +
+                    "FROM (" +
+                    "  SELECT AVG(glucosa) AS media_glucosa" +
+                    "  FROM (" +
+                    "    SELECT glucosa, datetime(fecha) AS fecha_hora" +
+                    "    FROM medida" +
+                    "    WHERE fecha BETWEEN DATETIME('now', '-6 days') AND DATETIME('now')" +
+                    "      AND strftime('%H:%M:%S', fecha) >= '06:00:00' " +
+                    "      AND strftime('%H:%M:%S', fecha) <= '09:00:00'" +
+                    "    UNION ALL" +
+                    "    SELECT glucosa, datetime(fecha) AS fecha_hora" +
+                    "    FROM foreignMedida" +
+                    "    WHERE fecha BETWEEN DATETIME('now', '-6 days') AND DATETIME('now')" +
+                    "      AND strftime('%H:%M:%S', fecha) >= '06:00:00' " +
+                    "      AND strftime('%H:%M:%S', fecha) <= '09:00:00'" +
+                    "  ) AS subquery" +
+                    "  GROUP BY strftime('%Y-%m-%d %H:%M', fecha_hora)" +
+                    ") AS subquery2"
+        val result = sqlQueryer.rawQuery(query, null)
+        var valueGlucAVG: Double = 0.0
+        if (result.moveToFirst()) {
+            valueGlucAVG = result.getDouble(0)
         }
         result.close()
         closeAll()
-        return mutable
+        return valueGlucAVG.toInt()
     }
 
+    fun getInsuln_CH(): List<Array<Int>> {
+        var listResult = mutableListOf<Array<Int>>()
+        val query =
+            "SELECT m.fecha, m.pick, m.glucosa,m.CHfood FROM $MEDIDA m WHERE pick IS NOT NULL AND m.fecha BETWEEN datetime('now', '-7 days') AND datetime('now','-0 days') order by 1 asc;"
+        val result = sqlQueryer.rawQuery(query, null)
+        while (result.moveToNext()) {
+            var fechaComparar = result.getString(0)
+            var glucosaInicial = result.getInt(2)
+            var carbohidratos=result.getInt(3)
+
+            val query2 =
+                "SELECT fecha, AVG(glucosa)" +
+                        "FROM (" +
+                        "  SELECT f.fecha, f.glucosa" +
+                        "  FROM foreignMedida f" +
+                        "  WHERE f.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+124 minutes')" +
+                        "  UNION ALL" +
+                        "  SELECT m.fecha, m.glucosa" +
+                        "  FROM medida m" +
+                        "  WHERE m.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+124 minutes')" +
+                        ") " +
+                        "GROUP BY fecha" +
+                        " ORDER BY ABS(STRFTIME('%s', fecha) - STRFTIME('%s', datetime('$fechaComparar', '+2 hours')))" +
+                        "LIMIT 1"
+            val result2 = sqlQueryer.rawQuery(query2, null)
+            if (result2.moveToFirst()) {
+                val glucosaResult = result2.getInt(1)
+                val pick = result.getInt(1)
+                listResult.add(arrayOf(pick,carbohidratos ,glucosaInicial, glucosaResult))
+            }
+        }
+        return listResult
+
+    }
+
+
     //------------------------------------------------------------------------------
-    fun getBooleans(cursor: Int): Boolean {
+    private fun getBooleans(cursor: Int): Boolean {
         return cursor != 0 && cursor != null
     }
 
