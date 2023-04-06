@@ -236,17 +236,17 @@ class SQLController(context: Context) {
             var fechaComparar = result.getString(0)
             var glucosaInicial = result.getInt(2)
             var carbohidratos = result.getInt(3)
-
+            val pick = result.getInt(1)
             val query2 =
                 "SELECT fecha, AVG(glucosa)" +
                         "FROM (" +
                         "  SELECT f.fecha, f.glucosa" +
                         "  FROM foreignMedida f" +
-                        "  WHERE f.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+124 minutes')" +
+                        "  WHERE f.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+125 minutes')" +
                         "  UNION ALL" +
                         "  SELECT m.fecha, m.glucosa" +
                         "  FROM medida m" +
-                        "  WHERE m.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+124 minutes')" +
+                        "  WHERE m.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+120 minutes')" +
                         ") " +
                         "GROUP BY fecha" +
                         " ORDER BY ABS(STRFTIME('%s', fecha) - STRFTIME('%s', datetime('$fechaComparar', '+2 hours')))" +
@@ -254,7 +254,7 @@ class SQLController(context: Context) {
             val result2 = sqlQueryer.rawQuery(query2, null)
             if (result2.moveToFirst()) {
                 val glucosaResult = result2.getInt(1)
-                val pick = result.getInt(1)
+
                 listResult.add(arrayOf(pick, carbohidratos, glucosaInicial, glucosaResult))
             }
         }
@@ -265,11 +265,11 @@ class SQLController(context: Context) {
     fun totalFastInsulin(): Int {
         var totalFastInsulin: Int
         val query =
-            "SELECT sum(m.pick) FROM $MEDIDA m WHERE m.fecha BETWEEN datetime('now', '-30 days') AND CURRENT_DATE ;"
+            "SELECT sum(m.pick) FROM $MEDIDA m WHERE m.fecha BETWEEN datetime('now', '-7 days') AND CURRENT_DATE ;"
         val result = sqlQueryer.rawQuery(query, null)
         result.moveToFirst()
         totalFastInsulin = result.getInt(0)
-        return totalFastInsulin /30
+        return totalFastInsulin /7
     }
 
     //------------------------------------------------------------------------------

@@ -9,16 +9,15 @@ class Analizer(val context: Context) {
     val insulLenRecord: Int
     private val configurationModel: ConfiguracionModel
     var sensibilityFactor: Int
-    val insulLenRecom:Int
+    val insulLenRecom: Int
 
     init {
         configurationModel = ConfiguracionModel(this.context)
         avgGlucMorning = loadGlucMorning()
+        sensibilityFactor = calcSensibilityFactor(totalFastQuery())
         ratioInsul = analizeInsulCH(loadArrayGLuc_CH())
         insulLenRecord = configurationModel.lowInsulin
-        sensibilityFactor = calcSensibilityFactor(totalFastQuery())
         insulLenRecom = insulLenRecom()
-        updateDates()
     }
 
     private fun analizeInsulCH(data: List<Array<Int>>): Int {
@@ -41,11 +40,6 @@ class Analizer(val context: Context) {
         return (insulinToCarbRatio * sensibilityFactor).toInt()
     }
 
-    //    private fun lenRemcom(): String {
-//        val factorSensibilidad = 50 // Ejemplo, ajustar al factor individual
-//        val unidadesInsulina = mediaGlucosaBasal / factorSensibilidad
-//        return unidadesInsulina.toDouble()
-//    }
     fun calcSensibilityFactor(dosisFastDiariaTotal: Int): Int {
         val factorSensibilidad = 1700 / (dosisFastDiariaTotal + insulLenRecord)
         return factorSensibilidad
@@ -61,15 +55,27 @@ class Analizer(val context: Context) {
         val sqlController = SQLController(this.context)
         return sqlController.readAvgMorning()
     }
-    fun totalFastQuery():Int{
-        val sQLController= SQLController(this.context)
+
+    fun totalFastQuery(): Int {
+        val sQLController = SQLController(this.context)
         return sQLController.totalFastInsulin()
     }
-    private fun updateDates(){
+
+    fun insulLenRecom(): Int {
+
+        return insulLenRecord + ((avgGlucMorning - 100) / 40)
+    }
+
+    //-----------------------------------falta añadir
+    private fun updateDates() {
 
     }
-    fun insulLenRecom():Int{
-        val recom = insulLenRecord+ ((avgGlucMorning-100) / 40)
-        return recom
+
+    fun insulFastRecom(racion: Int): Int {
+        return racion * ratioInsul
+    }
+
+    fun correctGlucosa(currentGlucValue: Int): Int {
+        return (currentGlucValue - 100) / sensibilityFactor
     }
 }
