@@ -33,11 +33,11 @@ class DemoDatosBase(context: Context) {
     fun createDatosMedida(fechas: LocalDateTime): List<Datos> {
         val fecha = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val objects = mutableListOf<Datos>()
-        objects.add(Datos(fecha.withHour(6), 100, 20, true, false, 50, true))
-        objects.add(Datos(fecha.withHour(12), 120, 30, false, true, 60, false))
-        objects.add(Datos(fecha.withHour(18), 150, 40, true, true, 70, true))
-        objects.add(Datos(fecha.withHour(0), 80, 10, false, false, 80, false))
-        objects.add(Datos(fecha.withHour(2), 80, 10, false, false, 80, false))
+        objects.add(Datos(fecha.withHour(6), 100, 10, true, false, 50, true))
+        objects.add(Datos(fecha.withHour(12), 120, 20, false, true, 60, false))
+        objects.add(Datos(fecha.withHour(18), 150, 5, true, true, 70, true))
+        objects.add(Datos(fecha.withHour(0), 80, 3, false, false, 80, false))
+        objects.add(Datos(fecha.withHour(2), 80, 30, false, false, 80, false))
 
         return objects
     }

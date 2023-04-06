@@ -235,7 +235,7 @@ class SQLController(context: Context) {
         while (result.moveToNext()) {
             var fechaComparar = result.getString(0)
             var glucosaInicial = result.getInt(2)
-            var carbohidratos=result.getInt(3)
+            var carbohidratos = result.getInt(3)
 
             val query2 =
                 "SELECT fecha, AVG(glucosa)" +
@@ -255,13 +255,22 @@ class SQLController(context: Context) {
             if (result2.moveToFirst()) {
                 val glucosaResult = result2.getInt(1)
                 val pick = result.getInt(1)
-                listResult.add(arrayOf(pick,carbohidratos ,glucosaInicial, glucosaResult))
+                listResult.add(arrayOf(pick, carbohidratos, glucosaInicial, glucosaResult))
             }
         }
         return listResult
 
     }
 
+    fun totalFastInsulin(): Int {
+        var totalFastInsulin: Int
+        val query =
+            "SELECT sum(m.pick) FROM $MEDIDA m WHERE m.fecha BETWEEN datetime('now', '-30 days') AND CURRENT_DATE ;"
+        val result = sqlQueryer.rawQuery(query, null)
+        result.moveToFirst()
+        totalFastInsulin = result.getInt(0)
+        return totalFastInsulin /30
+    }
 
     //------------------------------------------------------------------------------
     private fun getBooleans(cursor: Int): Boolean {

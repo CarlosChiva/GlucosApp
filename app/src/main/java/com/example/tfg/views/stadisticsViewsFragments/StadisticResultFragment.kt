@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.example.tfg.controllers.Analizer
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.FragmentStadisticResultBinding
 import com.example.tfg.models.ConfiguracionModel
@@ -28,24 +29,21 @@ class StadisticResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val datesGluc_CH = loadArrayGLuc_CH()
+        val analizer = Analizer(this.context!!)
         val glucMañana = binding.valGlucPromMa
-        glucMañana.text = loadGlucMorning().toString()
+        glucMañana.text = analizer.avgGlucMorning.toString()
         val insulLenRegis = binding.valInsulRegistrada
+        insulLenRegis.text=analizer.insulLenRecord.toString()
         val insulLenRecom = binding.valdosisLenRecomendada
-     //   insulLenRecom.text = "${lenRemcom()}"
+        insulLenRecom.text = analizer.insulLenRecom.toString()
         val ratioRap = binding.ratioInsulRapida
-        ratioRap.text = "${analizeInsulCH(datesGluc_CH)} por Racioin"
+        ratioRap.text = "${analizer.ratioInsul} x por Racioin"
         var configurationModel = ConfiguracionModel(this.context!!)
         insulLenRegis.text = configurationModel.lowInsulin.toString()
 
     }
 
-    fun loadGlucMorning(): Int {
-        val sqlController = SQLController(this.context!!)
-        return sqlController.readAvgMorning()
 
-    }
 
     fun demoList(): List<Pair<LocalDateTime, Int>> {
         val sqlController = SQLController(this.context!!)
@@ -54,43 +52,7 @@ class StadisticResultFragment : Fragment() {
 
     }
 
-    fun loadArrayGLuc_CH(): List<Array<Int>> {
-        val sqlController = SQLController(this.context!!)
-        return sqlController.getInsuln_CH()
 
-    }
 
-    private fun analizeInsulCH(data: List<Array<Int>>): String {
-        // Separate the data into three lists
-        val insulinList = data.map { it[0] }
-        val carbList = data.map { it[1] }
-        val glucose2hList = data.map { it[3] }
-
-        // Calculate the average glucose difference (before and after meal)
-        val avgGlucoseDiff = glucose2hList.zip(data.map { it[2] })
-            .map { it.first - it.second }
-            .average()
-
-        // Calculate the average insulin to carb ratio
-        val insulinToCarbRatio = insulinList.zip(carbList)
-            .map { it.first.toDouble() / it.second }
-            .average()
-
-        // Calculate the insulin sensitivity factor
-        val insulinSensitivityFactor = 1700 / avgGlucoseDiff
-
-        // Calculate the insulin ratio
-        return (insulinToCarbRatio * insulinSensitivityFactor).toString()
-    }
-
-//    private fun lenRemcom(): String {
-//        val factorSensibilidad = 50 // Ejemplo, ajustar al factor individual
-//        val unidadesInsulina = mediaGlucosaBasal / factorSensibilidad
-//        return unidadesInsulina.toDouble()
-//    }
-//    fun calcularFactorSensibilidad(dosisDiariaTotal: Int): Int {
-//        val factorSensibilidad = 1700 / dosisDiariaTotal
-//        return factorSensibilidad
-//    }
 
 }
