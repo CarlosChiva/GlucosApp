@@ -7,17 +7,17 @@ class Analizer(val context: Context) {
     val avgGlucMorning: Int
     val ratioInsul: Int
     val insulLenRecord: Int
-    private val configurationModel: ConfiguracionModel
     var sensibilityFactor: Int
+    private val configurationModel= ConfiguracionModel(this.context)
     val insulLenRecom: Int
 
     init {
-        configurationModel = ConfiguracionModel(this.context)
         avgGlucMorning = loadGlucMorning()
         sensibilityFactor = calcSensibilityFactor(totalFastQuery())
         ratioInsul = analizeInsulCH(loadArrayGLuc_CH())
         insulLenRecord = configurationModel.lowInsulin
         insulLenRecom = insulLenRecom()
+        updateDates()
     }
 
     private fun analizeInsulCH(data: List<Array<Int>>): Int {
@@ -66,11 +66,15 @@ class Analizer(val context: Context) {
         return insulLenRecord + ((avgGlucMorning - 100) / 40)
     }
 
-    //-----------------------------------falta añadir
+
     private fun updateDates() {
+        configurationModel.lowInsulinSet(insulLenRecord)
+        configurationModel.ratioInsulinSet(ratioInsul)
+        configurationModel.sensibilityFactorSet(sensibilityFactor)
+        configurationModel.saveVAlues()
 
     }
-
+    //-----------------------------------falta añadir
     fun insulFastRecom(racion: Int): Int {
         return racion * ratioInsul
     }
