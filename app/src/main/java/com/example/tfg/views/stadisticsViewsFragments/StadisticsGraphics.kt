@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
 
 class StadisticsGraphics(
-    context: Context,
+    context: Context?,
     viewLineal: LineChart,
     viewPie: PieChart,
     list: List<Pair<LocalDateTime, Int>>
@@ -27,7 +27,7 @@ class StadisticsGraphics(
     val lista: List<Pair<LocalDateTime, Int>>
 
     init {
-        val values=ConfiguracionModel(context)
+        val values=ConfiguracionModel(context!!)
         this.minimValue=values.glucosaMinima
         this.maxValue=values.glucosaMaxima
         this.chart = viewLineal
