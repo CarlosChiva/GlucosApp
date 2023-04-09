@@ -8,7 +8,7 @@ import com.example.tfg.R
 class ControllerMotionLayout(
     id: MotionLayout?,
     val nav: NavController,
-    val maping: HashMap<String, Int>,
+     maping: HashMap<String, Int>,
 
     ) :
     MotionLayout.TransitionListener {
