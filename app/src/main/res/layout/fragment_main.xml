@@ -105,5 +105,29 @@
         android:background="@null"
         android:src="@drawable/ic_baseline_water_drop_24"
         android:visibility="invisible"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/firebaseConection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:layout_marginStart="170dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_wifi_24"
+        android:visibility="invisible"
+        android:contentDescription="buttonFromConectionToFirebase" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/lowInsulin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:layout_marginEnd="170dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_pick"
+        android:visibility="invisible"
+        android:contentDescription="buttonToDirectFromLowInsulinConfiguration" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

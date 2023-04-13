@@ -13,16 +13,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginHorizontal="10dp"
-        android:backgroundTint="@color/lightGray"
-        android:visibility="invisible"
-        app:fabCradleRoundedCornerRadius="@dimen/fab_margin">
+        android:visibility="invisible">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/lightGray"
             android:visibility="invisible"
             app:title="@null" />
 

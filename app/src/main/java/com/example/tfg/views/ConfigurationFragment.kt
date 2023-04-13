@@ -1,6 +1,8 @@
 package com.example.tfg.views
 
 import android.app.AlertDialog
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -44,6 +46,10 @@ class ConfigurationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var mainButton = binding.motion.mainButton
+        var bundleextraction = arguments
+        var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
         //-------------------------Inicialize the ConfigurationModel to load the values recorded before
         configuration = ConfiguracionModel(this.context!!)
         //-------------------------------------------------Inicialize the components of view
@@ -57,14 +63,14 @@ class ConfigurationFragment : Fragment() {
         val cardAlarm = binding.cardAlarm
         val cardRoot = binding.cardRoot
         val saveButton = binding.saveButton
-//inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
+
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap["configuration"] = R.id.action_ConfigurationFragment_self
         hasMap["stadistics"] = R.id.action_ConfigurationFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_ConfigurationFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_ConfigurationFragment_to_measureFragment
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
         glucMin.text = configuration!!.glucosaMinima.toString()
         glucMax.text = configuration!!.glucosaMaxima.toString()
@@ -142,12 +148,6 @@ class ConfigurationFragment : Fragment() {
         return number
     }
 
-    //Method to controller when user press back button, begins the activity
-    @Deprecated("Deprecated in Java")
-    fun onBackPressed() {
-        findNavController().navigate(R.id.action_ConfigurationFragment_to_MainFragment)
-    }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -193,7 +193,7 @@ class ConfigurationFragment : Fragment() {
         configuration!!.glucosaMinimaSet((glucMin.text as String).toInt())
         configuration!!.alarmaSet((alarm.text as String).toInt())
         configuration!!.saveVAlues()
-        onBackPressed()
+
     }
 }
 

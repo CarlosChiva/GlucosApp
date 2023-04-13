@@ -67,6 +67,16 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:visibility="invisible"/>
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="35dp"
+            android:visibility="visible"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="35dp"
+            android:id="@+id/backButton"
+            android:layout_marginLeft="35dp" />
     </ConstraintSet>
     <Transition
         motion:autoTransition="animateToEnd"
@@ -126,6 +136,16 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="35dp"
+            android:visibility="visible"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="35dp"
+            android:id="@+id/backButton"
+            android:layout_marginLeft="35dp" />
     </ConstraintSet>
 
 

@@ -1,5 +1,7 @@
 package com.example.tfg.views
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -35,6 +37,10 @@ class StadisticsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var mainButton = binding.motion.mainButton
+        var bundleextraction = arguments
+        var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
         //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap["configuration"] = R.id.action_stadisticsFragment_to_ConfigurationFragment
@@ -43,7 +49,7 @@ class StadisticsFragment : Fragment() {
         hasMap["measure"] = R.id.action_stadisticsFragment_to_measureFragment
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
 
 
 
