@@ -69,6 +69,7 @@ class ConfigurationFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_ConfigurationFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_ConfigurationFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_ConfigurationFragment_to_measureFragment
+        hasMap["main"]=R.id.action_ConfigurationFragment_to_Main
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel

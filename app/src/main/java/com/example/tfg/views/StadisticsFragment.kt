@@ -33,7 +33,8 @@ class StadisticsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentStadisticsBinding.inflate(inflater, container, false)
-        return binding.root   }
+        return binding.root
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -47,16 +48,21 @@ class StadisticsFragment : Fragment() {
         hasMap["historical"] = R.id.action_stadisticsFragment_to_historicalFragment
         hasMap["stadistics"] = R.id.action_stadisticsFragment_self
         hasMap["measure"] = R.id.action_stadisticsFragment_to_measureFragment
+        hasMap["main"]=R.id.action_stadisticFragment_to_Main
+
+
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
-
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
 
 
         val viewPager = binding.viewPager
-        val adapter= ViewPagerAdapter(childFragmentManager)
-        viewPager.adapter=adapter
-
+        val adapter = ViewPagerAdapter(childFragmentManager)
+        viewPager.adapter = adapter
+        var back = binding.motion.backButton
+        back.setOnClickListener{
+            println("deddddddd")
+        }
 
 //        recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
 //        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())

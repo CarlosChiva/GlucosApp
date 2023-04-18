@@ -369,4 +369,14 @@
 
     </Transition>
 
+
+    <Transition
+        motion:constraintSetStart="@+id/end"
+        motion:constraintSetEnd="@+id/start" >
+        <OnClick motion:targetId="@id/backButton"
+            motion:clickAction="transitionToEnd"
+            motion:duration="1000"/>
+    </Transition>
+
+
 </MotionScene>

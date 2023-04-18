@@ -7,9 +7,11 @@ import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.models.EnumActivitys
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ControllerMotionLayout(
     id: MotionLayout?,
@@ -21,30 +23,14 @@ class ControllerMotionLayout(
     MotionLayout.TransitionListener {
     var motionLayout: MotionLayout
     var map: HashMap<String, Int>? = null
-    lateinit var bundle: Bundle
+    var bundle: Bundle
 
-    //
-//    //--------------------------------------------------------------------------------------------
-//    //--------------------------------------------------------------------------------------------
-//    //--------------------------------------------------------------------------------------------
-//    var mainButton= binding.motion.mainButton
-//    var bundleextraction = arguments
-//    var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
-//
-//    // Convertir el objeto Bitmap en un objeto Drawable
-//    var drawableextraction = BitmapDrawable(resources, bitmapextraction)
-//    mainButton.setImageDrawable(drawableextraction)
-//    //------------------------------------------------------
-//    val drawable = resources.getDrawable(R.drawable.ic_baseline_water_drop_24, null)
-//    val bitmap = (drawable as BitmapDrawable).bitmap
-//    //--------------------------------------------------------------------------------------------
-//    //--------------------------------------------------------------------------------------------
-//    //--------------------------------------------------------------------------------------------
     init {
         motionLayout = id!!
         motionLayout.setTransitionListener(this)
         this.map = maping
         bundle = Bundle()
+
     }
 
     override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {
@@ -71,9 +57,18 @@ class ControllerMotionLayout(
                 map?.getValue("measure")?.let { nav.navigate(it,bundleOf(EnumActivitys.MEDIDA)) }
             }
             R.id.hostoricEnd -> {
-                map?.getValue("historical")?.let { nav.navigate(it,bundleOf(EnumActivitys.HISTORICAL)) }
+                map?.getValue("historical")?.let { nav.navigate(it,bundleOf(EnumActivitys.HISTORICAL))
+                    println("esfsaf")
+                }
 
             }
+            R.id.start ->{
+                map?.getValue("main")?.let { nav.navigate(it)
+
+                }
+
+            }
+
         }
     }
 

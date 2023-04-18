@@ -44,6 +44,8 @@ class HistoricalFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
         hasMap["measure"] = R.id.action_historicalFragment_to_measureFragment
         hasMap["historical"] = R.id.action_historicalFragment_self
+        hasMap["main"]=R.id.action_historicalFragment_to_Main
+
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
         //Inicialization of reciclerView of the main View of this screen

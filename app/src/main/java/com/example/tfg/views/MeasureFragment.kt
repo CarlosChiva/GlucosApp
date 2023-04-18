@@ -43,6 +43,9 @@ class MeasureFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_measureFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_measureFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_measureFragment_self
+        hasMap["main"]=R.id.action_measureFragment_to_Main
+
+
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         //cedemos control del motion layout a la clase encargada
         ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
