@@ -81,7 +81,9 @@ class ConfigurationFragment : Fragment() {
         cardRoot.setOnClickListener {
             rating.visibility = View.INVISIBLE
             previewValue.text = ""
-
+            if (motionLayout.currentState!= R.id.start) {
+                motionLayout.setTransition(R.id.end, R.id.start)
+            }
         }
         cardMAx.setOnClickListener {
             changeRatingOfSeekBar(EnumActivitys.GLUCOSAMAXIMACARD)

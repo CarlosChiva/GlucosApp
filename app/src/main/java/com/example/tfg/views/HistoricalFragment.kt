@@ -44,7 +44,7 @@ class HistoricalFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
         hasMap["measure"] = R.id.action_historicalFragment_to_measureFragment
         hasMap["historical"] = R.id.action_historicalFragment_self
-        hasMap["main"]=R.id.action_historicalFragment_to_Main
+        hasMap["main"] = R.id.action_historicalFragment_to_Main
 
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
@@ -52,6 +52,13 @@ class HistoricalFragment : Fragment() {
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = HistoricalAdapter(this.context!!, demoList())
+        val root = binding.motionLayoutHistorical
+        root.setOnClickListener {
+            if (motionLayout.currentState != R.id.start) {
+                motionLayout.setTransition(R.id.end, R.id.start)
+            }
+        }
+
     }
 
     //Function demo for addd information for testing class adapter
