@@ -1,6 +1,8 @@
 package com.example.tfg.views
 
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,23 +34,33 @@ class HistoricalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
 //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap["configuration"] = R.id.action_historicalFragment_to_ConfigurationFragment
         hasMap["stadistics"] = R.id.action_historicalFragment_to_stadisticsFragment
         hasMap["measure"] = R.id.action_historicalFragment_to_measureFragment
         hasMap["historical"] = R.id.action_historicalFragment_self
+        hasMap["main"] = R.id.action_historicalFragment_to_Main
+
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
         //Inicialization of reciclerView of the main View of this screen
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = HistoricalAdapter(this.context!!, demoList())
+        val backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_historicalFragment_to_Main)
+        }
     }
 
     //Function demo for addd information for testing class adapter
     fun demoList(): MutableList<Datos> {
-             val sqlController=SQLController(this.context!!)
+        val sqlController = SQLController(this.context!!)
         return sqlController.loadDatesMedida()
     }
 

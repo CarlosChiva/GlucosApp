@@ -10,7 +10,6 @@ import com.example.tfg.controllers.Analizer
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.FragmentStadisticResultBinding
 import com.example.tfg.models.ConfiguracionModel
-import com.github.mikephil.charting.charts.LineChart
 import java.time.LocalDateTime
 
 

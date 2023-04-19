@@ -1,14 +1,11 @@
 package com.example.tfg.views.stadisticsViewsFragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.tfg.controllers.SQLController
-import com.example.tfg.databinding.FragmentMonthBinding
 import com.example.tfg.databinding.FragmentThreeMonthBinding
-import com.github.mikephil.charting.charts.LineChart
 import java.time.LocalDateTime
 
 class ThreeMonthFragment : MasterStadistics<FragmentThreeMonthBinding>() {

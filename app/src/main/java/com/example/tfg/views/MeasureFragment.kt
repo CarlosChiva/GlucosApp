@@ -1,5 +1,7 @@
 package com.example.tfg.views
 
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -29,6 +31,10 @@ class MeasureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
 //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val button = binding.bottomMeasure
         val hasMap: HashMap<String, Int> = hashMapOf()
@@ -36,25 +42,34 @@ class MeasureFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_measureFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_measureFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_measureFragment_self
-        val motionLayout: MotionLayout =  view.findViewById(R.id.motion)
+        hasMap["main"]=R.id.action_measureFragment_to_Main
+
+
+        val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         //cedemos control del motion layout a la clase encargada
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
+        val backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_measureFragment_to_Main)
+        }
         //boton para insertar datos cargados desde la ultima medicion y creacion de la medicion actual
         button.setOnClickListener {
             val listValues: List<Pair<LocalDateTime, Int>> = loadValuesDemo()
             //   val currentDateTime= LocalDateTime.now().withYear(2022)
             val controller = SQLController(this.context!!)
             controller.insertIntofOREIGNMedida(listValues)
-              alertDialog(listValues.get(listValues.size-1).second+10, LocalDateTime.now())
+            alertDialog(listValues.get(listValues.size - 1).second + 10, LocalDateTime.now())
         }
 
 
     }
-//Llamada a alertDialog para configuracion de la medida actual
+
+    //Llamada a alertDialog para configuracion de la medida actual
     fun alertDialog(value: Int, currentDateTime: LocalDateTime) {
         val alert = AlertDialogMeasure(this.context!!, value, currentDateTime)
     }
-//Carga de datos Demo
+
+    //Carga de datos Demo
     private fun loadValuesDemo(): List<Pair<LocalDateTime, Int>> {
         val sQLController = SQLController(this.context!!)
         val ultimFecha = sQLController.readLastDatesToMeasure()
@@ -62,7 +77,7 @@ class MeasureFragment : Fragment() {
         val values = mutableListOf<Pair<LocalDateTime, Int>>()
         var dateLoaded = ultimFecha.first.plusMinutes(5)
         var valueLoaded = ultimFecha.second
-        var value: Int = 0
+        var value = 0
         var direccionValues = true
         while (dateLoaded < now) {
             if (direccionValues) {

@@ -2,17 +2,13 @@ package com.example.tfg.views.stadisticsViewsFragments
 
 import android.content.Context
 import android.graphics.Color
-import android.view.View
 import com.example.tfg.models.ConfiguracionModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.time.Duration
 import java.time.LocalDateTime
-import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.minutes
 
 class StadisticsGraphics(
     context: Context?,

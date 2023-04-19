@@ -1,6 +1,8 @@
 package com.example.tfg.views
 
 import android.app.AlertDialog
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,8 +37,7 @@ class ConfigurationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentConfigurationBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -44,6 +45,10 @@ class ConfigurationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
         //-------------------------Inicialize the ConfigurationModel to load the values recorded before
         configuration = ConfiguracionModel(this.context!!)
         //-------------------------------------------------Inicialize the components of view
@@ -57,14 +62,20 @@ class ConfigurationFragment : Fragment() {
         val cardAlarm = binding.cardAlarm
         val cardRoot = binding.cardRoot
         val saveButton = binding.saveButton
-//inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
+
         val hasMap: HashMap<String, Int> = hashMapOf()
         hasMap["configuration"] = R.id.action_ConfigurationFragment_self
         hasMap["stadistics"] = R.id.action_ConfigurationFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_ConfigurationFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_ConfigurationFragment_to_measureFragment
+        hasMap["main"]=R.id.action_ConfigurationFragment_to_Main
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
+        val backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+                findNavController().navigate(R.id.action_ConfigurationFragment_to_Main)
+            }
+
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
         glucMin.text = configuration!!.glucosaMinima.toString()
         glucMax.text = configuration!!.glucosaMaxima.toString()
@@ -102,7 +113,7 @@ class ConfigurationFragment : Fragment() {
     private fun changeRatingOfSeekBar(enumActivitys: EnumActivitys) {
         rating.max = 0
         rating.min = 0
-        var valuesRating = valuesOfRating(enumActivitys)
+        val valuesRating = valuesOfRating(enumActivitys)
         rating.max = valuesRating[0]
         rating.min = valuesRating[1]
 
@@ -132,7 +143,7 @@ class ConfigurationFragment : Fragment() {
     }
 
     fun valuesOfRating(enumActivitys: EnumActivitys): Array<Int> {
-        var number: Array<Int>
+        val number: Array<Int>
         when (enumActivitys) {
             EnumActivitys.GLUCOSAMAXIMACARD -> number = arrayOf(200, 120)
             EnumActivitys.GLUCOSAMINIMACARD -> number = arrayOf(100, 65)
@@ -140,12 +151,6 @@ class ConfigurationFragment : Fragment() {
             else -> number = arrayOf()
         }
         return number
-    }
-
-    //Method to controller when user press back button, begins the activity
-    @Deprecated("Deprecated in Java")
-    fun onBackPressed() {
-        findNavController().navigate(R.id.action_ConfigurationFragment_to_MainFragment)
     }
 
 
@@ -193,7 +198,7 @@ class ConfigurationFragment : Fragment() {
         configuration!!.glucosaMinimaSet((glucMin.text as String).toInt())
         configuration!!.alarmaSet((alarm.text as String).toInt())
         configuration!!.saveVAlues()
-        onBackPressed()
+
     }
 }
 
