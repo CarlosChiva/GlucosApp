@@ -3,7 +3,6 @@ package com.example.tfg.views
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -35,9 +34,9 @@ class HistoricalFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var mainButton = binding.motion.mainButton
-        var bundleextraction = arguments
-        var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
         mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
 //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
@@ -53,7 +52,7 @@ class HistoricalFragment : Fragment() {
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = HistoricalAdapter(this.context!!, demoList())
-        var backButton= binding.motion.backButton
+        val backButton= binding.motion.backButton
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_historicalFragment_to_Main)
         }

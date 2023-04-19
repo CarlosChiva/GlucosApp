@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.example.tfg.controllers.SQLController
-import com.example.tfg.databinding.FragmentMonthBinding
 import com.example.tfg.databinding.FragmentWeekBinding
-import com.github.mikephil.charting.charts.LineChart
 import java.time.LocalDateTime
 
 

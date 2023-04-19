@@ -12,7 +12,7 @@ import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import java.time.LocalDateTime
 
-abstract class MasterStadistics<B : ViewBinding>() : Fragment() {
+abstract class MasterStadistics<B : ViewBinding> : Fragment() {
    open lateinit var contexto: Context
     open lateinit var list: List<Pair<LocalDateTime, Int>>
     open lateinit var chart: LineChart

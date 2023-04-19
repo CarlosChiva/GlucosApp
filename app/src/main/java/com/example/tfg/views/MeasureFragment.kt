@@ -2,7 +2,6 @@ package com.example.tfg.views
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,9 +31,9 @@ class MeasureFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var mainButton = binding.motion.mainButton
-        var bundleextraction = arguments
-        var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
         mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
 //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val button = binding.bottomMeasure
@@ -49,7 +48,7 @@ class MeasureFragment : Fragment() {
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         //cedemos control del motion layout a la clase encargada
         ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
-        var backButton= binding.motion.backButton
+        val backButton= binding.motion.backButton
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_measureFragment_to_Main)
         }
@@ -78,7 +77,7 @@ class MeasureFragment : Fragment() {
         val values = mutableListOf<Pair<LocalDateTime, Int>>()
         var dateLoaded = ultimFecha.first.plusMinutes(5)
         var valueLoaded = ultimFecha.second
-        var value: Int = 0
+        var value = 0
         var direccionValues = true
         while (dateLoaded < now) {
             if (direccionValues) {

@@ -37,8 +37,7 @@ class ConfigurationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentConfigurationBinding.inflate(inflater, container, false)
         return binding.root
 
@@ -46,9 +45,9 @@ class ConfigurationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var mainButton = binding.motion.mainButton
-        var bundleextraction = arguments
-        var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
         mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
         //-------------------------Inicialize the ConfigurationModel to load the values recorded before
         configuration = ConfiguracionModel(this.context!!)
@@ -72,7 +71,7 @@ class ConfigurationFragment : Fragment() {
         hasMap["main"]=R.id.action_ConfigurationFragment_to_Main
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
-        var backButton= binding.motion.backButton
+        val backButton= binding.motion.backButton
         backButton.setOnClickListener {
                 findNavController().navigate(R.id.action_ConfigurationFragment_to_Main)
             }
@@ -114,7 +113,7 @@ class ConfigurationFragment : Fragment() {
     private fun changeRatingOfSeekBar(enumActivitys: EnumActivitys) {
         rating.max = 0
         rating.min = 0
-        var valuesRating = valuesOfRating(enumActivitys)
+        val valuesRating = valuesOfRating(enumActivitys)
         rating.max = valuesRating[0]
         rating.min = valuesRating[1]
 
@@ -144,7 +143,7 @@ class ConfigurationFragment : Fragment() {
     }
 
     fun valuesOfRating(enumActivitys: EnumActivitys): Array<Int> {
-        var number: Array<Int>
+        val number: Array<Int>
         when (enumActivitys) {
             EnumActivitys.GLUCOSAMAXIMACARD -> number = arrayOf(200, 120)
             EnumActivitys.GLUCOSAMINIMACARD -> number = arrayOf(100, 65)

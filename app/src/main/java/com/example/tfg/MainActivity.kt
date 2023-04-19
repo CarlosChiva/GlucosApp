@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
-        //   val demoDatosBse = DemoDatosBase(this)
+          val demoDatosBse = DemoDatosBase(this)
     }
 
     override fun onSupportNavigateUp(): Boolean {

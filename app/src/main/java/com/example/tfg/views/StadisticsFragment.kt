@@ -8,20 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
-import com.example.tfg.controllers.SQLController
-import com.example.tfg.controllers.StadisticAdapter
 import com.example.tfg.controllers.ViewPagerAdapter
 import com.example.tfg.databinding.FragmentStadisticsBinding
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 
 class StadisticsFragment : Fragment() {
@@ -31,16 +22,16 @@ class StadisticsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentStadisticsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var mainButton = binding.motion.mainButton
-        var bundleextraction = arguments
-        var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
+        val mainButton = binding.motion.mainButton
+        val bundleextraction = arguments
+        val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
         mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
         //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
         val hasMap: HashMap<String, Int> = hashMapOf()
@@ -59,7 +50,7 @@ class StadisticsFragment : Fragment() {
         val viewPager = binding.viewPager
         val adapter = ViewPagerAdapter(childFragmentManager)
         viewPager.adapter = adapter
-        var backButton= binding.motion.backButton
+        val backButton= binding.motion.backButton
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_stadisticFragment_to_Main)
         }
