@@ -3,6 +3,7 @@ package com.example.tfg.views
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
+import android.opengl.Visibility
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -52,13 +53,10 @@ class HistoricalFragment : Fragment() {
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
         recyclerView.adapter = HistoricalAdapter(this.context!!, demoList())
-        val root = binding.motionLayoutHistorical
-        root.setOnClickListener {
-            if (motionLayout.currentState != R.id.start) {
-                motionLayout.setTransition(R.id.end, R.id.start)
-            }
+        var backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_historicalFragment_to_Main)
         }
-
     }
 
     //Function demo for addd information for testing class adapter

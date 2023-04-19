@@ -72,6 +72,11 @@ class ConfigurationFragment : Fragment() {
         hasMap["main"]=R.id.action_ConfigurationFragment_to_Main
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
+        var backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+                findNavController().navigate(R.id.action_ConfigurationFragment_to_Main)
+            }
+
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
         glucMin.text = configuration!!.glucosaMinima.toString()
         glucMax.text = configuration!!.glucosaMaxima.toString()
@@ -81,9 +86,7 @@ class ConfigurationFragment : Fragment() {
         cardRoot.setOnClickListener {
             rating.visibility = View.INVISIBLE
             previewValue.text = ""
-            if (motionLayout.currentState!= R.id.start) {
-                motionLayout.setTransition(R.id.end, R.id.start)
-            }
+
         }
         cardMAx.setOnClickListener {
             changeRatingOfSeekBar(EnumActivitys.GLUCOSAMAXIMACARD)

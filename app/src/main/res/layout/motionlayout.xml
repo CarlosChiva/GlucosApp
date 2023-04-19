@@ -22,6 +22,20 @@
         android:src="@drawable/baseline_radio_button_checked_24" />
 
     <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/resetButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/mainbutton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="700dp"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@null"
+        android:visibility="gone"
+        android:src="@drawable/baseline_keyboard_arrow_down_24" />
+
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/ConfigurationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

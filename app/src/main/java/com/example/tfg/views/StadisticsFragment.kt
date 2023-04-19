@@ -59,9 +59,9 @@ class StadisticsFragment : Fragment() {
         val viewPager = binding.viewPager
         val adapter = ViewPagerAdapter(childFragmentManager)
         viewPager.adapter = adapter
-        var back = binding.motion.backButton
-        back.setOnClickListener{
-            println("deddddddd")
+        var backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_stadisticFragment_to_Main)
         }
 
 //        recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)

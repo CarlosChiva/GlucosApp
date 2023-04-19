@@ -49,6 +49,10 @@ class MeasureFragment : Fragment() {
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         //cedemos control del motion layout a la clase encargada
         ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
+        var backButton= binding.motion.backButton
+        backButton.setOnClickListener {
+            findNavController().navigate(R.id.action_measureFragment_to_Main)
+        }
         //boton para insertar datos cargados desde la ultima medicion y creacion de la medicion actual
         button.setOnClickListener {
             val listValues: List<Pair<LocalDateTime, Int>> = loadValuesDemo()

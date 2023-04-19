@@ -178,6 +178,7 @@
         <include
             android:id="@+id/motion"
             layout="@layout/motionlayout" />
+
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
