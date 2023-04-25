@@ -29,17 +29,34 @@
         android:text="@string/what_do_you_wanna_do"
         android:fontFamily="@font/madjoe"
         android:visibility="visible"/>
-    <ImageView
+    <FrameLayout
         android:id="@+id/image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="300dp"
-        android:src="@drawable/provi"/>
+        >
+        <LinearLayout
+            android:id="@+id/linearImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/logo"/>
+        <ImageView
+            android:id="@+id/nameApp"
+            android:layout_width="170dp"
+            android:layout_height="70dp"
+            android:src="@drawable/logo2"/>
+        </LinearLayout>
+    </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/mainButton"
@@ -95,15 +112,16 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/medidaButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:contentDescription="@string/medida"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@null"
-        android:src="@drawable/ic_baseline_water_drop_24"
+        android:scaleType="fitXY"
+        android:src="@drawable/boton"
         android:visibility="invisible"/>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/firebaseConection"

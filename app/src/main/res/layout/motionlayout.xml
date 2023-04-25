@@ -84,8 +84,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="fitXY"
         android:background="@null"
-        android:src="@drawable/ic_baseline_water_drop_24"
+        android:src="@drawable/boton"
         android:visibility="invisible"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

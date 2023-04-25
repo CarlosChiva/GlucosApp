@@ -135,7 +135,7 @@ class ControllerMotionLayout(
 
             EnumActivitys.MEDIDA -> {
                 val drawable =
-                    ContextCompat.getDrawable(context, R.drawable.ic_baseline_water_drop_24)
+                    ContextCompat.getDrawable(context, R.drawable.boton)
                 val bitmap = Bitmap.createBitmap(
                     drawable!!.intrinsicWidth,
                     drawable.intrinsicHeight,
