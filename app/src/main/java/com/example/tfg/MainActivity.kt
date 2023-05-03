@@ -6,13 +6,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.ActivityMainBinding
-import com.example.tfg.models.Datos
 import com.example.tfg.models.DemoDatosBase
-import com.example.tfg.models.SQLMaker
-import com.example.tfg.views.AlertDialogLowInsulin
-import java.time.LocalDateTime
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-
-        //  val demoDatosBse = DemoDatosBase(this)
+print("principio de base")
+      // DemoDatosBase(this.baseContext)
     }
 
     override fun onSupportNavigateUp(): Boolean {

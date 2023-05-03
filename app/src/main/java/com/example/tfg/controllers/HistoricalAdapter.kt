@@ -10,12 +10,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.tfg.R
 import com.example.tfg.models.ConfiguracionModel
-import com.example.tfg.models.Datos
+import com.example.tfg.models.Data
 
 
 //Adapter for View Historical who needs a context of activity and MutableList of dates to draw him on the recycler
 class HistoricalAdapter(
-    context: Context, val listItems: MutableList<Datos>,
+    context: Context, val listItems: MutableList<Data>,
 ) :
     RecyclerView.Adapter<HistoricalAdapter.ViewHolder>() {
     val configurationModel = ConfiguracionModel(context)
@@ -45,23 +45,23 @@ class HistoricalAdapter(
     //Set values of differents items on cardViews denpendson item of the list and his individuals values
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = listItems[position]
-        holder.glucosa.text = "${item.glucosa}\n mg/dl"
+        holder.glucosa.text = "${item.glucose}\n mg/dl"
         holder.date.text = date(item)
-        holder.signalVAlue.setBackgroundColor(backgroundView(item.glucosa))
+        holder.signalVAlue.setBackgroundColor(backgroundView(item.glucose))
         viewIcons(holder, item)
     }
 
     override fun getItemCount(): Int = listItems.size
 
     //Method for refactorized the date of the item on the list for put on the card view
-    fun date(item: Datos): String {
-        return "${item.fecha.dayOfMonth}/${item.fecha.month}/${item.fecha.year}  ${item.fecha.hour}:${item.fecha.minute}:${item.fecha.second}"
+    fun date(item: Data): String {
+        return "${item.date.dayOfMonth}/${item.date.month}/${item.date.year}  ${item.date.hour}:${item.date.minute}:${item.date.second}"
 
     }
 
     //Method who analized differents parametres of item of the list for draw his signal (if it have it) on the card view
-    fun viewIcons(holder: ViewHolder, item: Datos) {
-        if (item.alarma != false ) {
+    fun viewIcons(holder: ViewHolder, item: Data) {
+        if (item.alarm != false ) {
             holder.alarm.setImageResource(R.drawable.ic_alarm)
         }
         if (item.pickIcon != false ){
@@ -86,9 +86,9 @@ class HistoricalAdapter(
 //Falta añadir la configuracion
     fun backgroundView(glucosa: Int?): Int {
         when {
-            glucosa!! >= configurationModel.glucosaMaxima || glucosa < configurationModel.glucosaMinima - 10 -> return Color.RED
-            glucosa in configurationModel.glucosaMaxima - 20 until configurationModel.glucosaMaxima -> return Color.YELLOW
-            glucosa in configurationModel.glucosaMinima - 10..configurationModel.glucosaMinima -> return Color.YELLOW
+            glucosa!! >= configurationModel.glucoseMax || glucosa < configurationModel.glucoseMin - 10 -> return Color.RED
+            glucosa in configurationModel.glucoseMax - 20 until configurationModel.glucoseMax -> return Color.YELLOW
+            glucosa in configurationModel.glucoseMin - 10..configurationModel.glucoseMin -> return Color.YELLOW
             else -> return Color.GREEN
         }
 

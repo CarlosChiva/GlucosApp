@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.stadisticsViewsFragments.DayFragment">
+    tools:context=".views.stadisticsViewsFragments.StadisticFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
             android:textAlignment="center">
 
             <TextView
+                android:id="@+id/titleStadistic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="At Day"
                 android:textAlignment="center" />
 
 

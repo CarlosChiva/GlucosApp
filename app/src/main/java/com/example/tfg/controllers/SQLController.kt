@@ -2,8 +2,7 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.util.Log
-import com.example.tfg.models.Datos
+import com.example.tfg.models.Data
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -18,8 +17,8 @@ class SQLController(context: Context) {
     var context: Context
     var sqlMaker: SQLMaker
     var sqlQueryer: SQLiteDatabase
-    val MEDIDA = "medida"
-    val FOREIGN_MEDIDA = "foreignMedida"
+    val MEDIDA = "measure"
+    val FOREIGN_MEDIDA = "foreignMeasure"
 
     init {
         this.context = context
@@ -48,31 +47,30 @@ class SQLController(context: Context) {
     }
 
     //-------------------------------------------------------------Inserts
-    fun insertIntoMedida(datos: Datos) {
-        val date = transformDate(datos.fecha)
-        sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucosa},${datos.pick},${datos.pickIcon},${datos.alarma},${datos.CHfood},${datos.food});")
+    fun insertIntoMeasure(datos: Data) {
+        val date = transformDate(datos.date)
+        println("inster measure")
+        sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucose},${datos.pick},${datos.pickIcon},${datos.alarm},${datos.CHfood},${datos.food});")
 
     }
 
-    fun insertIntofOREIGNMedida(lista: List<Pair<LocalDateTime, Int>>) {
+    fun insertIntofOREIGNMeasure(lista: List<Pair<LocalDateTime, Int>>) {
         lista.forEach {
             val date = transformDate(it.first)
-            println("Fecha insert----------------------------")
-            println("$date")
             sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
         }
 
     }
 
     //--------------------------------------------------------------Loads
-    fun loadDatesMedida(): MutableList<Datos> {
+    fun loadDatesMedida(): MutableList<Data> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         val result = sqlQueryer.rawQuery("select * from $MEDIDA order by fecha desc", null)
-        val datos = mutableListOf<Datos>()
+        val datos = mutableListOf<Data>()
         while (result.moveToNext()) {
             val fecha = dateFormat.parse(result.getString(0))
             datos.add(
-                Datos(
+                Data(
                     fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
                     result.getInt(1),
                     result.getInt(2),
@@ -143,7 +141,7 @@ class SQLController(context: Context) {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
 
         val query =
-            "SELECT m.fecha ,m.glucosa FROM medida m WHERE DATE(m.fecha) = CURRENT_DATE UNION SELECT f.fecha, f.glucosa FROM foreignMedida f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
+            "SELECT m.fecha ,m.glucosa FROM $MEDIDA m WHERE DATE(m.fecha) = CURRENT_DATE UNION SELECT f.fecha, f.glucosa FROM $FOREIGN_MEDIDA f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
         val result = sqlQueryer.rawQuery(query, null)
         var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
         while (result.moveToNext()) {
@@ -169,12 +167,12 @@ class SQLController(context: Context) {
             " SELECT strftime('%H:%M:%S', fecha) AS hora, AVG(media_glucosa) AS media_glucosa" +
                     " FROM (" +
                     "   SELECT datetime(m.fecha) AS fecha, AVG(m.glucosa) AS media_glucosa" +
-                    "   FROM medida m" +
+                    "   FROM $MEDIDA m" +
                     "   WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)" +
                     " GROUP BY strftime('%Y-%m-%d %H:%M',m.fecha)" +
                     "   UNION ALL" +
                     "   SELECT datetime(f.fecha) AS fecha, AVG(f.glucosa) AS media_glucosa" +
-                    "   FROM foreignMedida f" +
+                    "   FROM $FOREIGN_MEDIDA f" +
                     "   WHERE DATE(f.fecha) BETWEEN DATE(?) AND DATE(?)" +
                     " GROUP BY strftime('%Y-%m-%d %H:%M',f.fecha)" +
                     " ) AS subquery GROUP BY 1 ORDER BY 1 ASC"
@@ -204,13 +202,13 @@ class SQLController(context: Context) {
                     "  SELECT AVG(glucosa) AS media_glucosa" +
                     "  FROM (" +
                     "    SELECT glucosa, datetime(fecha) AS fecha_hora" +
-                    "    FROM medida" +
+                    "    FROM $MEDIDA" +
                     "    WHERE fecha BETWEEN DATETIME('now', '-6 days') AND DATETIME('now')" +
                     "      AND strftime('%H:%M:%S', fecha) >= '06:00:00' " +
                     "      AND strftime('%H:%M:%S', fecha) <= '09:00:00'" +
                     "    UNION ALL" +
                     "    SELECT glucosa, datetime(fecha) AS fecha_hora" +
-                    "    FROM foreignMedida" +
+                    "    FROM $FOREIGN_MEDIDA" +
                     "    WHERE fecha BETWEEN DATETIME('now', '-6 days') AND DATETIME('now')" +
                     "      AND strftime('%H:%M:%S', fecha) >= '06:00:00' " +
                     "      AND strftime('%H:%M:%S', fecha) <= '09:00:00'" +
@@ -241,11 +239,11 @@ class SQLController(context: Context) {
                 "SELECT fecha, AVG(glucosa)" +
                         "FROM (" +
                         "  SELECT f.fecha, f.glucosa" +
-                        "  FROM foreignMedida f" +
+                        "  FROM $FOREIGN_MEDIDA f" +
                         "  WHERE f.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+125 minutes')" +
                         "  UNION ALL" +
                         "  SELECT m.fecha, m.glucosa" +
-                        "  FROM medida m" +
+                        "  FROM $MEDIDA m" +
                         "  WHERE m.fecha BETWEEN datetime('$fechaComparar', '+2 hours') AND datetime('$fechaComparar', '+120 minutes')" +
                         ") " +
                         "GROUP BY fecha" +

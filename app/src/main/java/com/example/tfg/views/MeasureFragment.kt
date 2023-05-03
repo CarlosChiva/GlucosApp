@@ -57,7 +57,7 @@ class MeasureFragment : Fragment() {
             val listValues: List<Pair<LocalDateTime, Int>> = loadValuesDemo()
             //   val currentDateTime= LocalDateTime.now().withYear(2022)
             val controller = SQLController(this.context!!)
-            controller.insertIntofOREIGNMedida(listValues)
+            controller.insertIntofOREIGNMeasure(listValues)
             alertDialog(listValues.get(listValues.size - 1).second + 10, LocalDateTime.now())
         }
 

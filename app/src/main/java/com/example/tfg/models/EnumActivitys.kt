@@ -1,13 +1,16 @@
 package com.example.tfg.models
 
 enum class EnumActivitys {
-    MAIN,
     CONFIGURATION,
     HISTORICAL,
-    MEDIDA,
+    MEASURE,
     STADISTICS,
     GLUCOSAMAXIMACARD,
     GLUCOSAMINIMACARD,
-    ALARMA
-
+    ALARMA,
+    DAY,
+    WEEK,
+    MONTH,
+    THREEMONTHS,
+    SIXMONTHS
 }

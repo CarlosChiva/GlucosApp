@@ -8,7 +8,7 @@ import android.widget.*
 import com.example.tfg.R
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.models.ConfiguracionModel
-import com.example.tfg.models.Datos
+import com.example.tfg.models.Data
 import com.google.android.material.imageview.ShapeableImageView
 import java.time.LocalDateTime
 
@@ -81,7 +81,7 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
 
         builder.setPositiveButton(android.R.string.ok)
         { dialog, which ->
-            val datos = Datos(
+            val datos = Data(
                 currentDateTime,
                 value,
                 if (!insulinTake.text.toString()
@@ -92,7 +92,7 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
                 if (!chfood.text.toString().equals("")) (chfood.text.toString()).toInt() else null,
                 hasMapBooleans.getValue(FOOD)
             )
-            controller.insertIntoMedida(datos)
+            controller.insertIntoMeasure(datos)
 
 
         }
@@ -116,9 +116,9 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
     fun backgroundView(glucosa: Int?): Int {
         val configurationModel = ConfiguracionModel(this.context)
         when {
-            glucosa!! >= configurationModel.glucosaMaxima || glucosa < configurationModel.glucosaMinima - 10 -> return Color.RED
-            glucosa in configurationModel.glucosaMaxima - 20 until configurationModel.glucosaMaxima -> return Color.YELLOW
-            glucosa in configurationModel.glucosaMinima - 10..configurationModel.glucosaMinima -> return Color.YELLOW
+            glucosa!! >= configurationModel.glucoseMax || glucosa < configurationModel.glucoseMin - 10 -> return Color.RED
+            glucosa in configurationModel.glucoseMax - 20 until configurationModel.glucoseMax -> return Color.YELLOW
+            glucosa in configurationModel.glucoseMin - 10..configurationModel.glucoseMin -> return Color.YELLOW
             else -> return Color.GREEN
         }
 

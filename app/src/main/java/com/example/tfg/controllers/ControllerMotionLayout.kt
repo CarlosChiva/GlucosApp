@@ -3,15 +3,12 @@ package com.example.tfg.controllers
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.get
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.models.EnumActivitys
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ControllerMotionLayout(
     id: MotionLayout?,
@@ -61,13 +58,12 @@ class ControllerMotionLayout(
             }
 
             R.id.medidaEnd -> {
-                map?.getValue("measure")?.let { nav.navigate(it, bundleOf(EnumActivitys.MEDIDA)) }
+                map?.getValue("measure")?.let { nav.navigate(it, bundleOf(EnumActivitys.MEASURE)) }
             }
 
             R.id.hostoricEnd -> {
                 map?.getValue("historical")?.let {
                     nav.navigate(it, bundleOf(EnumActivitys.HISTORICAL))
-                    println("esfsaf")
                 }
 
             }
@@ -133,7 +129,7 @@ class ControllerMotionLayout(
                 return bundle
             }
 
-            EnumActivitys.MEDIDA -> {
+            EnumActivitys.MEASURE -> {
                 val drawable =
                     ContextCompat.getDrawable(context, R.drawable.boton)
                 val bitmap = Bitmap.createBitmap(

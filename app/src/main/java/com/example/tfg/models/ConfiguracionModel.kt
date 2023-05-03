@@ -7,9 +7,9 @@ import java.io.*
 //Ya veremos
 //Configuracion general de la aplicacion
 class ConfiguracionModel(val context: Context) : java.io.Serializable {
-    var alarma = 2
-    var glucosaMaxima = 180
-    var glucosaMinima = 90
+    var alarm = 2
+    var glucoseMax = 180
+    var glucoseMin = 90
     var sensitiveFactor = 0
     var ratioInsulin = 0
     var lowInsulin: Int = 26
@@ -43,15 +43,15 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
 
 
     fun glucosaMaximaSet(integer: Int) {
-        glucosaMaxima = integer
+        glucoseMax = integer
     }
 
     fun glucosaMinimaSet(integer: Int) {
-        glucosaMinima = integer
+        glucoseMin = integer
     }
 
     fun alarmaSet(integer: Int) {
-        alarma = integer
+        alarm = integer
     }
 
     fun lowInsulinSet(integer: Int) {
@@ -67,11 +67,10 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
     }
 
     fun saveVAlues() {
-
-        val texto =
-            "$glucosaMaxima $glucosaMinima $alarma $lowInsulin $sensitiveFactor $ratioInsulin"
+        val text =
+            "$glucoseMax $glucoseMin $alarm $lowInsulin $sensitiveFactor $ratioInsulin"
         val output: FileOutputStream = context.openFileOutput(FILE, AppCompatActivity.MODE_PRIVATE)
-        output.write(texto.toByteArray())
+        output.write(text.toByteArray())
         output.close()
 
     }

@@ -9,8 +9,10 @@ class DemoDatosBase(context: Context) {
     var fehca_actual: LocalDateTime
 
     init {
+        println("inicio")
         sqlController = SQLController(context)
         fehca_actual = LocalDateTime.now()
+        println("insertar")
         initInsertDAta()
     }
 
@@ -21,23 +23,23 @@ class DemoDatosBase(context: Context) {
 
             val datosMedida = createDatosMedida(fehca_actual.minusDays(long))
             for (dato in datosMedida) {
-                sqlController.insertIntoMedida(dato)
+                sqlController.insertIntoMeasure(dato)
             }
             val datosForeign = crearDatosCada5Minutos(fehca_actual.minusDays(long))
-            sqlController.insertIntofOREIGNMedida(datosForeign)
+            sqlController.insertIntofOREIGNMeasure(datosForeign)
         }
 
     }
 
     //datos de medida Demo
-    fun createDatosMedida(fechas: LocalDateTime): List<Datos> {
+    fun createDatosMedida(fechas: LocalDateTime): List<Data> {
         val fecha = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
-        val objects = mutableListOf<Datos>()
-        objects.add(Datos(fecha.withHour(6), 100, 10, true, false, 50, true))
-        objects.add(Datos(fecha.withHour(12), 120, 20, false, true, 60, false))
-        objects.add(Datos(fecha.withHour(18), 150, 5, true, true, 70, true))
-        objects.add(Datos(fecha.withHour(0), 80, 3, false, false, 80, false))
-        objects.add(Datos(fecha.withHour(2), 80, 30, false, false, 80, false))
+        val objects = mutableListOf<Data>()
+        objects.add(Data(fecha.withHour(6), 100, 10, true, false, 50, true))
+        objects.add(Data(fecha.withHour(12), 120, 20, false, true, 60, false))
+        objects.add(Data(fecha.withHour(18), 150, 5, true, true, 70, true))
+        objects.add(Data(fecha.withHour(0), 80, 3, false, false, 80, false))
+        objects.add(Data(fecha.withHour(2), 80, 30, false, false, 80, false))
 
         return objects
     }

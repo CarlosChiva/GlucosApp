@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.tfg.R
 import com.example.tfg.controllers.*
 import com.example.tfg.databinding.FragmentHistoricalBinding
-import com.example.tfg.models.Datos
+import com.example.tfg.models.Data
 import java.util.*
 
 @Suppress("DEPRECATION")
@@ -59,7 +59,7 @@ class HistoricalFragment : Fragment() {
     }
 
     //Function demo for addd information for testing class adapter
-    fun demoList(): MutableList<Datos> {
+    fun demoList(): MutableList<Data> {
         val sqlController = SQLController(this.context!!)
         return sqlController.loadDatesMedida()
     }
