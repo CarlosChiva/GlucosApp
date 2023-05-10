@@ -60,25 +60,29 @@ class StadisticFragment(val enum: EnumActivitys) : Fragment() {
 
             WEEK -> {
                 title.text = "At Week"
-                list = sqlController.readDatesInRange(LocalDateTime.now().minusDays(7),
+                list = sqlController.readDatesInRange(
+                    LocalDateTime.now().minusDays(7),
                     LocalDateTime.now())
             }
 
             MONTH -> {
                 title.text = "At Month"
-                list = sqlController.readDatesInRange(LocalDateTime.now().minusMonths(1),
+                list = sqlController.readDatesInRange(
+                    LocalDateTime.now().minusMonths(1),
                     LocalDateTime.now())
             }
 
             THREEMONTHS -> {
                 title.text = "Three Months"
-                list = sqlController.readDatesInRange(LocalDateTime.now().minusMonths(3),
+                list = sqlController.readDatesInRange(
+                    LocalDateTime.now().minusMonths(3),
                     LocalDateTime.now())
             }
 
             SIXMONTHS -> {
                 title.text = "Six Months"
-                list = sqlController.readDatesInRange(LocalDateTime.now().minusMonths(6),
+                list = sqlController.readDatesInRange(
+                    LocalDateTime.now().minusMonths(6),
                     LocalDateTime.now())
             }
 

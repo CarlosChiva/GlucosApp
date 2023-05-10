@@ -8,14 +8,14 @@ class Analizer(val context: Context) {
     val ratioInsul: Int
     val insulLenRecord: Int
     var sensibilityFactor: Int
-    private val configurationModel= ConfiguracionModel(this.context)
+    private val configurationModel = ConfiguracionModel(this.context)
     val insulLenRecom: Int
 
     init {
         avgGlucMorning = loadGlucMorning()
+        insulLenRecord = configurationModel.lowInsulin
         sensibilityFactor = calcSensibilityFactor(totalFastQuery())
         ratioInsul = analizeInsulCH(loadArrayGLuc_CH())
-        insulLenRecord = configurationModel.lowInsulin
         insulLenRecom = insulLenRecom()
         updateDates()
     }
@@ -24,11 +24,6 @@ class Analizer(val context: Context) {
         // Separate the data into three lists
         val insulinList = data.map { it[0] }
         val carbList = data.map { it[1] }
-        val glucose2hList = data.map { it[3] }
-        // Calculate the average glucose difference (before and after meal)
-        val avgGlucoseDiff = glucose2hList.zip(data.map { it[2] })
-            .map { it.first - it.second }
-            .average()
         // Calculate the average insulin to carb ratio
         val insulinToCarbRatio = insulinList.zip(carbList)
             .map { it.first.toDouble() / it.second }
@@ -37,7 +32,7 @@ class Analizer(val context: Context) {
         return (insulinToCarbRatio * sensibilityFactor).toInt()
     }
 
-    fun calcSensibilityFactor(dosisFastDiariaTotal: Int): Int {
+    private fun calcSensibilityFactor(dosisFastDiariaTotal: Int): Int {
         val factorSensibilidad = 1700 / (dosisFastDiariaTotal + insulLenRecord)
         return factorSensibilidad
     }
@@ -53,12 +48,12 @@ class Analizer(val context: Context) {
         return sqlController.readAvgMorning()
     }
 
-    fun totalFastQuery(): Int {
+    private fun totalFastQuery(): Int {
         val sQLController = SQLController(this.context)
         return sQLController.totalFastInsulin()
     }
 
-    fun insulLenRecom(): Int {
+    private fun insulLenRecom(): Int {
         return insulLenRecord + ((avgGlucMorning - 100) / sensibilityFactor)
     }
 
@@ -70,6 +65,7 @@ class Analizer(val context: Context) {
         configurationModel.saveVAlues()
 
     }
+
     //-----------------------------------falta añadir
     fun insulFastRecom(racion: Int): Int {
         return racion * ratioInsul

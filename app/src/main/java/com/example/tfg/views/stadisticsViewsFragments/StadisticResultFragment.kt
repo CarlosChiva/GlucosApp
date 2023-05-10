@@ -17,7 +17,7 @@ class StadisticResultFragment : Fragment() {
 
     private var _binding: FragmentStadisticResultBinding? = null
     private val binding get() = _binding!!
-    val glucMañana: TextView? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,7 +30,7 @@ class StadisticResultFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val analizer = Analizer(this.context!!)
         val glucMañana = binding.valGlucPromMa
-        glucMañana.text = analizer.avgGlucMorning.toString()
+        glucMañana.text=analizer.avgGlucMorning.toString()
         val insulLenRegis = binding.valInsulRegistrada
         insulLenRegis.text=analizer.insulLenRecord.toString()
         val insulLenRecom = binding.valdosisLenRecomendada

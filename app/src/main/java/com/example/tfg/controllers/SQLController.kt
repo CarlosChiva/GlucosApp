@@ -261,13 +261,13 @@ class SQLController(context: Context) {
     }
 
     fun totalFastInsulin(): Int {
-        var totalFastInsulin: Int
+        var totalFastInsulin:Int
         val query =
             "SELECT sum(m.pick) FROM $MEDIDA m WHERE m.fecha BETWEEN datetime('now', '-7 days') AND CURRENT_DATE ;"
         val result = sqlQueryer.rawQuery(query, null)
-        result.moveToFirst()
+        result.moveToNext()
         totalFastInsulin = result.getInt(0)
-        return totalFastInsulin /7
+        return totalFastInsulin / 7
     }
 
     //------------------------------------------------------------------------------

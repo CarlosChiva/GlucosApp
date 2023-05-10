@@ -84,7 +84,7 @@ class HistoricalAdapter(
 
     //Method who analized the number of level of gluc, paint the abckgroun denpend on level max and min maked to the configuration
 //Falta añadir la configuracion
-    fun backgroundView(glucosa: Int?): Int {
+    private fun backgroundView(glucosa: Int?): Int {
         when {
             glucosa!! >= configurationModel.glucoseMax || glucosa < configurationModel.glucoseMin - 10 -> return Color.RED
             glucosa in configurationModel.glucoseMax - 20 until configurationModel.glucoseMax -> return Color.YELLOW
