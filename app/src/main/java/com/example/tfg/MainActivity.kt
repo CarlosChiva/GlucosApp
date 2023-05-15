@@ -10,7 +10,9 @@ import com.example.tfg.databinding.ActivityMainBinding
 import com.example.tfg.models.DemoDatosBase
 
 class MainActivity : AppCompatActivity() {
-
+companion object{
+  const val  MY_CHANNEL_ID=1
+}
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
-       DemoDatosBase(this.baseContext)
+      // DemoDatosBase(this.baseContext)
     }
 
     override fun onSupportNavigateUp(): Boolean {
