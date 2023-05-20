@@ -7,11 +7,11 @@
     android:background="@color/loginBackground">
 
     <TextView
-        android:id="@+id/titleLogin"
+        android:id="@+id/titlesign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="Login"
+        android:text="Sign up"
         android:textSize="20dp"
         android:textAlignment="center"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -19,19 +19,19 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/userText"
+        android:id="@+id/useremail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="35dp"
         android:layout_marginTop="25dp"
+        android:layout_marginEnd="35dp"
         android:hint="Email"
         android:textColorHint="@color/gray"
-        android:layout_marginEnd="35dp"
         android:background="@drawable/style_border"
         android:backgroundTint="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleLogin" />
+        app:layout_constraintTop_toBottomOf="@id/titlesign_up" />
 
     <EditText
         android:id="@+id/passwordText"
@@ -46,10 +46,10 @@
         android:backgroundTint="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userText" />
+        app:layout_constraintTop_toBottomOf="@id/useremail" />
 
     <Button
-        android:id="@+id/buttonLogin"
+        android:id="@+id/buttonsignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
@@ -59,19 +59,7 @@
         android:background="@drawable/style_border"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="Sign in"
+        android:text="Sign up"
         app:layout_constraintTop_toBottomOf="@id/passwordText" />
 
-    <TextView
-        android:id="@+id/registrer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Do You have account? "
-        android:textSize="14dp"
-        android:textAlignment="center"
-        android:textColor="@color/purple_700"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
 </androidx.constraintlayout.widget.ConstraintLayout>

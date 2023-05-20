@@ -12,5 +12,7 @@ enum class EnumActivitys {
     WEEK,
     MONTH,
     THREEMONTHS,
-    SIXMONTHS
+    SIXMONTHS,
+    SIGN_IN,
+    SIGN_UP
 }
