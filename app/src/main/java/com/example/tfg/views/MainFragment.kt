@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.databinding.FragmentMainBinding
+import com.example.tfg.views.FireBase.AlertDialogLogin
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
@@ -38,7 +39,8 @@ private  var fabFirebase:FloatingActionButton? = null
         //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
        fabFirebase = binding.firebaseConection
         lowInsulinConfig = binding.lowInsulin
-        fabFirebase!!.setOnClickListener { println("Firebase!!!!!!!!!!!!!!-----------------") }
+        fabFirebase!!.setOnClickListener { AlertDialogLogin(this.context!!)
+            println("Firebase!!!!!!!!!!!!!!-----------------") }
         lowInsulinConfig!!.setOnClickListener {AlertDialogLowInsulin(this.context!!)
         }
         hashMap = loadHasMap()
