@@ -25,4 +25,5 @@
     <string name="new_value">New value</string>
     <string name="press_to_measure">Press to measure</string>
     <string name="button_to_measure">button to measure</string>
+    <string name="stadistics_result">Stadistics Result</string>
 </resources>

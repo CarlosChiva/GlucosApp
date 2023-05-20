@@ -27,10 +27,9 @@ class NotificationService : BroadcastReceiver() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
 
-        val flag= if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_IMMUTABLE else 0
+        val flag= if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) PendingIntent.FLAG_IMMUTABLE else 0
         val pendingIntent:PendingIntent=PendingIntent.getActivity(context,0,intent,flag)
-        val builder= context?.let {
-            NotificationCompat.Builder(it)
+        val builder=  NotificationCompat.Builder(context!!.applicationContext,MainActivity.MY_CHANNEL_ID)
                 .setSmallIcon(android.R.drawable.ic_delete)
                 .setContentTitle("Alarma")
                 .setContentText("Ejemplo")
@@ -40,11 +39,8 @@ class NotificationService : BroadcastReceiver() {
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .build()
-        }
+
     val manager=context!!.getSystemService(Context.NOTIFICATION_SERVICE)as NotificationManager
    manager.notify(NOTIFICATION_ID,builder)
     }
-
-
-
 }

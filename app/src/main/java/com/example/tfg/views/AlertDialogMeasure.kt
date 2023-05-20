@@ -1,16 +1,22 @@
 package com.example.tfg.views
 
+import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.widget.*
 import com.example.tfg.R
+import com.example.tfg.controllers.NotificationService
+import com.example.tfg.controllers.NotificationService.Companion.NOTIFICATION_ID
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.Data
 import com.google.android.material.imageview.ShapeableImageView
 import java.time.LocalDateTime
+import java.util.Calendar
 
 class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDateTime) {
     //----------------------------------------------------------------------------------------- sql controller
@@ -22,16 +28,19 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
     val PICK = "pick"
     val FOOD = "food"
     val currentDateTime: LocalDateTime
+    val hourToAlarm: Int
 
     init {
-        this.currentDateTime=currentDateTime
+        this.currentDateTime = currentDateTime
         this.controller = SQLController(context)
         this.value = value
         this.context = context
-        createDialog()
         hasMapBooleans[ALARM] = false
         hasMapBooleans[PICK] = false
         hasMapBooleans[FOOD] = false
+        hourToAlarm = ConfiguracionModel(context).alarm * 3600000
+        createDialog()
+
     }
 
 
@@ -93,6 +102,9 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
                 hasMapBooleans.getValue(FOOD)
             )
             controller.insertIntoMeasure(datos)
+            if (hasMapBooleans[ALARM] == true) {
+                scheduleNotification()
+            }
 
 
         }
@@ -113,7 +125,7 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
         }
     }
 
-    fun backgroundView(glucosa: Int?): Int {
+    private fun backgroundView(glucosa: Int?): Int {
         val configurationModel = ConfiguracionModel(this.context)
         when {
             glucosa!! >= configurationModel.glucoseMax || glucosa < configurationModel.glucoseMin - 10 -> return Color.RED
@@ -122,5 +134,17 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
             else -> return Color.GREEN
         }
 
+    }
+
+    private fun scheduleNotification() {
+        val intent = Intent(context.applicationContext, NotificationService::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context.applicationContext,
+            NOTIFICATION_ID,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, hourToAlarm.toLong(), pendingIntent)
     }
 }

@@ -36,24 +36,11 @@ class StadisticResultFragment : Fragment() {
         val insulLenRecom = binding.valdosisLenRecomendada
         insulLenRecom.text = analizer.insulLenRecom.toString()
         val ratioRap = binding.ratioInsulRapida
-        ratioRap.text = "${analizer.ratioInsul} x por Racioin"
+        ratioRap.text = "${analizer.ratioInsul} x por Ración"
         var configurationModel = ConfiguracionModel(this.context!!)
         insulLenRegis.text = configurationModel.lowInsulin.toString()
         var sensibilityFactor= binding.sensibilityFactor
         sensibilityFactor.text= "1 Unidad x ${analizer.sensibilityFactor.toString()} mg/dl"
 
     }
-
-
-
-    fun demoList(): List<Pair<LocalDateTime, Int>> {
-        val sqlController = SQLController(this.context!!)
-        val read = LocalDateTime.now().minusMonths(6)
-        return sqlController.readDatesInRange(read, LocalDateTime.now())
-
-    }
-
-
-
-
 }
