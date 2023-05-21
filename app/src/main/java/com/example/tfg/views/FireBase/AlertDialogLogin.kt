@@ -5,20 +5,22 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
-import android.widget.SeekBar
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.tfg.R
-import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.EnumActivitys
 import com.google.firebase.auth.FirebaseAuth
 
-class AlertDialogLogin(context: Context) {
+class AlertDialogLogin(context: Context, findNavController: NavController) {
     val context: Context?
     private var alertDialog: AlertDialog? = null
+    var nav: NavController? = null
 
     init {
 
         this.context = context
+        nav = findNavController
         createDialog(EnumActivitys.SIGN_IN)
 
     }
@@ -92,7 +94,11 @@ class AlertDialogLogin(context: Context) {
 
     }
 
-    private fun navViews() {}
+    private fun navViews() {
+        nav!!.navigate(R.layout.firebase_fragment)
+
+    }
+
     private fun createDialog(enumActivitys: EnumActivitys) {
         when (enumActivitys) {
             EnumActivitys.SIGN_IN -> {
