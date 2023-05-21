@@ -35,6 +35,7 @@ class StadisticFragment(val enum: EnumActivitys) : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         title = binding.titleStadistic
         initComponents()
         this.chart = binding.lineStadistics
