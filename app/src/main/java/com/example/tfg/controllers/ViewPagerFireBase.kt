@@ -4,19 +4,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.tfg.models.EnumActivitys
-import com.example.tfg.views.stadisticsViewsFragments.StadisticFragment
-import com.example.tfg.views.stadisticsViewsFragments.StadisticResultFragment
+import com.example.tfg.views.FireBase.ForumViewFragment
 
 class ViewPagerFireBase(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
     override fun getCount(): Int =3
     override fun getItem(position: Int): Fragment {
         // Devuelve el Fragment correspondiente a la posición indicada
         when (position) {
-            0-> return StadisticFragment(EnumActivitys.DAY)
-            1->  return StadisticFragment(EnumActivitys.WEEK)
-            2->  return StadisticFragment(EnumActivitys.MONTH)
+            0-> return ForumViewFragment(EnumActivitys.COMMON_FORUM)
+            1->  return ForumViewFragment(EnumActivitys.DIRECTFORUM)
+            2->  return ForumViewFragment(EnumActivitys.COMMON_FORUM)
             else->
-                return StadisticFragment(EnumActivitys.DAY)
+                return ForumViewFragment(EnumActivitys.COMMON_FORUM)
         }
     }
 }

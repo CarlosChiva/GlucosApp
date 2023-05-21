@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AlertDialogLogin(context: Context, findNavController: NavController) {
     val context: Context?
-    private var alertDialog: AlertDialog? = null
     var nav: NavController? = null
 
     init {
@@ -36,25 +35,25 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
         val builder = AlertDialog.Builder(context)
             .setView(view)
-
-        alertDialog = builder.create()
+        val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
 
         registrer.setOnClickListener {
             createDialog(EnumActivitys.SIGN_UP)
         }
         buttonLogin.setOnClickListener {
-            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                FirebaseAuth.getInstance()
-                    .signInWithEmailAndPassword(email.text.toString(), password.text.toString())
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            navViews()
-                        } else {
-                            showAlert()
-                        }
-                    }
-            }
+            navViews()
+//            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+//                FirebaseAuth.getInstance()
+//                    .signInWithEmailAndPassword(email.text.toString(), password.text.toString())
+//                    .addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            navViews()
+//                        } else {
+//                            showAlert()
+//                        }
+//                    }
+//            }
         }
 
     }
@@ -70,22 +69,22 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val builder = AlertDialog.Builder(context)
             .setView(view)
 
-        alertDialog = builder.create()
+        val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
-
         buttonLogin.setOnClickListener {
-            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                FirebaseAuth.getInstance()
-                    .createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            navViews()
-                        } else {
-                            showAlert()
-                        }
-                    }
-
-            }
+            navViews()
+//            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+//                FirebaseAuth.getInstance()
+//                    .createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+//                    .addOnCompleteListener {
+//                        if (it.isSuccessful) {
+//                            navViews()
+//                        } else {
+//                            showAlert()
+//                        }
+//                    }
+//
+//            }
 
         }
     }
@@ -95,7 +94,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
     }
 
     private fun navViews() {
-        nav!!.navigate(R.layout.firebase_fragment)
+        nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
 
     }
 

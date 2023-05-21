@@ -14,5 +14,7 @@ enum class EnumActivitys {
     THREEMONTHS,
     SIXMONTHS,
     SIGN_IN,
-    SIGN_UP
+    SIGN_UP,
+    COMMON_FORUM,
+    DIRECTFORUM
 }
