@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.tfg.R
+import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.models.EnumActivitys
 import com.google.firebase.auth.FirebaseAuth
 
@@ -42,19 +43,17 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             createDialog(EnumActivitys.SIGN_UP)
         }
         buttonLogin.setOnClickListener {
-            navViews()
-//            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-//                FirebaseAuth.getInstance()
-//                    .signInWithEmailAndPassword(email.text.toString(), password.text.toString())
-//                    .addOnCompleteListener {
-//                        if (it.isSuccessful) {
+           var autentication= FireBaseController()
+            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+navViews()
+            //                if (autentication.autentication(email.text.toString(), password.text.toString())){
 //                            navViews()
 //                        } else {
 //                            showAlert()
 //                        }
-//                    }
-//            }
-        }
+                    }
+            }
+
 
     }
 
@@ -72,19 +71,18 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
         buttonLogin.setOnClickListener {
-            navViews()
-//            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-//                FirebaseAuth.getInstance()
-//                    .createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-//                    .addOnCompleteListener {
-//                        if (it.isSuccessful) {
-//                            navViews()
-//                        } else {
-//                            showAlert()
-//                        }
-//                    }
-//
-//            }
+            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+                FirebaseAuth.getInstance()
+                    .createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
+                    .addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            navViews()
+                        } else {
+                            showAlert()
+                        }
+                    }
+
+            }
 
         }
     }
