@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.models.EnumActivitys
@@ -43,16 +42,15 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             createDialog(EnumActivitys.SIGN_UP)
         }
         buttonLogin.setOnClickListener {
-           var autentication= FireBaseController()
+            var autentication = FireBaseController(context!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-navViews()
-            //                if (autentication.autentication(email.text.toString(), password.text.toString())){
-//                            navViews()
-//                        } else {
-//                            showAlert()
-//                        }
-                    }
+                if (autentication.autentication(email.text.toString(), password.text.toString())) {
+                    navViews()
+                } else {
+                    showAlert()
+                }
             }
+        }
 
 
     }
@@ -71,21 +69,19 @@ navViews()
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
         buttonLogin.setOnClickListener {
+            var registrer = FireBaseController(context!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                FirebaseAuth.getInstance()
-                    .createUserWithEmailAndPassword(email.text.toString(), password.text.toString())
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            navViews()
-                        } else {
-                            showAlert()
-                        }
-                    }
-
+                if (registrer.registr(email.text.toString(), password.text.toString())) {
+                    navViews()
+                } else {
+                    showAlert()
+                }
             }
 
         }
+
     }
+
 
     private fun showAlert() {
 

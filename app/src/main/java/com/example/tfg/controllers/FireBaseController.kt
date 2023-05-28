@@ -1,5 +1,7 @@
 package com.example.tfg.controllers
 
+import android.content.Context
+import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.Mensage
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -8,7 +10,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
 
-class FireBaseController {
+class FireBaseController(val context: Context) {
+    val SQLController=SQLController(context)
+    val configuration=ConfiguracionModel(context)
     fun autentication(email: String, password: String): Boolean {
         var isAutenticate = false
         FirebaseAuth.getInstance()
@@ -17,6 +21,15 @@ class FireBaseController {
                 isAutenticate = it.isSuccessful
             }
         return isAutenticate
+    }
+    fun registr(email: String, password: String): Boolean {
+        var isRegistrate = false
+        FirebaseAuth.getInstance()
+            .createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener {
+                isRegistrate = it.isSuccessful
+            }
+        return isRegistrate
     }
 
     fun loadForumCommon(): List<Mensage> {

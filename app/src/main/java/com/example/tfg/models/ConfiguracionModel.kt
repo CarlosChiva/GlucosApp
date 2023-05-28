@@ -14,6 +14,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
     var ratioInsulin = 0
     var lowInsulin: Int = 26
     val FILE = "configValues.txt"
+    var user = ""
 
     init {
 
@@ -33,6 +34,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
             lowInsulinSet(array[3].toInt())
             sensibilityFactorSet(array[4].toInt())
             ratioInsulinSet(array[5].toInt())
+            userSet(array[6].toString())
             fileIn.close()
             reader.close()
         } catch (ex: FileNotFoundException) {
@@ -65,10 +67,12 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
     fun ratioInsulinSet(integer: Int) {
         ratioInsulin = integer
     }
-
+    fun userSet(newUser: String) {
+        user = newUser
+    }
     fun saveVAlues() {
         val text =
-            "$glucoseMax $glucoseMin $alarm $lowInsulin $sensitiveFactor $ratioInsulin"
+            "$glucoseMax $glucoseMin $alarm $lowInsulin $sensitiveFactor $ratioInsulin $user"
         val output: FileOutputStream = context.openFileOutput(FILE, AppCompatActivity.MODE_PRIVATE)
         output.write(text.toByteArray())
         output.close()
