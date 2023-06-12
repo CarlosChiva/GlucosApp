@@ -44,11 +44,11 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         buttonLogin.setOnClickListener {
             var autentication = FireBaseController(context!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                if (autentication.autentication(email.text.toString(), password.text.toString())) {
+         //       if (autentication.autentication(email.text.toString(), password.text.toString())) {
                     navViews()
-                } else {
-                    showAlert()
-                }
+           //     } else {
+            //        showAlert()
+              //  }
             }
         }
 
