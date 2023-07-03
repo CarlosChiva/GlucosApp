@@ -9,48 +9,52 @@ class DemoDatosBase(context: Context) {
     var fehca_actual: LocalDateTime
 
     init {
+        println("inicio")
         sqlController = SQLController(context)
         fehca_actual = LocalDateTime.now()
+        println("insertar")
         initInsertDAta()
     }
 
     fun initInsertDAta() {
-        for (i in 0..180) {
+        //generacion de datos desde el dia mas lejano hasta un dia antes para demo e insercion en la bd
+        for (i in 180 downTo 1) {
             val long = i.toLong()
-
 
             val datosMedida = createDatosMedida(fehca_actual.minusDays(long))
             for (dato in datosMedida) {
-                sqlController.insertIntoMedida(dato)
+                sqlController.insertIntoMeasure(dato)
             }
             val datosForeign = crearDatosCada5Minutos(fehca_actual.minusDays(long))
-            sqlController.insertIntofOREIGNMedida(datosForeign)
+            sqlController.insertIntofOREIGNMeasure(datosForeign)
         }
 
     }
 
-    fun createDatosMedida(fechas: LocalDateTime): List<Datos> {
+    //datos de medida Demo
+    fun createDatosMedida(fechas: LocalDateTime): List<Data> {
         val fecha = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
-        val objects = mutableListOf<Datos>()
-        objects.add(Datos(fecha.withHour(9), 100, 20, true, false, 50, true))
-        objects.add(Datos(fecha.withHour(11), 120, 30, false, true, 60, false))
-        objects.add(Datos(fecha.withHour(14), 150, 40, true, true, 70, true))
-        objects.add(Datos(fecha.withHour(16), 80, 10, false, false, 80, false))
-        objects.add(Datos(fecha.withHour(21), 110, 25, true, true, 90, true))
+        val objects = mutableListOf<Data>()
+        objects.add(Data(fecha.withHour(6), 100, 10, true, false, 50, true))
+        objects.add(Data(fecha.withHour(12), 120, 20, false, true, 60, false))
+        objects.add(Data(fecha.withHour(18), 150, 5, true, true, 70, true))
+        objects.add(Data(fecha.withHour(0), 80, 3, false, false, 80, false))
+        objects.add(Data(fecha.withHour(2), 80, 30, false, false, 80, false))
+
         return objects
     }
 
+    //datos para foreignMedida
     fun crearDatosCada5Minutos(fechas: LocalDateTime): List<Pair<LocalDateTime, Int>> {
         val fechaInicial = fechas.withHour(0).withMinute(0).withSecond(0).withNano(0)
         val fechaFinal = fechas.withHour(23).withMinute(59).withSecond(59).withNano(0)
 
         val horasAEvitar = listOf(
-            fechaInicial.withHour(9),
-            fechaInicial.withHour(11),
-            fechaInicial.withHour(14),
-            fechaInicial.withHour(16),
-            fechaInicial.withHour(21),
-            fechaInicial.withHour(23)
+            fechaInicial.withHour(6),
+            fechaInicial.withHour(12),
+            fechaInicial.withHour(18),
+            fechaInicial.withHour(0),
+            fechaInicial.withHour(2)
         )
 
         var fechaActual = fechaInicial
@@ -59,10 +63,9 @@ class DemoDatosBase(context: Context) {
         val datos = mutableListOf<Pair<LocalDateTime, Int>>()
         var valorMaximo = 180
         var valorMinimo = 80
-
         while (fechaActual <= fechaFinal) {
             if (!horasAEvitar.contains(fechaActual)) {
-                datos.add(Pair(fechaActual, valorInt))
+                  datos.add(Pair(fechaActual, valorInt))
             }
 
             fechaActual = fechaActual.plusMinutes(5)

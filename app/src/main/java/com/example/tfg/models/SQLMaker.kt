@@ -12,11 +12,11 @@ class SQLMaker(
     version: Int=1,
     errorHandler: DatabaseErrorHandler?
 ) : SQLiteOpenHelper(context, name, factory, version, errorHandler) {
-     val MEDIDA_TABLE="medida"
-     val FOREIGN_MEDIDA_TABLE="foreignMedida"
+     val MEASURE_TABLE="measure"
+     val FOREIGN_MEASURE_TABLE="foreignMeasure"
     override fun onCreate(sqlite: SQLiteDatabase?) {
-         sqlite!!.execSQL("CREATE TABLE IF NOT EXISTS $MEDIDA_TABLE(fecha DATETIME PRIMARY KEY,glucosa INTEGER,pick INTEGER,pickIcon BOOLEAN, alarm BOOLEAN,CHFood INTEGER,food BOOLEAN);")
-         sqlite.execSQL("CREATE TABLE IF NOT EXISTS $FOREIGN_MEDIDA_TABLE (fecha DATETIME PRIMARY KEY, glucosa INTEGER);")
+         sqlite!!.execSQL("CREATE TABLE IF NOT EXISTS $MEASURE_TABLE(fecha DATETIME PRIMARY KEY,glucosa INTEGER,pick INTEGER,pickIcon BOOLEAN, alarm BOOLEAN,CHFood INTEGER,food BOOLEAN);")
+         sqlite.execSQL("CREATE TABLE IF NOT EXISTS $FOREIGN_MEASURE_TABLE (fecha DATETIME PRIMARY KEY, glucosa INTEGER);")
 
      }
 

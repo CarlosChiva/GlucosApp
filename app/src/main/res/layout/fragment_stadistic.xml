@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.stadisticsViewsFragments.DayFragment">
+    tools:context=".views.stadisticsViewsFragments.StadisticFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,10 +16,14 @@
             android:textAlignment="center">
 
             <TextView
+                android:id="@+id/titleStadistic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="At Day"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:fontFamily="@font/madjoe"
+                android:textSize="30sp"
+                android:layout_marginTop="40dp"
+                />
 
 
             <com.github.mikephil.charting.charts.LineChart
@@ -50,11 +54,7 @@
                 android:layout_height="300dp"
                 android:layout_marginStart="50dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/reciclerDay"
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_marginTop="50dp" />
+
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

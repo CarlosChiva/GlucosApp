@@ -31,15 +31,16 @@
         android:visibility="visible"/>
     <ImageView
         android:id="@+id/image"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="300dp"
-        android:src="@drawable/provi"/>
+        android:src="@drawable/titulo"
+        />
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/mainButton"
@@ -95,15 +96,40 @@
 
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/medidaButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:contentDescription="@string/medida"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:background="@null"
-        android:src="@drawable/ic_baseline_water_drop_24"
+        android:scaleType="fitXY"
+        android:src="@drawable/boton"
         android:visibility="invisible"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/firebaseConection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:layout_marginStart="170dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/baseline_wifi_24"
+        android:visibility="invisible"
+        android:contentDescription="buttonFromConectionToFirebase" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/lowInsulin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="35dp"
+        android:layout_marginEnd="170dp"
+        android:backgroundTint="@color/white"
+        android:src="@drawable/ic_pick"
+        android:visibility="invisible"
+        android:contentDescription="buttonToDirectFromLowInsulinConfiguration" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

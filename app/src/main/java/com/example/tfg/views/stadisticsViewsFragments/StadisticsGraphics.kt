@@ -2,20 +2,16 @@ package com.example.tfg.views.stadisticsViewsFragments
 
 import android.content.Context
 import android.graphics.Color
-import android.view.View
 import com.example.tfg.models.ConfiguracionModel
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import java.time.Duration
 import java.time.LocalDateTime
-import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.minutes
 
 class StadisticsGraphics(
-    context: Context,
+    context: Context?,
     viewLineal: LineChart,
     viewPie: PieChart,
     list: List<Pair<LocalDateTime, Int>>
@@ -27,9 +23,9 @@ class StadisticsGraphics(
     val lista: List<Pair<LocalDateTime, Int>>
 
     init {
-        val values=ConfiguracionModel(context)
-        this.minimValue=values.glucosaMinima
-        this.maxValue=values.glucosaMaxima
+        val values=ConfiguracionModel(context!!)
+        this.minimValue=values.glucoseMin
+        this.maxValue=values.glucoseMax
         this.chart = viewLineal
         this.pieChart = viewPie
         this.lista = list
@@ -42,36 +38,33 @@ class StadisticsGraphics(
         chart.axisLeft.textSize = 12f
         val rightAxis = chart.axisRight
         rightAxis.textSize = 12f
-        rightAxis.axisMinimum = 50f
-        rightAxis.axisMaximum = 400f
+
         rightAxis.setDrawAxisLine(true)
         rightAxis.setDrawGridLines(false)
-        rightAxis.setDrawLabels(true)
+        rightAxis.setDrawLabels(false)
         val yAxis = chart.axisLeft
-        yAxis.axisMinimum = 50f
-        yAxis.axisMaximum = 400f
+        yAxis.axisMinimum = 40f
+        yAxis.axisMaximum = 300f
         chart.description.isEnabled = false
         chart.setTouchEnabled(true)
         chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
         chart.axisRight.isEnabled = true
-        chart.xAxis.granularity = 5f
+        chart.xAxis.granularity = 1f
         chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.WHITE)
-       chart.xAxis.labelCount = 6
+       chart.xAxis.labelCount = lista.size
         chart.xAxis.setValueFormatter(object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
 
                 // Devolver la etiqueta correspondiente según el valor
                 return when (value.toInt()) {
                     0 -> "00:00"
-                    50 -> "04:00"
-                    100-> "08:00"
-                    150 -> "12:00"
-                    200 -> "16:00"
-                    250 -> "20:00"
-                    301 -> "24:00"
+                    72->"06:00"
+                    144 -> "12:00"
+                    216 -> "18:00"
+                    288 -> "24:00"
                     else -> "" // Devolver una cadena vacía para las etiquetas que no se muestran
                 }
             }

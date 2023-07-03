@@ -67,6 +67,26 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             android:visibility="invisible"/>
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="35dp"
+            android:visibility="visible"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="35dp"
+            android:id="@+id/backButton"
+            android:layout_marginLeft="35dp" />
+        <Constraint
+            android:id="@+id/resetButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="700dp" />
     </ConstraintSet>
     <Transition
         motion:autoTransition="animateToEnd"
@@ -126,6 +146,26 @@
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
+        <Constraint
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="35dp"
+            android:visibility="visible"
+            motion:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="35dp"
+            android:id="@+id/backButton"
+            android:layout_marginLeft="35dp" />
+        <Constraint
+            android:id="@+id/resetButton"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="visible"
+            motion:layout_constraintTop_toTopOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="700dp" />
     </ConstraintSet>
 
 
@@ -348,5 +388,17 @@
             motion:targetId="@id/medidaButton" />
 
     </Transition>
+
+
+
+
+    <Transition
+        motion:constraintSetStart="@+id/end"
+        motion:constraintSetEnd="@+id/start" >
+        <OnClick motion:targetId="@id/resetButton"
+            motion:clickAction="transitionToEnd"
+            motion:duration="1000"/>
+    </Transition>
+
 
 </MotionScene>

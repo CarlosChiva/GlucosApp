@@ -32,4 +32,5 @@
 
     <include layout="@layout/motionlayout"
         android:id="@+id/motion"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
