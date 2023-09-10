@@ -2,6 +2,7 @@ package com.example.tfg.views.FireBase
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
@@ -10,7 +11,8 @@ import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.models.EnumActivitys
-import com.google.firebase.auth.FirebaseAuth
+
+//import com.google.firebase.auth.FirebaseAuth
 
 class AlertDialogLogin(context: Context, findNavController: NavController) {
     val context: Context?
@@ -42,13 +44,11 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             createDialog(EnumActivitys.SIGN_UP)
         }
         buttonLogin.setOnClickListener {
-            var autentication = FireBaseController(context!!)
+            Log.d("aaaaaaaaaaaaaaa", "dddddddddddddddddddddddddddddddddddd")
+            var autentication = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-         //       if (autentication.autentication(email.text.toString(), password.text.toString())) {
-                    navViews()
-           //     } else {
-            //        showAlert()
-              //  }
+                autentication.autentication(email.text.toString(), password.text.toString())
+                    alertDialog!!.dismiss()
             }
         }
 
@@ -69,19 +69,15 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
         buttonLogin.setOnClickListener {
-            var registrer = FireBaseController(context!!)
+            var registrer = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                if (registrer.registr(email.text.toString(), password.text.toString())) {
-                    navViews()
-                } else {
-                    showAlert()
-                }
+                registrer.registr(email.text.toString(), password.text.toString())
+
+
             }
 
         }
-
     }
-
 
     private fun showAlert() {
 

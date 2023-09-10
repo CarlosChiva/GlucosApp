@@ -1,6 +1,9 @@
 package com.example.tfg.controllers
 
 import android.content.Context
+import android.util.Log
+import androidx.navigation.NavController
+import com.example.tfg.R
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.Mensage
 import com.google.firebase.auth.FirebaseAuth
@@ -8,28 +11,38 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import kotlinx.coroutines.runBlocking
 
 
-class FireBaseController(val context: Context) {
-    val SQLController=SQLController(context)
-    val configuration=ConfiguracionModel(context)
-    fun autentication(email: String, password: String): Boolean {
-        var isAutenticate = false
-        FirebaseAuth.getInstance()
-            .signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                isAutenticate = it.isSuccessful
+class FireBaseController(val context: Context,navController: NavController) {
+    val SQLController = SQLController(context)
+    val configuration = ConfiguracionModel(context)
+    val auth = FirebaseAuth.getInstance()
+    var nav: NavController? = navController
+
+    fun autentication(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                auth.currentUser?.reload()?.addOnCompleteListener { reloadTask ->
+                    if (reloadTask.isSuccessful){
+                        navViews()
+                    }
+                }
             }
-        return isAutenticate
+        }
     }
-    fun registr(email: String, password: String): Boolean {
-        var isRegistrate = false
+
+    fun registr(email: String, password: String) {
         FirebaseAuth.getInstance()
             .createUserWithEmailAndPassword(email, password)
-            .addOnCompleteListener {
-                isRegistrate = it.isSuccessful
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    navViews()
+                    Log.d("registrerrrrrrrrrrr", " Yeeeess")
+                } else {
+                    Log.d("registrerrrrrrrrrrr", " No")
+                }
             }
-        return isRegistrate
     }
 
     fun loadForumCommon(): List<Mensage> {
@@ -70,5 +83,10 @@ class FireBaseController(val context: Context) {
     fun loadPrivateForum(): List<Mensage> {
         var list: List<Mensage> = listOf()
         return list
+    }
+
+    private fun navViews() {
+        nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
+
     }
 }

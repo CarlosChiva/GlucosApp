@@ -16,7 +16,7 @@ class NFCLoader(private val context: Context) : CreateNdefMessageCallback, OnNde
         // Obtener una instancia del adaptador NFC
         nfcAdapter = NfcAdapter.getDefaultAdapter(context)
     }
-
+/*
     fun enableNFC() {
         nfcAdapter?.let {
             // Verificar si NFC está habilitado en el dispositivo
@@ -40,7 +40,7 @@ class NFCLoader(private val context: Context) : CreateNdefMessageCallback, OnNde
             it.setOnNdefPushCompleteCallback(null, context)
         }
     }
-
+*/
     override fun createNdefMessage(event: NfcEvent?): NdefMessage? {
         // Lógica para crear un mensaje NDEF
         return null
