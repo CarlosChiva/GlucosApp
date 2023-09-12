@@ -14,11 +14,11 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SQLController(context: Context) {
-    var context: Context
-    var sqlMaker: SQLMaker
-    var sqlQueryer: SQLiteDatabase
-    val MEDIDA = "measure"
-    val FOREIGN_MEDIDA = "foreignMeasure"
+   private var context: Context
+    private var sqlMaker: SQLMaker
+   private var sqlQueryer: SQLiteDatabase
+   private val MEDIDA = "measure"
+   private val FOREIGN_MEDIDA = "foreignMeasure"
 
     init {
         this.context = context
@@ -116,7 +116,6 @@ class SQLController(context: Context) {
                     "LIMIT 1;", null
         )
         result.moveToFirst()
-        println("RESULT Second QUERY  :      ${result.getString(0)}    ${result.getInt(1)}")
 
         val fechaMedida = dateFormat.parse(result.getString(0))
         val fechaString2 =

@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
+import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.databinding.ViewFirebaseBinding
 
 class FireBaseFragment : Fragment() {
     private var _binding: ViewFirebaseBinding? = null
     private val binding get() = _binding!!
-
+private val fireBaseController= FireBaseController(this.requireContext(),findNavController())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,9 +32,11 @@ class FireBaseFragment : Fragment() {
             findNavController().navigate(R.id.action_viewPagerFirebase_to_MainFragment)
         }
         pushButton.setOnClickListener {
+            fireBaseController.push()
             Toast.makeText(this.context,"push button",Toast.LENGTH_SHORT).show()
         }
         pullButton.setOnClickListener {
+            fireBaseController.pull()
             Toast.makeText(this.context,"pull button",Toast.LENGTH_SHORT).show()
         }
     }

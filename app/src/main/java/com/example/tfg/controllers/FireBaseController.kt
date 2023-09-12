@@ -11,7 +11,7 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     val auth = FirebaseAuth.getInstance()
     var nav: NavController? = navController
-
+    private val pushPullDates = PushPullDates(context)
     fun autentication(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -39,10 +39,25 @@ class FireBaseController(val context: Context, navController: NavController) {
             }
     }
 
-    fun pushDates() {}
-    fun pullDates() {}
+    fun push() {
+        pushConfiguration()
+        pushDates()
+    }
+
+    fun pull() {
+        pullConfiguration()
+        pullDates()
+
+    }
+
     private fun navViews() {
         nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
 
     }
+
+    private fun pushConfiguration() {}
+    private fun pushDates() {}
+    private fun pullConfiguration() {}
+    private fun pullDates() {}
+
 }
