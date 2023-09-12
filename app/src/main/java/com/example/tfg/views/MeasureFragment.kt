@@ -72,7 +72,7 @@ class MeasureFragment : Fragment() {
     //Carga de datos Demo
     private fun loadValuesDemo(): List<Pair<LocalDateTime, Int>> {
         val sQLController = SQLController(this.context!!)
-        val ultimFecha = sQLController.readLastDatesToMeasure()
+        val ultimFecha = sQLController.readLastDatesToForeign()
         val now = LocalDateTime.now()
         val values = mutableListOf<Pair<LocalDateTime, Int>>()
         var dateLoaded = ultimFecha.first.plusMinutes(5)

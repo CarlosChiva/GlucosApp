@@ -4,8 +4,7 @@ import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import java.io.*
 
-//Ya veremos
-//Configuracion general de la aplicacion
+
 class ConfiguracionModel(val context: Context) : java.io.Serializable {
     var alarm = 2
     var glucoseMax = 180
@@ -14,7 +13,6 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
     var ratioInsulin = 0
     var lowInsulin: Int = 26
     val FILE = "configValues.txt"
-    var user = ""
 
     init {
 
@@ -34,7 +32,6 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
             lowInsulinSet(array[3].toInt())
             sensibilityFactorSet(array[4].toInt())
             ratioInsulinSet(array[5].toInt())
-            userSet(array[6].toString())
             fileIn.close()
             reader.close()
         } catch (ex: FileNotFoundException) {
@@ -48,31 +45,76 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
         glucoseMax = integer
     }
 
+    fun glucosaMaximaGet(): Int {
+        return glucoseMax
+    }
+
     fun glucosaMinimaSet(integer: Int) {
         glucoseMin = integer
+    }
+
+    fun glucosaMinimaGet(): Int {
+        return glucoseMin
     }
 
     fun alarmaSet(integer: Int) {
         alarm = integer
     }
 
+    fun alarmaGet(): Int {
+        return alarm
+    }
+
     fun lowInsulinSet(integer: Int) {
         lowInsulin = integer
+    }
+
+    fun lowInsulinGet(): Int {
+        return lowInsulin
     }
 
     fun sensibilityFactorSet(integer: Int) {
         sensitiveFactor = integer
     }
 
+    fun sensibilityFactorGet(): Int {
+        return sensitiveFactor
+    }
+
     fun ratioInsulinSet(integer: Int) {
         ratioInsulin = integer
     }
-    fun userSet(newUser: String) {
-        user = newUser
+
+    fun ratioInsulinGet(): Int {
+        return ratioInsulin
     }
+
+    fun configurationGet(): MutableList<Int> {
+        return mutableListOf<Int>(
+            glucoseMax,
+            glucoseMin,
+            alarm,
+            lowInsulin,
+            sensitiveFactor,
+            ratioInsulin
+        )
+
+    }
+
+    fun configurationSet(mutableList: MutableList<Int>) {
+        glucosaMaximaSet(mutableList[0])
+        glucosaMinimaSet(mutableList[1])
+        alarmaSet(mutableList[2])
+        lowInsulinSet(mutableList[3])
+        sensibilityFactorSet(mutableList[4])
+        ratioInsulinSet(mutableList[5])
+        saveVAlues()
+
+    }
+
     fun saveVAlues() {
         val text =
-            "$glucoseMax $glucoseMin $alarm $lowInsulin $sensitiveFactor $ratioInsulin $user"
+            "$glucoseMax $glucoseMin $alarm $lowInsulin $sensitiveFactor $ratioInsulin"
         val output: FileOutputStream = context.openFileOutput(FILE, AppCompatActivity.MODE_PRIVATE)
         output.write(text.toByteArray())
         output.close()

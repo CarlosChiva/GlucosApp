@@ -41,12 +41,15 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     fun push() {
         pushConfiguration()
-        pushDates()
+        pushDatesMeasure()
+        pushDatesForeign()
     }
 
     fun pull() {
         pullConfiguration()
-        pullDates()
+        pullDatesMeasure()
+        pullDatesForeign()
+
 
     }
 
@@ -55,9 +58,17 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     }
 
-    private fun pushConfiguration() {}
-    private fun pushDates() {}
-    private fun pullConfiguration() {}
-    private fun pullDates() {}
+    private fun pushConfiguration() {
+      //  pushPullDates.pushConfiguration()
+    }
+    private fun pullConfiguration() {
+        // pushPullDates.pullConfiguration()
+    }
+    private fun pushDatesMeasure() {}
+    private fun pushDatesForeign() {}
+
+
+    private fun pullDatesMeasure() {}
+    private fun pullDatesForeign() {}
 
 }

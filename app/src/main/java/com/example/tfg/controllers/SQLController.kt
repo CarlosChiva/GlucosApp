@@ -84,11 +84,9 @@ class SQLController(context: Context) {
         result.close()
         closeAll()
         return datos
-
-
     }
 
-    fun readLastDatesToMeasure(): Pair<LocalDateTime, Int> {
+    fun readLastDatesToForeign(): Pair<LocalDateTime, Int> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         var dateForeign: Pair<LocalDateTime, Int>? = null
         var dateMedida: Pair<LocalDateTime, Int>? = null
@@ -101,7 +99,6 @@ class SQLController(context: Context) {
             null
         )
         result.moveToFirst()
-        println("RESULT FIRST QUERY  :      ${result.getString(0)}    ${result.getInt(1)}")
         val fechaforeign = dateFormat.parse(result.getString(0))
         val fechaString =
             fechaforeign!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
