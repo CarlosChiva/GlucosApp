@@ -28,7 +28,7 @@ class FireBaseController(val context: Context, navController: NavController) {
                     if (reloadTask.isSuccessful) {
                         navViews()
                     } else {
-                        Toast.makeText(context, "Not user registrated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this.context, "Not user registrated", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -44,7 +44,7 @@ class FireBaseController(val context: Context, navController: NavController) {
                     navViews()
 
                 } else {
-                    Toast.makeText(context, "There was a problem", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, "There was a problem", Toast.LENGTH_SHORT).show()
                 }
             }
     }

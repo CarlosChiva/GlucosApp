@@ -44,7 +44,6 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             createDialog(EnumActivitys.SIGN_UP)
         }
         buttonLogin.setOnClickListener {
-            Log.d("aaaaaaaaaaaaaaa", "dddddddddddddddddddddddddddddddddddd")
             var autentication = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 autentication.autentication(email.text.toString(), password.text.toString())
