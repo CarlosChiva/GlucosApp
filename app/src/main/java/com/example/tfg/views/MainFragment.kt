@@ -39,14 +39,14 @@ private  var fabFirebase:FloatingActionButton? = null
         //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
        fabFirebase = binding.firebaseConection
         lowInsulinConfig = binding.lowInsulin
-        fabFirebase!!.setOnClickListener { AlertDialogLogin(this.context!!,findNavController())
-            println("Firebase!!!!!!!!!!!!!!-----------------") }
-        lowInsulinConfig!!.setOnClickListener {AlertDialogLowInsulin(this.context!!)
+        fabFirebase!!.setOnClickListener { AlertDialogLogin(this.requireContext(),findNavController())
+           }
+        lowInsulinConfig!!.setOnClickListener {AlertDialogLowInsulin(this.requireContext())
         }
         hashMap = loadHasMap()
         val motionLayout: MotionLayout = binding.root
         val controllerLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hashMap,this.context!!)
+            ControllerMotionLayout(motionLayout, findNavController(), hashMap,this.requireContext())
 
     }
 

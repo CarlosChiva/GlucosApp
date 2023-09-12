@@ -2,6 +2,7 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.models.ConfiguracionModel
@@ -14,7 +15,7 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.runBlocking
 
 
-class FireBaseController(val context: Context,navController: NavController) {
+class FireBaseController(val context: Context, navController: NavController) {
     val SQLController = SQLController(context)
     val configuration = ConfiguracionModel(context)
     val auth = FirebaseAuth.getInstance()
@@ -24,12 +25,15 @@ class FireBaseController(val context: Context,navController: NavController) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 auth.currentUser?.reload()?.addOnCompleteListener { reloadTask ->
-                    if (reloadTask.isSuccessful){
+                    if (reloadTask.isSuccessful) {
                         navViews()
+                    } else {
+                        Toast.makeText(context, "Not user registrated", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
+
     }
 
     fun registr(email: String, password: String) {
@@ -38,9 +42,9 @@ class FireBaseController(val context: Context,navController: NavController) {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     navViews()
-                    Log.d("registrerrrrrrrrrrr", " Yeeeess")
+
                 } else {
-                    Log.d("registrerrrrrrrrrrr", " No")
+                    Toast.makeText(context, "There was a problem", Toast.LENGTH_SHORT).show()
                 }
             }
     }

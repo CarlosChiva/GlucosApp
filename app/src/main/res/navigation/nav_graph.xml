@@ -119,7 +119,7 @@
         android:id="@+id/FirebaseFragment"
         android:name="com.example.tfg.views.FireBase.FireBaseFragment"
         android:label="firebaseFragment"
-        tools:layout="@layout/view_pager_firebase" >
+        tools:layout="@layout/view_firebase" >
         <action
             android:id="@+id/action_viewPagerFirebase_to_MainFragment"
             app:destination="@id/MainFragment" />
