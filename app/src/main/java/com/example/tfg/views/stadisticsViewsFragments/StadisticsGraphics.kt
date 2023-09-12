@@ -24,8 +24,8 @@ class StadisticsGraphics(
 
     init {
         val values=ConfiguracionModel(context!!)
-        this.minimValue=values.glucoseMin
-        this.maxValue=values.glucoseMax
+        this.minimValue=values.glucosaMinimaGet()
+        this.maxValue=values.glucosaMaximaGet()
         this.chart = viewLineal
         this.pieChart = viewPie
         this.lista = list

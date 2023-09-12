@@ -18,7 +18,7 @@ class AlertDialogLowInsulin(context: Context) {
 
         this.context = context
         configuracionModel = ConfiguracionModel(context)
-        valueLoaded = configuracionModel?.lowInsulin
+        valueLoaded = configuracionModel?.lowInsulinGet()
         createDialog()
 
     }

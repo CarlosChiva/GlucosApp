@@ -77,9 +77,9 @@ class ConfigurationFragment : Fragment() {
             }
 
 //-------------------Inicialize the values of components based to data recorded before whith ConfigurationModel
-        glucMin.text = configuration!!.glucoseMin.toString()
-        glucMax.text = configuration!!.glucoseMax.toString()
-        alarm.text = configuration!!.alarm.toString()
+        glucMin.text = configuration!!.glucosaMinimaGet().toString()
+        glucMax.text = configuration!!.glucosaMaximaGet().toString()
+        alarm.text = configuration!!.alarmaGet().toString()
 
 //---------------------------------------------------------------------------Listener of the differents card views
         cardRoot.setOnClickListener {
@@ -166,15 +166,15 @@ class ConfigurationFragment : Fragment() {
         builder.setMessage("Quieres guardar los cambios?")
         val view = layoutInflater.inflate(R.layout.alert_save, null)
         val glucMaxOld = view.findViewById<TextView>(R.id.gluc_max_old)
-        glucMaxOld.setText(configuration!!.glucoseMax.toString())
+        glucMaxOld.setText(configuration!!.glucosaMaximaGet().toString())
         val glucMaxNew = view.findViewById<TextView>(R.id.gluc_max_result)
         glucMaxNew.text = has.getValue("glucMax")
         val glucMinOld = view.findViewById<TextView>(R.id.gluc_min_old)
-        glucMinOld.setText(configuration!!.glucoseMin.toString())
+        glucMinOld.setText(configuration!!.glucosaMinimaGet().toString())
         val glucMinNew = view.findViewById<TextView>(R.id.gluc_min_result)
         glucMinNew.text = has.getValue("glucMin")
         val alarmOld = view.findViewById<TextView>(R.id.alarm_old_value)
-        alarmOld.setText(configuration!!.alarm.toString())
+        alarmOld.setText(configuration!!.alarmaGet().toString())
         val alarmNew = view.findViewById<TextView>(R.id.alarm_new_value)
         alarmNew.text = has.getValue("alarm")
 

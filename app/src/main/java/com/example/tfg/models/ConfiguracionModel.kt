@@ -6,13 +6,13 @@ import java.io.*
 
 
 class ConfiguracionModel(val context: Context) : java.io.Serializable {
-    var alarm = 2
-    var glucoseMax = 180
-    var glucoseMin = 90
-    var sensitiveFactor = 0
-    var ratioInsulin = 0
-    var lowInsulin: Int = 26
-    val FILE = "configValues.txt"
+   private var alarm = 2
+   private var glucoseMax = 180
+   private var glucoseMin = 90
+   private var sensitiveFactor = 0
+   private var ratioInsulin = 0
+   private var lowInsulin: Int = 26
+   private val FILE = "configValues.txt"
 
     init {
 
