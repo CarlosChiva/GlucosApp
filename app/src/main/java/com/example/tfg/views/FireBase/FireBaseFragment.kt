@@ -14,7 +14,6 @@ import com.example.tfg.databinding.ViewFirebaseBinding
 class FireBaseFragment : Fragment() {
     private var _binding: ViewFirebaseBinding? = null
     private val binding get() = _binding!!
-private val fireBaseController= FireBaseController(this.requireContext(),findNavController())
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,6 +24,8 @@ private val fireBaseController= FireBaseController(this.requireContext(),findNav
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val fireBaseController = FireBaseController(this.requireContext(), findNavController())
+
         val pushButton = binding.pushButton
         val pullButton = binding.pullButton
         val backButton = binding.backButton
@@ -33,11 +34,11 @@ private val fireBaseController= FireBaseController(this.requireContext(),findNav
         }
         pushButton.setOnClickListener {
             fireBaseController.push()
-            Toast.makeText(this.context,"push button",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "push button", Toast.LENGTH_SHORT).show()
         }
         pullButton.setOnClickListener {
             fireBaseController.pull()
-            Toast.makeText(this.context,"pull button",Toast.LENGTH_SHORT).show()
+            Toast.makeText(this.context, "pull button", Toast.LENGTH_SHORT).show()
         }
     }
 }
