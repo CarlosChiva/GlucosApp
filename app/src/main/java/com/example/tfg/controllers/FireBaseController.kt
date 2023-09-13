@@ -59,7 +59,8 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     private fun pushConfiguration() {
-      //  pushPullDates.pushConfiguration()
+      val list=  pushPullDates.pushConfiguration()
+        //  val firestore= Fire
     }
     private fun pullConfiguration() {
         // pushPullDates.pullConfiguration()
