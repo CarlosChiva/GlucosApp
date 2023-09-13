@@ -1,6 +1,7 @@
 package com.example.tfg.controllers
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.tfg.R
@@ -64,10 +65,19 @@ class FireBaseController(val context: Context, navController: NavController) {
         db.collection(auth.currentUser!!.email.toString()).document("Configuration").set(
             pushPullDates.pushConfiguration()
         )
-        //  val firestore= Fire
     }
     private fun pullConfiguration() {
-        // pushPullDates.pullConfiguration()
+        db.collection(auth.currentUser!!.email.toString()).document("Configuration").get().addOnCompleteListener {
+            val list = listOf(it.result.get("glucoseMax").toString().toInt(),
+                it.result.get("glucoseMin").toString().toInt(),
+                it.result.get("alarm").toString().toInt(),
+                it.result.get("lowInsulin").toString().toInt(),
+                it.result.get("sensitiveFactor").toString().toInt(),
+                it.result.get("ratioInsulin").toString().toInt(),
+            )
+
+            pushPullDates.pullConfiguration(list)
+        }
     }
     private fun pushDatesMeasure() {}
     private fun pushDatesForeign() {}

@@ -34,7 +34,7 @@ class PushPullDates(val context:Context){
              "ratioInsulin" to list[5]
         )
     }
-    fun pullConfiguration(mutableList:MutableList<Int>){
+    fun pullConfiguration(mutableList:List<Int>){
         configuration.configurationSet(mutableList)
     }
 }

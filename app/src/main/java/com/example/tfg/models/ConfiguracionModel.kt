@@ -101,7 +101,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
 
     }
 
-    fun configurationSet(mutableList: MutableList<Int>) {
+    fun configurationSet(mutableList: List<Int>) {
         glucosaMaximaSet(mutableList[0])
         glucosaMinimaSet(mutableList[1])
         alarmaSet(mutableList[2])
