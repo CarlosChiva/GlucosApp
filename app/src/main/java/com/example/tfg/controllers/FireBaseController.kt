@@ -14,7 +14,7 @@ class FireBaseController(val context: Context, navController: NavController) {
     val auth = FirebaseAuth.getInstance()
     var nav: NavController? = navController
     private val pushPullDates = PushPullDates(context)
-    private val db= FirebaseFirestore.getInstance()
+    private val db = FirebaseFirestore.getInstance()
     fun autentication(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -66,24 +66,39 @@ class FireBaseController(val context: Context, navController: NavController) {
             pushPullDates.pushConfiguration()
         )
     }
-    private fun pullConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document("Configuration").get().addOnCompleteListener {
-            val list = listOf(it.result.get("glucoseMax").toString().toInt(),
-                it.result.get("glucoseMin").toString().toInt(),
-                it.result.get("alarm").toString().toInt(),
-                it.result.get("lowInsulin").toString().toInt(),
-                it.result.get("sensitiveFactor").toString().toInt(),
-                it.result.get("ratioInsulin").toString().toInt(),
-            )
 
-            pushPullDates.pullConfiguration(list)
+    private fun pullConfiguration() {
+        db.collection(auth.currentUser!!.email.toString()).document("Configuration").get()
+            .addOnCompleteListener {
+                val list = listOf(
+                    it.result.get("glucoseMax").toString().toInt(),
+                    it.result.get("glucoseMin").toString().toInt(),
+                    it.result.get("alarm").toString().toInt(),
+                    it.result.get("lowInsulin").toString().toInt(),
+                    it.result.get("sensitiveFactor").toString().toInt(),
+                    it.result.get("ratioInsulin").toString().toInt(),
+                )
+
+                pushPullDates.pullConfiguration(list)
+            }
+    }
+
+    private fun pushDatesMeasure() {
+        db.collection(auth.currentUser!!.email.toString()).document("Measure").set(
+            pushPullDates.pushDates()
+        ).addOnCompleteListener {
         }
     }
-    private fun pushDatesMeasure() {}
+    private fun pullDatesMeasure() {
+        db.collection(auth.currentUser!!.email.toString()).document("Measure").get()
+            .addOnCompleteListener {
+
+            }
+    }
     private fun pushDatesForeign() {}
 
 
-    private fun pullDatesMeasure() {}
+
     private fun pullDatesForeign() {}
 
 }
