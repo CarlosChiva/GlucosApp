@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class FireBaseController(val context: Context, navController: NavController) {
@@ -12,6 +13,7 @@ class FireBaseController(val context: Context, navController: NavController) {
     val auth = FirebaseAuth.getInstance()
     var nav: NavController? = navController
     private val pushPullDates = PushPullDates(context)
+    private val db= FirebaseFirestore.getInstance()
     fun autentication(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -59,7 +61,9 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     private fun pushConfiguration() {
-      val list=  pushPullDates.pushConfiguration()
+        db.collection(auth.currentUser!!.email.toString()).document("Configuration").set(
+            pushPullDates.pushConfiguration()
+        )
         //  val firestore= Fire
     }
     private fun pullConfiguration() {

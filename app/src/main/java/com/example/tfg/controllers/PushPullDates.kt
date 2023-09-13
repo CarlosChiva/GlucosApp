@@ -23,8 +23,16 @@ class PushPullDates(val context:Context){
         configuration.sensibilityFactorSet()
     */
     }
-    fun pushConfiguration():MutableList<Int>{
-        return configuration.configurationGet()
+    fun pushConfiguration(): HashMap<String, Int> {
+        val list = configuration.configurationGet()
+        return hashMapOf(
+            "glucoseMax" to list[0],
+             "glucoseMin" to list[1],
+             "alarm" to list[2],
+             "lowInsulin" to list[3],
+             "sensitiveFactor" to list[4],
+             "ratioInsulin" to list[5]
+        )
     }
     fun pullConfiguration(mutableList:MutableList<Int>){
         configuration.configurationSet(mutableList)
