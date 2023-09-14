@@ -118,15 +118,15 @@ class FireBaseController(val context: Context, navController: NavController) {
                             val food = value["food"] as? Boolean
                             Log.d("Variables:","glucose: ${glucose} pick:${pick} pickIcon:${pickIcon} alarm:${alarm} chfood${CHfood} food: ${food}")
                             // Verificar si el mapa "dateMap" es válido
+                            Log.d("Date","${dateMap}")
                             if (dateMap != null) {
-                                val year = dateMap["year"] as? Int
-                                val monthValue = dateMap["monthValue"] as? Int
-                                val dayOfMonth = dateMap["dayOfMonth"] as? Int
-                                val hour = dateMap["hour"] as? Int
-                                val minute = dateMap["minute"] as? Int
+                                val year = dateMap["year"] .toString().toInt()
+                                val monthValue = dateMap["monthValue"] .toString().toInt()
+                                val dayOfMonth = dateMap["dayOfMonth"] .toString().toInt()
+                                val hour = dateMap["hour"].toString().toInt()
+                                val minute = dateMap["minute"] .toString().toInt()
 
-                                if (year != null && monthValue != null && dayOfMonth != null &&
-                                    hour != null && minute != null) {
+                                if (year != null && monthValue != null && hour != null && minute != null) {
                                     val date = LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
                                    Log.d("Clase construida","${Data(date, glucose, pick, pickIcon, alarm, CHfood, food)}")
                                     dataList.add(Data(date, glucose, pick, pickIcon, alarm, CHfood, food))
