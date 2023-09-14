@@ -19,14 +19,10 @@ class PushPullDates(val context: Context) {
 
     }
 
-    fun pullDatesMeasure() {
-        //datos de configuracion(salvo usuario)
-        /*  configuration.glucosaMaximaSet()
-          configuration.glucosaMinimaSet()
-          configuration.alarmaSet()
-          configuration.lowInsulinSet()
-          configuration.sensibilityFactorSet()
-      */
+    fun pullDatesMeasure(mutableList: MutableList<Data>) {
+        mutableList.forEach {
+            sQLController.insertIntoMeasure(it)
+        }
     }
 
     fun pushConfiguration(): HashMap<String, Int> {
