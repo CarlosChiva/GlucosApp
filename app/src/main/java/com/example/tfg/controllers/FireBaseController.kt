@@ -19,6 +19,8 @@ class FireBaseController(val context: Context, navController: NavController) {
     var nav: NavController? = navController
     private val pushPullDates = PushPullDates(context)
     private val db = FirebaseFirestore.getInstance()
+
+    private var correctkeys: MutableList<String> = mutableListOf()
     fun autentication(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -101,11 +103,16 @@ class FireBaseController(val context: Context, navController: NavController) {
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.exists()) {
                     val dataMap = querySnapshot.data
-                   // Log.d("querySnapshot size", "${dataMap!!.size}")
+                    // Log.d("querySnapshot size", "${dataMap!!.size}")
                     //Log.d("querySnapshot size", "${dataMap!!.keys}")
                     val keys = dataMap!!.keys
+
                     for (key in keys) {
-                        val value = dataMap[key]
+                        keyIsInRange(key)
+                    }
+
+                    correctkeys.forEach {
+                        val value = dataMap[it]
 
                         if (value is Map<*, *>) {
                             // Acceder a los valores dentro del mapa interno
@@ -116,70 +123,82 @@ class FireBaseController(val context: Context, navController: NavController) {
                             val alarm = value["alarm"] as? Boolean
                             val CHfood = value["chfood"].toString().toInt()
                             val food = value["food"] as? Boolean
-                            Log.d("Variables:","glucose: ${glucose} pick:${pick} pickIcon:${pickIcon} alarm:${alarm} chfood${CHfood} food: ${food}")
+                            Log.d(
+                                "Variables:",
+                                "glucose: ${glucose} pick:${pick} pickIcon:${pickIcon} alarm:${alarm} chfood${CHfood} food: ${food}"
+                            )
                             // Verificar si el mapa "dateMap" es válido
-                            Log.d("Date","${dateMap}")
+                            Log.d("Date", "${dateMap}")
                             if (dateMap != null) {
-                                val year = dateMap["year"] .toString().toInt()
-                                val monthValue = dateMap["monthValue"] .toString().toInt()
-                                val dayOfMonth = dateMap["dayOfMonth"] .toString().toInt()
+                                val year = dateMap["year"].toString().toInt()
+                                val monthValue = dateMap["monthValue"].toString().toInt()
+                                val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
                                 val hour = dateMap["hour"].toString().toInt()
-                                val minute = dateMap["minute"] .toString().toInt()
+                                val minute = dateMap["minute"].toString().toInt()
 
                                 if (year != null && monthValue != null && hour != null && minute != null) {
-                                    val date = LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
-                                   Log.d("Clase construida","${Data(date, glucose, pick, pickIcon, alarm, CHfood, food)}")
-                                    dataList.add(Data(date, glucose, pick, pickIcon, alarm, CHfood, food))
-                                }
-                                else{
-                                    Log.d("Clase no construida","-------------------------------")
+                                    val date =
+                                        LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
+                                    Log.d(
+                                        "Clase construida",
+                                        "${
+                                            Data(
+                                                date,
+                                                glucose,
+                                                pick,
+                                                pickIcon,
+                                                alarm,
+                                                CHfood,
+                                                food
+                                            )
+                                        }"
+                                    )
+                                    dataList.add(
+                                        Data(
+                                            date,
+                                            glucose,
+                                            pick,
+                                            pickIcon,
+                                            alarm,
+                                            CHfood,
+                                            food
+                                        )
+                                    )
+                                } else {
+                                    Log.d("Clase no construida", "-------------------------------")
                                 }
                             }
                         }
+
                     }
 
-//                    // Itera sobre los campos del documento
-//                    for ((key, value) in dataMap ?: emptyMap()) {
-//                        // Verifica si el valor es un mapa (esto puede variar según tus datos)
-//                        if (value is Map<*, *>) {
-//                            val date = value["date"] as? String
-//                            val glucose = value["glucose"] as? Int
-//                            val pick = value["pick"] as? Int
-//                            val pickIcon = value["pick icon"] as? Boolean
-//                            val alarm = value["alarm"] as? Boolean
-//                            val CHfood = value["CHfood"] as? Int
-//                            val food = value["food"] as? Boolean
-//
-//                            // Si se encontró la fecha y otros campos necesarios, crea un objeto Data
-//                            if (date != null && glucose != null && pick != null && pickIcon != null
-//                                && alarm != null && CHfood != null && food != null
-//                            ) {
-//                                val dateObj =
-//                                    LocalDateTime.parse(date,dateFormatter)
-//                                dataList.add(
-//                                    Data(
-//                                        dateObj,
-//                                        glucose,
-//                                        pick,
-//                                        pickIcon,
-//                                        alarm,
-//                                        CHfood,
-//                                        food
-//                                    )
-//                                )
-//                            }
-//                        }
-//                    }
-//
 //                    Log.d("DataList", "${dataList.size}")
-//
+
                 }
-//                pushPullDates.pullDatesMeasure(dataList)
+                pushPullDates.pullDatesMeasure(dataList)
             }
     }
 
     private fun pushDatesForeign() {}
 
+    private fun keyIsInRange(string: String) {
+        //-----------------------------------------------------------------------------------
+        // Obtén la fecha actual
+        val fechaInicial = LocalDateTime.now().minusMonths(3)
+
+        // Define el formato de la fecha proporcionada
+        val formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+
+        // Convierte la fecha proporcionada a LocalDateTime
+        val fechaProporcionada = LocalDateTime.parse(string, formato)
+
+        // Compara la fecha actual con la fecha proporcionada
+        if (fechaProporcionada.isAfter(fechaInicial)) {
+            Log.d("Fecha correcta para cargar", "$fechaProporcionada------   $string")
+            correctkeys.add(string)
+        }
+        //-------------------------------------------------------------------------------
+    }
 
     private fun pullDatesForeign() {}
 
