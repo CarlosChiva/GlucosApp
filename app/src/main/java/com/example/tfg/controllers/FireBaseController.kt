@@ -49,14 +49,14 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     fun push() {
-        pushConfiguration()
-        pushDatesMeasure()
+     //   pushConfiguration()
+      // pushDatesMeasure()
         pushDatesForeign()
     }
 
     fun pull() {
         pullConfiguration()
-        pullDatesMeasure()
+       // pullDatesMeasure()
         pullDatesForeign()
 
 
@@ -98,19 +98,12 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     private fun pullDatesMeasure() {
         val dataList = mutableListOf<Data>()
-        val dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME
         db.collection(auth.currentUser!!.email.toString()).document("Measure").get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.exists()) {
                     val dataMap = querySnapshot.data
-                    // Log.d("querySnapshot size", "${dataMap!!.size}")
-                    //Log.d("querySnapshot size", "${dataMap!!.keys}")
                     val keys = dataMap!!.keys
-
-                    for (key in keys) {
-                        keyIsInRange(key)
-                    }
-
+                    keys.forEach { keyIsInRange(it) }
                     correctkeys.forEach {
                         val value = dataMap[it]
 
@@ -123,63 +116,45 @@ class FireBaseController(val context: Context, navController: NavController) {
                             val alarm = value["alarm"] as? Boolean
                             val CHfood = value["chfood"].toString().toInt()
                             val food = value["food"] as? Boolean
-                            Log.d(
-                                "Variables:",
-                                "glucose: ${glucose} pick:${pick} pickIcon:${pickIcon} alarm:${alarm} chfood${CHfood} food: ${food}"
+
+                            val year = dateMap!!["year"].toString().toInt()
+                            val monthValue = dateMap["monthValue"].toString().toInt()
+                            val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
+                            val hour = dateMap["hour"].toString().toInt()
+                            val minute = dateMap["minute"].toString().toInt()
+
+                            val date =
+                                LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
+                            dataList.add(
+                                Data(
+                                    date,
+                                    glucose,
+                                    pick,
+                                    pickIcon,
+                                    alarm,
+                                    CHfood,
+                                    food
+                                )
                             )
-                            // Verificar si el mapa "dateMap" es válido
-                            Log.d("Date", "${dateMap}")
-                            if (dateMap != null) {
-                                val year = dateMap["year"].toString().toInt()
-                                val monthValue = dateMap["monthValue"].toString().toInt()
-                                val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
-                                val hour = dateMap["hour"].toString().toInt()
-                                val minute = dateMap["minute"].toString().toInt()
-
-                                if (year != null && monthValue != null && hour != null && minute != null) {
-                                    val date =
-                                        LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
-                                    Log.d(
-                                        "Clase construida",
-                                        "${
-                                            Data(
-                                                date,
-                                                glucose,
-                                                pick,
-                                                pickIcon,
-                                                alarm,
-                                                CHfood,
-                                                food
-                                            )
-                                        }"
-                                    )
-                                    dataList.add(
-                                        Data(
-                                            date,
-                                            glucose,
-                                            pick,
-                                            pickIcon,
-                                            alarm,
-                                            CHfood,
-                                            food
-                                        )
-                                    )
-                                } else {
-                                    Log.d("Clase no construida", "-------------------------------")
-                                }
-                            }
                         }
-
                     }
-
-//                    Log.d("DataList", "${dataList.size}")
-
+                    pushPullDates.pullDatesMeasure(dataList)
                 }
-                pushPullDates.pullDatesMeasure(dataList)
             }
     }
 
-    private fun pushDatesForeign() {}
+    private fun pushDatesForeign() {
+        db.collection(auth.currentUser!!.email.toString()).document("Foreign").set(
+            pushPullDates.pushDatesForeign()
+        ).addOnCompleteListener {
+       Log.d("ForeignPush","${pushPullDates.pushDatesForeign()}")
+            Log.d("DatesPush","${pushPullDates.pushDates()}")
+        }
+        Log.d("Complete push","Complete push of foreign")
+
+    }
+    private fun pullDatesForeign() {}
+
 
     private fun keyIsInRange(string: String) {
         //-----------------------------------------------------------------------------------
@@ -200,6 +175,5 @@ class FireBaseController(val context: Context, navController: NavController) {
         //-------------------------------------------------------------------------------
     }
 
-    private fun pullDatesForeign() {}
 
 }

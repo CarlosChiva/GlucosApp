@@ -6,6 +6,7 @@ import com.example.tfg.models.Data
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -85,6 +86,33 @@ class SQLController(context: Context) {
         closeAll()
         return datos
     }
+
+
+
+
+
+    fun loadDatesForeign(): Map<LocalDateTime,Int> {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+        val result = sqlQueryer.rawQuery("select * from $FOREIGN_MEDIDA order by fecha desc", null)
+        val datos = mutableMapOf<LocalDateTime, Int>()
+
+        while (result.moveToNext()) {
+            val fechaDate = dateFormat.parse(result.getString(0))
+            // Convertir Date a LocalDateTime
+            val fechaLocalDateTime = LocalDateTime.ofInstant(
+                Instant.ofEpochMilli(fechaDate!!.time),
+                ZoneId.systemDefault()
+            )
+
+            datos[fechaLocalDateTime] = result.getInt(1)
+        }
+
+        result.close()
+        closeAll()
+        return datos
+    }
+
+
 
     fun readLastDatesToForeign(): Pair<LocalDateTime, Int> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
