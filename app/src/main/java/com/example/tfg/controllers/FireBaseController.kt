@@ -92,7 +92,7 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     private fun pushDatesMeasure() {
         db.collection(auth.currentUser!!.email.toString()).document("Measure").set(
-            pushPullDates.pushDates()
+            pushPullDates.pushDates(),SetOptions.merge()
         ).addOnCompleteListener {
         }
     }
@@ -145,27 +145,21 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     private fun pushDatesForeign() {
-
+        val document = "Foreign"
         val originalMap = pushPullDates.pushDatesForeign()
         for ((month, list) in originalMap) {
             val map = mapOf<String, List<Foreign>>(
                 month to list
             )
-            Log.d("Map utilizado", "$map")
-        writeForeignFirestore(map)
-        }
-
-       // writeForeignFirestore(map)
-            Log.d("Complete push", "Complete push of foreign")
-
+            db.collection(auth.currentUser!!.email.toString()).document(document).set(
+                map, SetOptions.merge()
+            ).addOnCompleteListener {
+                Log.d("Write succesfuly","$document")
+            }        }
     }
 
-    private fun writeForeignFirestore(map: Map<String, List<Foreign>>) {
-        db.collection(auth.currentUser!!.email.toString()).document("Foreign").set(
-            map, SetOptions.merge()
-        ).addOnCompleteListener {
-            Log.d("ForeignPush", "yes!!!!")
-        }
+    private fun writeForeignFirestore(map: Map<String, List<Foreign>>, document: String) {
+
     }
 
     private fun pullDatesForeign() {}
