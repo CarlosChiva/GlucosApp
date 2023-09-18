@@ -1,8 +1,10 @@
 package com.example.tfg.controllers
 
 import android.content.Context
+import android.util.Log
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.Data
+import com.example.tfg.models.Foreign
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -14,18 +16,23 @@ class PushPullDates(val context: Context) {
         return measures.associateBy { it.date.toString() }
     }
 
-    fun pushDatesForeign() :Map<String,Int>{
+    fun pushDatesForeign(): Map<String, MutableList<Foreign>> {
         val dates = SQLController(this.context).loadDatesForeign()
-        val resultMap = mutableMapOf<String, Int>()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+        Log.d("PushPullClass/PusshDatesForeign", "$dates")
+        // Crea un mapa para almacenar las listas divididas por mes
+        val groupedMap = mutableMapOf<String, MutableList<Foreign>>()
 
-        for ((fecha, valor) in dates) {
-            val fechaComoString = fecha.format(formatter)
-            resultMap[fechaComoString] = valor
+        for (foreign in dates) {
+            val month = foreign.date.month.toString() + foreign.date.year.toString()
+
+            // Verifica si ya existe una lista para ese mes, si no, crea una nueva lista
+            val foreignList = groupedMap.getOrPut(month) { mutableListOf() }
+
+            // Agrega el objeto Foreign a la lista correspondiente
+            foreignList.add(foreign)
         }
 
-        return resultMap
-
+        return groupedMap
     }
 
     fun pullDatesMeasure(mutableList: MutableList<Data>) {

@@ -6,9 +6,10 @@ import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.models.Data
+import com.example.tfg.models.Foreign
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -49,14 +50,14 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     fun push() {
-     //   pushConfiguration()
-      // pushDatesMeasure()
+        pushConfiguration()
+        pushDatesMeasure()
         pushDatesForeign()
     }
 
     fun pull() {
         pullConfiguration()
-       // pullDatesMeasure()
+        // pullDatesMeasure()
         pullDatesForeign()
 
 
@@ -144,15 +145,29 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     private fun pushDatesForeign() {
-        db.collection(auth.currentUser!!.email.toString()).document("Foreign").set(
-            pushPullDates.pushDatesForeign()
-        ).addOnCompleteListener {
-       Log.d("ForeignPush","${pushPullDates.pushDatesForeign()}")
-            Log.d("DatesPush","${pushPullDates.pushDates()}")
+
+        val originalMap = pushPullDates.pushDatesForeign()
+        for ((month, list) in originalMap) {
+            val map = mapOf<String, List<Foreign>>(
+                month to list
+            )
+            Log.d("Map utilizado", "$map")
+        writeForeignFirestore(map)
         }
-        Log.d("Complete push","Complete push of foreign")
+
+       // writeForeignFirestore(map)
+            Log.d("Complete push", "Complete push of foreign")
 
     }
+
+    private fun writeForeignFirestore(map: Map<String, List<Foreign>>) {
+        db.collection(auth.currentUser!!.email.toString()).document("Foreign").set(
+            map, SetOptions.merge()
+        ).addOnCompleteListener {
+            Log.d("ForeignPush", "yes!!!!")
+        }
+    }
+
     private fun pullDatesForeign() {}
 
 

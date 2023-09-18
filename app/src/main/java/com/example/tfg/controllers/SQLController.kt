@@ -3,6 +3,7 @@ package com.example.tfg.controllers
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import com.example.tfg.models.Data
+import com.example.tfg.models.Foreign
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -15,11 +16,11 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SQLController(context: Context) {
-   private var context: Context
+    private var context: Context
     private var sqlMaker: SQLMaker
-   private var sqlQueryer: SQLiteDatabase
-   private val MEDIDA = "measure"
-   private val FOREIGN_MEDIDA = "foreignMeasure"
+    private var sqlQueryer: SQLiteDatabase
+    private val MEDIDA = "measure"
+    private val FOREIGN_MEDIDA = "foreignMeasure"
 
     init {
         this.context = context
@@ -88,30 +89,34 @@ class SQLController(context: Context) {
     }
 
 
-
-
-
-    fun loadDatesForeign(): Map<LocalDateTime,Int> {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        val result = sqlQueryer.rawQuery("select * from $FOREIGN_MEDIDA order by fecha desc", null)
-        val datos = mutableMapOf<LocalDateTime, Int>()
+    fun loadDatesForeign(): MutableList<Foreign> {
+        val dateFormat = SimpleDateFormat("yyyy-MM HH", Locale.getDefault())
+        val query = """
+        SELECT 
+            strftime('%Y-%m %H', fecha) AS mes,
+            AVG(glucosa) AS media_glucosa 
+        FROM $FOREIGN_MEDIDA 
+        GROUP BY mes
+        ORDER BY mes  DESC
+    """.trimIndent()
+        val result = sqlQueryer.rawQuery(query, null)
+        val datos = mutableListOf<Foreign>()
 
         while (result.moveToNext()) {
-            val fechaDate = dateFormat.parse(result.getString(0))
-            // Convertir Date a LocalDateTime
-            val fechaLocalDateTime = LocalDateTime.ofInstant(
-                Instant.ofEpochMilli(fechaDate!!.time),
-                ZoneId.systemDefault()
+            val fecha = dateFormat.parse(result.getString(0))
+            datos.add(
+                Foreign(
+                    fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                    result.getInt(1)
+                )
             )
 
-            datos[fechaLocalDateTime] = result.getInt(1)
         }
 
         result.close()
         closeAll()
         return datos
     }
-
 
 
     fun readLastDatesToForeign(): Pair<LocalDateTime, Int> {
@@ -285,7 +290,7 @@ class SQLController(context: Context) {
     }
 
     fun totalFastInsulin(): Int {
-        var totalFastInsulin:Int
+        var totalFastInsulin: Int
         val query =
             "SELECT sum(m.pick) FROM $MEDIDA m WHERE m.fecha BETWEEN datetime('now', '-7 days') AND CURRENT_DATE ;"
         val result = sqlQueryer.rawQuery(query, null)
