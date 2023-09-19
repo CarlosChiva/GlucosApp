@@ -20,7 +20,9 @@ class FireBaseController(val context: Context, navController: NavController) {
     var nav: NavController? = navController
     private val pushPullDates = PushPullDates(context)
     private val db = FirebaseFirestore.getInstance()
-
+    private val FOREIGN = "Foreign"
+    private val MEASURE = "Measure"
+    private val CONFIGURATION = "Configuration"
     private var correctkeys: MutableList<String> = mutableListOf()
     fun autentication(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
@@ -56,10 +58,10 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     fun pull() {
-        pullConfiguration()
+        //  pullConfiguration()
         // pullDatesMeasure()
-        pullDatesForeign()
-
+        //pullDatesForeign()
+        lastDate()
 
     }
 
@@ -68,14 +70,55 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     }
 
+    private fun lastDate() {
+        val localDateTime = LocalDateTime.now().monthValue
+        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.exists()) {
+                    val dataMap = querySnapshot.data
+                    val key = dataMap!!.keys
+                    key.forEach {
+                        val valueMonth = it[0].toString().toInt()
+                        if (valueMonth == localDateTime) {
+                            Log.d("Last Key:", valueMonth.toString())
+                        }
+                    }
+
+                }
+            }
+    }
+
+    //----------------------------------------------------Push methods----------------------------------------
     private fun pushConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document("Configuration").set(
+        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION).set(
             pushPullDates.pushConfiguration()
         )
     }
 
+    private fun pushDatesMeasure() {
+        db.collection(auth.currentUser!!.email.toString()).document(MEASURE).set(
+            pushPullDates.pushDates(), SetOptions.merge()
+        ).addOnCompleteListener {
+        }
+    }
+
+    private fun pushDatesForeign() {
+        val originalMap = pushPullDates.pushDatesForeign()
+        for ((month, list) in originalMap) {
+            val map = mapOf<String, List<Foreign>>(
+                month to list
+            )
+            db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).set(
+                map, SetOptions.merge()
+            ).addOnCompleteListener {
+                Log.d("Write succesfuly", FOREIGN)
+            }
+        }
+    }
+
+    //----------------------------------------Pull methods----------------------------------------
     private fun pullConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document("Configuration").get()
+        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION).get()
             .addOnCompleteListener {
                 val list = listOf(
                     it.result.get("glucoseMax").toString().toInt(),
@@ -90,16 +133,10 @@ class FireBaseController(val context: Context, navController: NavController) {
             }
     }
 
-    private fun pushDatesMeasure() {
-        db.collection(auth.currentUser!!.email.toString()).document("Measure").set(
-            pushPullDates.pushDates(),SetOptions.merge()
-        ).addOnCompleteListener {
-        }
-    }
 
     private fun pullDatesMeasure() {
         val dataList = mutableListOf<Data>()
-        db.collection(auth.currentUser!!.email.toString()).document("Measure").get()
+        db.collection(auth.currentUser!!.email.toString()).document(MEASURE).get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.exists()) {
                     val dataMap = querySnapshot.data
@@ -144,32 +181,33 @@ class FireBaseController(val context: Context, navController: NavController) {
             }
     }
 
-    private fun pushDatesForeign() {
-        val document = "Foreign"
-        val originalMap = pushPullDates.pushDatesForeign()
-        for ((month, list) in originalMap) {
-            val map = mapOf<String, List<Foreign>>(
-                month to list
-            )
-            db.collection(auth.currentUser!!.email.toString()).document(document).set(
-                map, SetOptions.merge()
-            ).addOnCompleteListener {
-                Log.d("Write succesfuly","$document")
-            }        }
+
+    private fun pullDatesForeign() {
+        val dataList = mutableListOf<Foreign>()
+        val currentTime = LocalDateTime.now()
+        val monthago = LocalDateTime.now().minusMonths(3)
+        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).get()
+            .addOnSuccessListener { querySnapshot ->
+                if (querySnapshot.exists()) {
+                    val dataMap = querySnapshot.data!!
+                    for ((_, foreignList) in dataMap) {
+                        for (foreign in foreignList as List<Foreign>) {
+                            if (foreign.date.isAfter(monthago) && foreign.date.isBefore(currentTime)) {
+                                dataList.add(foreign)
+                            }
+                        }
+                    }
+                }
+                // pushPullDates.pullForeign()
+            }
+        Log.d("Pull  Foreign", "$dataList")
     }
-
-    private fun writeForeignFirestore(map: Map<String, List<Foreign>>, document: String) {
-
-    }
-
-    private fun pullDatesForeign() {}
 
 
     private fun keyIsInRange(string: String) {
         //-----------------------------------------------------------------------------------
         // Obtén la fecha actual
         val fechaInicial = LocalDateTime.now().minusMonths(3)
-
         // Define el formato de la fecha proporcionada
         val formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
 

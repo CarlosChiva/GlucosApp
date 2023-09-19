@@ -63,6 +63,13 @@ class SQLController(context: Context) {
         }
 
     }
+    fun insertForeignPull(lista:List<Foreign>){
+        lista.forEach {
+            val date = transformDate(it.date)
+            sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.glucose});")
+        }
+
+    }
 
     //--------------------------------------------------------------Loads
     fun loadDatesMedida(): MutableList<Data> {
