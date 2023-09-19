@@ -59,10 +59,15 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     fun pull() {
+        clearBd()
         //  pullConfiguration()
-        //pullDatesMeasure()
-        //pullDatesForeign()
+        pullMeasure()
+        pullForeign()
 
+    }
+
+    private fun clearBd() {
+        pushPullDates.clearTables()
     }
 
     private fun navViews() {
@@ -70,45 +75,8 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     }
 
-    private fun lastDate(): Int {
-        val localDateTime = LocalDateTime.now().monthValue
-        val db = FirebaseFirestore.getInstance()
-        val documentReference = db.collection(auth.currentUser!!.email.toString()).document(FOREIGN)
 
-        try {
-            val task: com.google.android.gms.tasks.Task<DocumentSnapshot> = documentReference.get()
-            Tasks.await(task)
-            if (task.isSuccessful) {
-                val document = task.result
-                if (document != null && document.exists()) {
-                    val dataMap = document.data
-                    val key = dataMap!!.keys
-                    var monthValue = 0
-
-                    key.forEach {
-                        val valueMonth = it[0].toString().toInt()
-                        if (valueMonth == localDateTime) {
-                            monthValue = valueMonth
-                            Log.d("Key:1", monthValue.toString())
-                        }
-                    }
-                    Log.d("Key:2", monthValue.toString())
-                    return monthValue
-                }
-            }
-        } catch (e: Exception) {
-            e.cause
-        }
-        return 0
-    }
-
-    //----------------------------------------------------Push methods----------------------------------------
-    private fun pushConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION).set(
-            pushPullDates.pushConfiguration()
-        )
-    }
-
+    //----------------------------------------------------Push/pull methods of Measure----------------
     private fun pushDatesMeasure() {
         db.collection(auth.currentUser!!.email.toString()).document(MEASURE).set(
             pushPullDates.pushDates(), SetOptions.merge()
@@ -116,41 +84,7 @@ class FireBaseController(val context: Context, navController: NavController) {
         }
     }
 
-    private fun pushDatesForeign() {
-        val originalMap = pushPullDates.pushDatesForeign()
-        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).set(
-            originalMap, SetOptions.merge()
-        ).addOnCompleteListener {
-            Log.d("Write succesfuly", FOREIGN)
-
-        }
-    }
-
-    //----------------------------------------Pull methods----------------------------------------
-    private fun pullConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION).get()
-            .addOnCompleteListener {
-                val list = listOf(
-                    it.result.get("glucoseMax").toString().toInt(),
-                    it.result.get("glucoseMin").toString().toInt(),
-                    it.result.get("alarm").toString().toInt(),
-                    it.result.get("lowInsulin").toString().toInt(),
-                    it.result.get("sensitiveFactor").toString().toInt(),
-                    it.result.get("ratioInsulin").toString().toInt(),
-                )
-
-                pushPullDates.pullConfiguration(list)
-            }
-    }
-
-
-    private fun pullDatesMeasure() {
-        delTableMeasure()
-        pullMeasures()
-    }
-
-    private fun delTableMeasure() {}
-    private fun pullMeasures() {
+    private fun pullMeasure() {
         val dataList = mutableListOf<Data>()
         var correctKeys = mutableListOf<String>()
         db.collection(auth.currentUser!!.email.toString()).document(MEASURE).get()
@@ -201,13 +135,18 @@ class FireBaseController(val context: Context, navController: NavController) {
         pushPullDates.pullDatesMeasure(dataList)
     }
 
+    //-------------------------------Push/Pull methods of Foreign------------------------------------
+    private fun pushDatesForeign() {
+        val originalMap = pushPullDates.pushDatesForeign()
+        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).set(
+            originalMap, SetOptions.merge()
+        ).addOnCompleteListener {
+            Log.d("Write succesfuly", FOREIGN)
 
-    private fun pullDatesForeign() {
-        delTableForeign()
-        pullForeign()
+        }
     }
 
-    private fun delTableForeign() {}
+
     private fun pullForeign() {
 
         val dataList = mutableListOf<Foreign>()
@@ -230,6 +169,29 @@ class FireBaseController(val context: Context, navController: NavController) {
         Log.d("Pull  Foreign", "$dataList")
     }
 
+
+    //----------------------------------------Push/pull methods of configuration---------------------
+    private fun pushConfiguration() {
+        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION).set(
+            pushPullDates.pushConfiguration()
+        )
+    }
+
+    private fun pullConfiguration() {
+        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION).get()
+            .addOnCompleteListener {
+                val list = listOf(
+                    it.result.get("glucoseMax").toString().toInt(),
+                    it.result.get("glucoseMin").toString().toInt(),
+                    it.result.get("alarm").toString().toInt(),
+                    it.result.get("lowInsulin").toString().toInt(),
+                    it.result.get("sensitiveFactor").toString().toInt(),
+                    it.result.get("ratioInsulin").toString().toInt(),
+                )
+
+                pushPullDates.pullConfiguration(list)
+            }
+    }
 
     private fun keyIsInRange(mutableSet: MutableSet<String>): MutableList<String> {
         var correctKeys = mutableListOf<String>()

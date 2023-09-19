@@ -63,7 +63,8 @@ class SQLController(context: Context) {
         }
 
     }
-    fun insertForeignPull(lista:List<Foreign>){
+
+    fun insertForeignPull(lista: List<Foreign>) {
         lista.forEach {
             val date = transformDate(it.date)
             sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.glucose});")
@@ -316,4 +317,8 @@ class SQLController(context: Context) {
         this.sqlMaker.close()
     }
 
+    fun clearTables(){
+        sqlQueryer.execSQL("DELETE FROM $MEDIDA")
+        sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
+    }
 }
