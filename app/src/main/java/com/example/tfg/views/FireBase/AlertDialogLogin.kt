@@ -2,6 +2,7 @@ package com.example.tfg.views.FireBase
 
 import android.app.AlertDialog
 import android.content.Context
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
@@ -10,6 +11,7 @@ import android.widget.TextView
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
+import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.EnumActivitys
 
 //import com.google.firebase.auth.FirebaseAuth
@@ -47,11 +49,9 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             var autentication = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 autentication.autentication(email.text.toString(), password.text.toString())
-                    alertDialog!!.dismiss()
+                alertDialog!!.dismiss()
             }
         }
-
-
     }
 
     private fun sign_upDialog() {

@@ -10,10 +10,19 @@ import java.time.format.DateTimeFormatter
 
 class PushPullDates(val context: Context) {
     val configuration = ConfiguracionModel(this.context)
-    fun pushDates(): Map<String, Data> {
+    fun pushDates(): Map<String, MutableList<Data>> {
         val measures = SQLController(this.context).loadDatesMedida()
-        measures.reverse()
-        return measures.associateBy { it.date.toString() }
+        val groupedMap = mutableMapOf<String, MutableList<Data>>()
+        for (foreign in measures) {
+            val month = "${foreign.date.monthValue.toString()}-${foreign.date.year.toString()}"
+            // Verifica si ya existe una lista para ese mes, si no, crea una nueva lista
+            val foreignList = groupedMap.getOrPut(month) { mutableListOf() }
+
+            // Agrega el objeto Foreign a la lista correspondiente
+            foreignList.add(foreign)
+        }
+
+        return groupedMap
     }
 
     fun pushDatesForeign(): Map<String, MutableList<Foreign>> {

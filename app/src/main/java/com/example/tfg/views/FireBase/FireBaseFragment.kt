@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.databinding.ViewFirebaseBinding
+import com.example.tfg.models.ConfiguracionModel
 
 class FireBaseFragment : Fragment() {
     private var _binding: ViewFirebaseBinding? = null
@@ -29,6 +30,7 @@ class FireBaseFragment : Fragment() {
         val pushButton = binding.pushButton
         val pullButton = binding.pullButton
         val backButton = binding.backButton
+
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_viewPagerFirebase_to_MainFragment)
         }

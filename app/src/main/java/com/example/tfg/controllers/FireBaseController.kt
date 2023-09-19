@@ -7,7 +7,9 @@ import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.models.Data
 import com.example.tfg.models.Foreign
+import com.google.android.gms.tasks.Tasks
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import java.time.LocalDateTime
@@ -23,7 +25,6 @@ class FireBaseController(val context: Context, navController: NavController) {
     private val FOREIGN = "Foreign"
     private val MEASURE = "Measure"
     private val CONFIGURATION = "Configuration"
-    private var correctkeys: MutableList<String> = mutableListOf()
     fun autentication(email: String, password: String) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
@@ -52,16 +53,15 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     fun push() {
-        pushConfiguration()
-        pushDatesMeasure()
+        // pushConfiguration()
+        //pushDatesMeasure()
         pushDatesForeign()
     }
 
     fun pull() {
         //  pullConfiguration()
-        // pullDatesMeasure()
+        //pullDatesMeasure()
         //pullDatesForeign()
-        lastDate()
 
     }
 
@@ -70,22 +70,36 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     }
 
-    private fun lastDate() {
+    private fun lastDate(): Int {
         val localDateTime = LocalDateTime.now().monthValue
-        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).get()
-            .addOnSuccessListener { querySnapshot ->
-                if (querySnapshot.exists()) {
-                    val dataMap = querySnapshot.data
+        val db = FirebaseFirestore.getInstance()
+        val documentReference = db.collection(auth.currentUser!!.email.toString()).document(FOREIGN)
+
+        try {
+            val task: com.google.android.gms.tasks.Task<DocumentSnapshot> = documentReference.get()
+            Tasks.await(task)
+            if (task.isSuccessful) {
+                val document = task.result
+                if (document != null && document.exists()) {
+                    val dataMap = document.data
                     val key = dataMap!!.keys
+                    var monthValue = 0
+
                     key.forEach {
                         val valueMonth = it[0].toString().toInt()
                         if (valueMonth == localDateTime) {
-                            Log.d("Last Key:", valueMonth.toString())
+                            monthValue = valueMonth
+                            Log.d("Key:1", monthValue.toString())
                         }
                     }
-
+                    Log.d("Key:2", monthValue.toString())
+                    return monthValue
                 }
             }
+        } catch (e: Exception) {
+            e.cause
+        }
+        return 0
     }
 
     //----------------------------------------------------Push methods----------------------------------------
@@ -104,15 +118,11 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     private fun pushDatesForeign() {
         val originalMap = pushPullDates.pushDatesForeign()
-        for ((month, list) in originalMap) {
-            val map = mapOf<String, List<Foreign>>(
-                month to list
-            )
-            db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).set(
-                map, SetOptions.merge()
-            ).addOnCompleteListener {
-                Log.d("Write succesfuly", FOREIGN)
-            }
+        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN).set(
+            originalMap, SetOptions.merge()
+        ).addOnCompleteListener {
+            Log.d("Write succesfuly", FOREIGN)
+
         }
     }
 
@@ -135,54 +145,71 @@ class FireBaseController(val context: Context, navController: NavController) {
 
 
     private fun pullDatesMeasure() {
+        delTableMeasure()
+        pullMeasures()
+    }
+
+    private fun delTableMeasure() {}
+    private fun pullMeasures() {
         val dataList = mutableListOf<Data>()
+        var correctKeys = mutableListOf<String>()
         db.collection(auth.currentUser!!.email.toString()).document(MEASURE).get()
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.exists()) {
                     val dataMap = querySnapshot.data
                     val keys = dataMap!!.keys
-                    keys.forEach { keyIsInRange(it) }
-                    correctkeys.forEach {
-                        val value = dataMap[it]
+                    correctKeys = keyIsInRange(keys)
+                    if (correctKeys.isNotEmpty()) {
+                        correctKeys.forEach {
+                            val value = dataMap[it]
 
-                        if (value is Map<*, *>) {
-                            // Acceder a los valores dentro del mapa interno
-                            val dateMap = value["date"] as? Map<String, Any>
-                            val glucose = value["glucose"].toString().toInt()
-                            val pick = value["pick"].toString().toInt()
-                            val pickIcon = value["pickIcon"] as? Boolean
-                            val alarm = value["alarm"] as? Boolean
-                            val CHfood = value["chfood"].toString().toInt()
-                            val food = value["food"] as? Boolean
+                            if (value is Map<*, *>) {
+                                // Acceder a los valores dentro del mapa interno
+                                val dateMap = value["date"] as? Map<String, Any>
+                                val glucose = value["glucose"].toString().toInt()
+                                val pick = value["pick"].toString().toInt()
+                                val pickIcon = value["pickIcon"] as? Boolean
+                                val alarm = value["alarm"] as? Boolean
+                                val CHfood = value["chfood"].toString().toInt()
+                                val food = value["food"] as? Boolean
 
-                            val year = dateMap!!["year"].toString().toInt()
-                            val monthValue = dateMap["monthValue"].toString().toInt()
-                            val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
-                            val hour = dateMap["hour"].toString().toInt()
-                            val minute = dateMap["minute"].toString().toInt()
+                                val year = dateMap!!["year"].toString().toInt()
+                                val monthValue = dateMap["monthValue"].toString().toInt()
+                                val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
+                                val hour = dateMap["hour"].toString().toInt()
+                                val minute = dateMap["minute"].toString().toInt()
 
-                            val date =
-                                LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
-                            dataList.add(
-                                Data(
-                                    date,
-                                    glucose,
-                                    pick,
-                                    pickIcon,
-                                    alarm,
-                                    CHfood,
-                                    food
+                                val date =
+                                    LocalDateTime.of(year, monthValue, dayOfMonth, hour, minute)
+                                dataList.add(
+                                    Data(
+                                        date,
+                                        glucose,
+                                        pick,
+                                        pickIcon,
+                                        alarm,
+                                        CHfood,
+                                        food
+                                    )
                                 )
-                            )
+                            }
                         }
+
                     }
-                    pushPullDates.pullDatesMeasure(dataList)
                 }
             }
+        pushPullDates.pullDatesMeasure(dataList)
     }
 
 
     private fun pullDatesForeign() {
+        delTableForeign()
+        pullForeign()
+    }
+
+    private fun delTableForeign() {}
+    private fun pullForeign() {
+
         val dataList = mutableListOf<Foreign>()
         val currentTime = LocalDateTime.now()
         val monthago = LocalDateTime.now().minusMonths(3)
@@ -198,27 +225,30 @@ class FireBaseController(val context: Context, navController: NavController) {
                         }
                     }
                 }
-                // pushPullDates.pullForeign()
+                pushPullDates.pullForeign(dataList)
             }
         Log.d("Pull  Foreign", "$dataList")
     }
 
 
-    private fun keyIsInRange(string: String) {
+    private fun keyIsInRange(mutableSet: MutableSet<String>): MutableList<String> {
+        var correctKeys = mutableListOf<String>()
         //-----------------------------------------------------------------------------------
         // Obtén la fecha actual
         val fechaInicial = LocalDateTime.now().minusMonths(3)
         // Define el formato de la fecha proporcionada
         val formato = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
+        mutableSet.forEach {
+            // Convierte la fecha proporcionada a LocalDateTime
+            val fechaProporcionada = LocalDateTime.parse(it, formato)
 
-        // Convierte la fecha proporcionada a LocalDateTime
-        val fechaProporcionada = LocalDateTime.parse(string, formato)
-
-        // Compara la fecha actual con la fecha proporcionada
-        if (fechaProporcionada.isAfter(fechaInicial)) {
-            Log.d("Fecha correcta para cargar", "$fechaProporcionada------   $string")
-            correctkeys.add(string)
+            // Compara la fecha actual con la fecha proporcionada
+            if (fechaProporcionada.isAfter(fechaInicial)) {
+                Log.d("Fecha correcta para cargar", "$fechaProporcionada------   $it")
+                correctKeys.add(it)
+            }
         }
+        return correctKeys
         //-------------------------------------------------------------------------------
     }
 
