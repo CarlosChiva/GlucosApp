@@ -2,8 +2,7 @@ package com.example.tfg.views.FireBase
 
 import android.app.AlertDialog
 import android.content.Context
-import android.text.Editable
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
@@ -11,10 +10,7 @@ import android.widget.TextView
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
-import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.EnumActivitys
-
-//import com.google.firebase.auth.FirebaseAuth
 
 class AlertDialogLogin(context: Context, findNavController: NavController) {
     val context: Context?
@@ -47,10 +43,13 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         }
         buttonLogin.setOnClickListener {
             var autentication = FireBaseController(context!!, nav!!)
-            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                autentication.autentication(email.text.toString(), password.text.toString())
-                alertDialog!!.dismiss()
-            }
+            autentication.autentication("yomismo@gmail.com","yomismo")
+            alertDialog!!.dismiss()
+
+//            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+//                autentication.autentication(email.text.toString(), password.text.toString())
+//                alertDialog!!.dismiss()
+//            }
         }
     }
 
