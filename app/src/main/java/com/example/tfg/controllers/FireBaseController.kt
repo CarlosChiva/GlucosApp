@@ -56,10 +56,10 @@ class FireBaseController(val context: Context, navController: NavController) {
     }
 
     fun pull() {
-        // clearBd()
-        // pullConfiguration()
+        clearBd()
+        pullConfiguration()
         pullMeasure()
-        //pullForeign()
+        pullForeign()
 
     }
 
@@ -137,6 +137,8 @@ class FireBaseController(val context: Context, navController: NavController) {
                         }
                     }
                 }
+                Log.d("Datadata","$dataListResult")
+                pushPullDates.pullDatesMeasure(dataListResult)
             }
     }
 
@@ -181,49 +183,66 @@ class FireBaseController(val context: Context, navController: NavController) {
             .addOnSuccessListener { querySnapshot ->
                 if (querySnapshot.exists()) {
                     val dataMap =
-                        querySnapshot.data!! as Map<String, MutableList<Foreign>>
-                    if (dataMap.isNotEmpty()) {
-                        for ((_, foreignList) in dataMap) {
-                            Log.d("ForeignList:", "$foreignList")
-                            foreignList.forEach {
-                                if (mapToForeignValid(it)) {
-                                    foreigList.add(it)
+                        querySnapshot.data!!
+                    val keys = dataMap.keys as MutableSet<String>
+                    val correctKeys = validKeys(keys)
+                    if (correctKeys.isNotEmpty()) {
+                        correctKeys.forEach {
+                            val value = dataMap[it]
+                            if (value is ArrayList<*>) {
+                                value.forEach { item ->
+                                    var dateMap = mapOf<String, Any>()
+                                    var glucose = 0
+                                    if (item is HashMap<*, *>) {
+                                        dateMap = (item["date"] as? Map<String, Any>)!!
+                                        glucose = item["glucose"].toString().toInt()
+                                    }
+                                    val year = dateMap!!["year"].toString().toInt()
+                                    val monthValue = dateMap["monthValue"].toString().toInt()
+                                    val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
+                                    val hour = dateMap["hour"].toString().toInt()
+                                    val minute = dateMap["minute"].toString().toInt()
+                                    val date =
+                                        LocalDateTime.of(
+                                            year,
+                                            monthValue,
+                                            dayOfMonth,
+                                            hour,
+                                            minute
+                                        )
+                                    val foreign = Foreign(
+                                        date,
+                                        glucose
+
+                                    )
+                                    foreigList.add(
+                                        foreign
+                                    )
+
                                 }
                             }
                         }
-                        Log.d("DataListResultForeign", "$foreigList")
                     }
                 }
-
+                Log.d("DataForeign","$foreigList")
+                pushPullDates.pullForeign(foreigList)
             }
-
-
     }
-//        pushPullDates.pullForeign(foreigList)
 
 
-    fun mapToForeignValid(foreign: Foreign): Boolean {
-        val currentTime = LocalDateTime.now()
-        val monthago = LocalDateTime.now().minusMonths(3)
-        if (foreign.date.isAfter(monthago) && foreign.date.isBefore(
-                currentTime
-            )
-        ) {
-            return true
-        }
-        return false
-    }
 
     //----------------------------------------Push/pull methods of configuration---------------------
     private fun pushConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION)
+        db.collection(auth.currentUser!!.email.toString())
+            .document(CONFIGURATION)
             .set(
                 pushPullDates.pushConfiguration()
             )
     }
 
     private fun pullConfiguration() {
-        db.collection(auth.currentUser!!.email.toString()).document(CONFIGURATION)
+        db.collection(auth.currentUser!!.email.toString())
+            .document(CONFIGURATION)
             .get()
             .addOnCompleteListener {
                 val list = listOf(
