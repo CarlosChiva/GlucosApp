@@ -46,7 +46,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             alertDialog!!.dismiss()
         }
         buttonLogin.setOnClickListener {
-            val autentication = FireBaseController(context!!, nav!!)
+            val autentication = FireBaseController(context!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 autentication.autentication(
                     email.text.toString(),
@@ -86,7 +86,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
         registrerButton.setOnClickListener {
-            val registrer = FireBaseController(context!!, nav!!)
+            val registrer = FireBaseController(context!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 registrer.registr(email.text.toString(), password.text.toString()) { registred ->
                     if (registred) {
@@ -130,10 +130,18 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         if (!configuration.userGet().equals(user) || !configuration.passwordGet()
                 .equals(password)
         ) {
+           val firebase= FireBaseController(this.context!!)
+            firebase.autentication(user,password){
+                if (it){
+                    firebase.push()
+                }
+            }
             configuration.userSet(user)
             configuration.passwordSet(password)
             configuration.saveVAlues()
 
         }
+
+
     }
 }

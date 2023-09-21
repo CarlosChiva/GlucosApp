@@ -2,9 +2,7 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
-import androidx.navigation.NavController
-import com.example.tfg.R
+
 import com.example.tfg.models.Data
 import com.example.tfg.models.Foreign
 import com.google.firebase.auth.FirebaseAuth
@@ -13,10 +11,9 @@ import com.google.firebase.firestore.SetOptions
 import java.time.LocalDateTime
 
 
-class FireBaseController(val context: Context, navController: NavController) {
+class FireBaseController(val context: Context) {
 
     val auth = FirebaseAuth.getInstance()
-    var nav: NavController? = navController
     private val pushPullDates = PushPullDates(context)
     private val db = FirebaseFirestore.getInstance()
     private val FOREIGN = "Foreign"
@@ -70,10 +67,6 @@ class FireBaseController(val context: Context, navController: NavController) {
         pushPullDates.clearTables()
     }
 
-    private fun navViews() {
-        nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
-
-    }
 
 
     //----------------------------------------------------Push/pull methods of Measure----------------
@@ -197,7 +190,7 @@ class FireBaseController(val context: Context, navController: NavController) {
                                         dateMap = (item["date"] as? Map<String, Any>)!!
                                         glucose = item["glucose"].toString().toInt()
                                     }
-                                    val year = dateMap!!["year"].toString().toInt()
+                                    val year = dateMap["year"].toString().toInt()
                                     val monthValue = dateMap["monthValue"].toString().toInt()
                                     val dayOfMonth = dateMap["dayOfMonth"].toString().toInt()
                                     val hour = dateMap["hour"].toString().toInt()
