@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.databinding.ViewFirebaseBinding
-import com.example.tfg.models.ConfiguracionModel
 
 class FireBaseFragment : Fragment() {
     private var _binding: ViewFirebaseBinding? = null
@@ -25,7 +24,7 @@ class FireBaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fireBaseController = FireBaseController(this.requireContext(), findNavController())
+        val fireBaseController = FireBaseController(this.requireContext())
 
         val pushButton = binding.pushButton
         val pullButton = binding.pullButton

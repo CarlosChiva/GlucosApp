@@ -39,4 +39,7 @@
     <string name="email">Email</string>
     <string name="password">Password</string>
     <string name="do_you_have_account">Do You have account?</string>
+    <string name="back">back</string>
+    <string name="push_dates">Push dates</string>
+    <string name="pull_dates">Pull dates</string>
 </resources>
