@@ -144,20 +144,16 @@ class FireBaseController(val context: Context, navController: NavController) {
 
     fun validKeys(fecha: MutableSet<String>): MutableSet<String> {
         val list = mutableSetOf<String>()
-        val currentTime = LocalDateTime.now()
-        val monthago = LocalDateTime.now().minusMonths(1).month.value
-        val twomonthago = LocalDateTime.now().minusMonths(2).month.value
-        val threemonthago = LocalDateTime.now().minusMonths(3).month.value
-        val mesActual = currentTime.month.value
+        val threemonthago = LocalDateTime.now().minusMonths(3)
         fecha.forEach {
             val mes = it[0].toString().toInt()
-
-            if (mes == mesActual || mes == monthago || mes == twomonthago || mes == threemonthago) {
+            val anyo= (it[2].toString() +it[3].toString() +it[4].toString() +it[5].toString()).toInt()
+            val dateParameter=LocalDateTime.of(anyo,mes,1,0,0)
+            if (dateParameter.isAfter(threemonthago)) {
                 list.add(it)
                 Log.d("Añadido", it)
             }
         }
-
         return list
     }
 
