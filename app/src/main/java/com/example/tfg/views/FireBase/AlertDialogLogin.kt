@@ -47,24 +47,16 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         }
         buttonLogin.setOnClickListener {
             var autentication = FireBaseController(context!!, nav!!)
-//            autentication.autentication("yomismo@gmail.com", "yomismo") { isAuthenticated ->
-//                if (isAuthenticated) {
-//                    alertDialog!!.dismiss()
-//                    navViews()
-//                } else {
-//                    Toast.makeText(this.context, "There's no user registred", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 autentication.autentication(
                     email.text.toString(),
                     password.text.toString()
                 ) { isAuthenticated ->
                     if (isAuthenticated) {
-                        configuration.userSet(email.text.toString())
-                        configuration.passwordSet(password.text.toString())
-                        configuration.saveVAlues()
+                        newUser(
+                            email.text.toString(),
+                            password.text.toString()
+                        )
                         alertDialog!!.dismiss()
                         navViews()
                     } else {
@@ -98,6 +90,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 registrer.registr(email.text.toString(), password.text.toString()) { registred ->
                     if (registred) {
+                        newUser(email.text.toString(), password.text.toString())
                         alertDialog!!.dismiss()
                         Toast.makeText(this.context, "Registred sucessfully", Toast.LENGTH_SHORT)
                             .show()
@@ -132,4 +125,15 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         }
     }
 
+    private fun newUser(user: String, password: String) {
+
+        if (!configuration.userGet().equals(user) || !configuration.passwordGet()
+                .equals(password)
+        ) {
+            configuration.userSet(user)
+            configuration.passwordSet(password)
+            configuration.saveVAlues()
+
+        }
+    }
 }
