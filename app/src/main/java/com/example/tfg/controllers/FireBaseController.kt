@@ -22,29 +22,32 @@ class FireBaseController(val context: Context, navController: NavController) {
     private val FOREIGN = "Foreign"
     private val MEASURE = "Measure"
     private val CONFIGURATION = "Configuration"
-    fun autentication(email: String, password: String) {
+    fun autentication(email: String, password: String, callback: (Boolean) -> Unit) {
         auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 auth.currentUser?.reload()?.addOnCompleteListener { reloadTask ->
                     if (reloadTask.isSuccessful) {
-                        navViews()
+                        callback(true) // Autenticación exitosa
                     } else {
-                        Toast.makeText(this.context, "Not user registrated", Toast.LENGTH_SHORT)
-                            .show()
+
+                        callback(false) // Autenticación fallida
                     }
                 }
+            } else {
+                callback(false) // Autenticación fallida
             }
         }
-
     }
 
-    fun registr(email: String, password: String) {
+    fun registr(email: String, password: String, callback: (Boolean) -> Unit) {
         FirebaseAuth.getInstance()
             .createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    navViews()
+                    callback(true)
 
+                } else {
+                    callback(false)
                 }
             }
     }
@@ -137,7 +140,7 @@ class FireBaseController(val context: Context, navController: NavController) {
                         }
                     }
                 }
-                Log.d("Datadata","$dataListResult")
+                Log.d("Datadata", "$dataListResult")
                 pushPullDates.pullDatesMeasure(dataListResult)
             }
     }
@@ -147,8 +150,9 @@ class FireBaseController(val context: Context, navController: NavController) {
         val threemonthago = LocalDateTime.now().minusMonths(3)
         fecha.forEach {
             val mes = it[0].toString().toInt()
-            val anyo= (it[2].toString() +it[3].toString() +it[4].toString() +it[5].toString()).toInt()
-            val dateParameter=LocalDateTime.of(anyo,mes,1,0,0)
+            val anyo =
+                (it[2].toString() + it[3].toString() + it[4].toString() + it[5].toString()).toInt()
+            val dateParameter = LocalDateTime.of(anyo, mes, 1, 0, 0)
             if (dateParameter.isAfter(threemonthago)) {
                 list.add(it)
                 Log.d("Añadido", it)
@@ -220,11 +224,10 @@ class FireBaseController(val context: Context, navController: NavController) {
                         }
                     }
                 }
-                Log.d("DataForeign","$foreigList")
+                Log.d("DataForeign", "$foreigList")
                 pushPullDates.pullForeign(foreigList)
             }
     }
-
 
 
     //----------------------------------------Push/pull methods of configuration---------------------

@@ -7,14 +7,17 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.NavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
+import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.EnumActivitys
 
 class AlertDialogLogin(context: Context, findNavController: NavController) {
     val context: Context?
     var nav: NavController? = null
+    var configuration = ConfiguracionModel(context)
 
     init {
 
@@ -24,15 +27,15 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
     }
 
-    private fun sign_inDialog() {
+    private fun loginDialog() {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.login_dialog, null)
-
         val email = view.findViewById<EditText>(R.id.userText)
         val password = view.findViewById<EditText>(R.id.passwordText)
         val registrer = view.findViewById<TextView>(R.id.registrer)
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
-
+        email.setText(configuration.userGet())
+        password.setText(configuration.passwordGet())
         val builder = AlertDialog.Builder(context)
             .setView(view)
         val alertDialog: AlertDialog? = builder.create()
@@ -40,36 +43,68 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
         registrer.setOnClickListener {
             createDialog(EnumActivitys.SIGN_UP)
+            alertDialog!!.dismiss()
         }
         buttonLogin.setOnClickListener {
             var autentication = FireBaseController(context!!, nav!!)
-            autentication.autentication("yomismo@gmail.com","yomismo")
-            alertDialog!!.dismiss()
-
-//            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-//                autentication.autentication(email.text.toString(), password.text.toString())
-//                alertDialog!!.dismiss()
+//            autentication.autentication("yomismo@gmail.com", "yomismo") { isAuthenticated ->
+//                if (isAuthenticated) {
+//                    alertDialog!!.dismiss()
+//                    navViews()
+//                } else {
+//                    Toast.makeText(this.context, "There's no user registred", Toast.LENGTH_SHORT)
+//                        .show()
+//                }
 //            }
+            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+                autentication.autentication(
+                    email.text.toString(),
+                    password.text.toString()
+                ) { isAuthenticated ->
+                    if (isAuthenticated) {
+                        configuration.userSet(email.text.toString())
+                        configuration.passwordSet(password.text.toString())
+                        configuration.saveVAlues()
+                        alertDialog!!.dismiss()
+                        navViews()
+                    } else {
+                        Toast.makeText(
+                            this.context,
+                            "There's no user registred",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
+            }
         }
     }
 
-    private fun sign_upDialog() {
+    private fun registrerDialog() {
         val inflater = LayoutInflater.from(context)
         val view = inflater.inflate(R.layout.sing_up, null)
 
         val email = view.findViewById<EditText>(R.id.useremail)
         val password = view.findViewById<EditText>(R.id.passwordText)
-        val buttonLogin = view.findViewById<Button>(R.id.buttonsignUp)
+        val registrerButton = view.findViewById<Button>(R.id.buttonsignUp)
 
         val builder = AlertDialog.Builder(context)
             .setView(view)
 
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
-        buttonLogin.setOnClickListener {
+        registrerButton.setOnClickListener {
             var registrer = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                registrer.registr(email.text.toString(), password.text.toString())
+                registrer.registr(email.text.toString(), password.text.toString()) { registred ->
+                    if (registred) {
+                        alertDialog!!.dismiss()
+                        Toast.makeText(this.context, "Registred sucessfully", Toast.LENGTH_SHORT)
+                            .show()
+                        navViews()
+                    }
+
+                }
 
 
             }
@@ -77,9 +112,6 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         }
     }
 
-    private fun showAlert() {
-
-    }
 
     private fun navViews() {
         nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
@@ -89,11 +121,11 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
     private fun createDialog(enumActivitys: EnumActivitys) {
         when (enumActivitys) {
             EnumActivitys.SIGN_IN -> {
-                sign_inDialog()
+                loginDialog()
             }
 
             EnumActivitys.SIGN_UP -> {
-                sign_upDialog()
+                registrerDialog()
             }
 
             else -> {}
