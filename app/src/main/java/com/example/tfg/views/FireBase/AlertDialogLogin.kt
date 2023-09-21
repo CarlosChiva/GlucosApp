@@ -34,19 +34,19 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val password = view.findViewById<EditText>(R.id.passwordText)
         val registrer = view.findViewById<TextView>(R.id.registrer)
         val buttonLogin = view.findViewById<Button>(R.id.buttonLogin)
-        email.setText(configuration.userGet())
-        password.setText(configuration.passwordGet())
+
         val builder = AlertDialog.Builder(context)
             .setView(view)
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
-
+        email.setText(configuration.userGet())
+        password.setText(configuration.passwordGet())
         registrer.setOnClickListener {
             createDialog(EnumActivitys.SIGN_UP)
             alertDialog!!.dismiss()
         }
         buttonLogin.setOnClickListener {
-            var autentication = FireBaseController(context!!, nav!!)
+            val autentication = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 autentication.autentication(
                     email.text.toString(),
@@ -86,7 +86,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
         registrerButton.setOnClickListener {
-            var registrer = FireBaseController(context!!, nav!!)
+            val registrer = FireBaseController(context!!, nav!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 registrer.registr(email.text.toString(), password.text.toString()) { registred ->
                     if (registred) {
