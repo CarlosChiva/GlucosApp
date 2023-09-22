@@ -130,18 +130,25 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         if (!configuration.userGet().equals(user) || !configuration.passwordGet()
                 .equals(password)
         ) {
-
-            configuration.userSet(user)
-            configuration.passwordSet(password)
-            configuration.saveVAlues()
-            val firebase = FireBaseController(this.context!!)
-            firebase.autentication(user, password) {
+            val firebaseOld = FireBaseController(this.context!!)
+            firebaseOld.autentication(configuration.userGet(), configuration.passwordGet()) {
                 if (it) {
-                    firebase.push()
+                    firebaseOld.pushAll() { savedOld ->
+                        if (savedOld) {
+                            //necesito que pare la ejecucion para hacer tod el push antes de las siguientes lineas
+                            configuration.userSet(user)
+                            configuration.passwordSet(password)
+                            configuration.saveVAlues()
+                            val firebase = FireBaseController(this.context)
+                            firebase.autentication(user, password) {
+                                if (it) {
+                                    firebase.push()
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-
         }
     }
 }

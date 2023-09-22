@@ -62,7 +62,36 @@ class FireBaseController(val context: Context) {
 
     }
 
+    fun pushAll(callback: (Boolean) -> Unit) {
+
+        pushAllConfiguration() { configuration ->
+            if (configuration) {
+                pushAllDatesMeasure() { measures ->
+                    if (measures) {
+                        pushAllDatesForeign() { foreigns ->
+                            if (foreigns) {
+                                callback(true)
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
     //----------------------------------------------------Push/pull methods of Measure----------------
+    private fun pushAllDatesMeasure(callback: (Boolean) -> Unit) {
+        db.collection(auth.currentUser!!.email.toString()).document(MEASURE).set(
+            pushPullDates.pushDates(), SetOptions.merge()
+        ).addOnCompleteListener {
+            if (it.isComplete) {
+                callback(true)
+            }
+        }
+    }
+
     private fun pushDatesMeasure() {
         db.collection(auth.currentUser!!.email.toString()).document(MEASURE).set(
             pushPullDates.pushDates(), SetOptions.merge()
@@ -153,6 +182,18 @@ class FireBaseController(val context: Context) {
 
 
     //-------------------------------Push/Pull methods of Foreign------------------------------------
+    private fun pushAllDatesForeign(callback: (Boolean) -> Unit) {
+        val originalMap = pushPullDates.pushDatesForeign()
+        db.collection(auth.currentUser!!.email.toString()).document(FOREIGN)
+            .set(
+                originalMap, SetOptions.merge()
+            ).addOnCompleteListener {
+                if (it.isComplete) {
+                    callback(true)
+                }
+            }
+    }
+
     private fun pushDatesForeign() {
         val originalMap = pushPullDates.pushDatesForeign()
         db.collection(auth.currentUser!!.email.toString()).document(FOREIGN)
@@ -224,6 +265,14 @@ class FireBaseController(val context: Context) {
 
 
     //----------------------------------------Push/pull methods of configuration---------------------
+    private fun pushAllConfiguration(callback: (Boolean) -> Unit) {
+        db.collection(auth.currentUser!!.email.toString())
+            .document(CONFIGURATION)
+            .set(
+                pushPullDates.pushConfiguration()
+            ).addOnCompleteListener { callback(true) }
+    }
+
     private fun pushConfiguration() {
         db.collection(auth.currentUser!!.email.toString())
             .document(CONFIGURATION)
