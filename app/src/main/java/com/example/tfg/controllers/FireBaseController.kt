@@ -270,7 +270,7 @@ class FireBaseController(val context: Context) {
             .document(CONFIGURATION)
             .set(
                 pushPullDates.pushConfiguration()
-            ).addOnCompleteListener { if (it.isComplete)callback(true) }
+            ).addOnCompleteListener { if (it.isComplete) callback(true) }
     }
 
     private fun pushConfiguration() {
