@@ -136,9 +136,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
                     firebase.push()
                 }
             }
-            configuration.userSet(user)
-            configuration.passwordSet(password)
-            configuration.saveVAlues()
+
 
         }
 

@@ -2,6 +2,7 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.example.tfg.models.Data
 import com.example.tfg.models.Foreign
 import com.example.tfg.models.SQLMaker
@@ -51,14 +52,30 @@ class SQLController(context: Context) {
     fun insertIntoMeasure(datos: Data) {
         val date = transformDate(datos.date)
         println("inster measure")
-        sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucose},${datos.pick},${datos.pickIcon},${datos.alarm},${datos.CHfood},${datos.food});")
+        try {
+
+
+            sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucose},${datos.pick},${datos.pickIcon},${datos.alarm},${datos.CHfood},${datos.food});")
+        } catch (e: android.database.sqlite.SQLiteConstraintException) {
+            Log.d("Error de SQLiteConstraintException: UNIQUE constraint failed", "dato erroneo")
+            e.printStackTrace()
+        }
 
     }
 
     fun insertIntofOREIGNMeasure(lista: List<Pair<LocalDateTime, Int>>) {
         lista.forEach {
             val date = transformDate(it.first)
-            sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
+            try {
+
+                sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
+            } catch (e: android.database.sqlite.SQLiteConstraintException) {
+                Log.d(
+                    "Error de SQLiteConstraintException: UNIQUE constraint failed",
+                    "dato erroneo"
+                )
+                e.printStackTrace()
+            }
         }
 
     }
@@ -316,14 +333,16 @@ class SQLController(context: Context) {
         this.sqlMaker.close()
     }
 
-    fun clearTables(){
+    fun clearTables() {
         sqlQueryer.execSQL("DELETE FROM $MEDIDA")
         sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
     }
-    fun clearForeignTab(){
+
+    fun clearForeignTab() {
         sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
     }
-    fun clearMeasureTab(){
+
+    fun clearMeasureTab() {
         sqlQueryer.execSQL("DELETE FROM $MEDIDA")
     }
 }
