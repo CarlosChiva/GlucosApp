@@ -26,7 +26,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
             val fileIn: FileInputStream = context.openFileInput(FILE)
             val reader: InputStreamReader = InputStreamReader(fileIn)
             val br = BufferedReader(reader)
-            var tec: String = br.readLine()
+            val tec: String = br.readLine()
             val array = tec.split(" ")
             glucosaMaximaSet(array[0].toInt())
             glucosaMinimaSet(array[1].toInt())
@@ -109,26 +109,29 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
         password = string
     }
 
-    fun configurationGet(): MutableList<Int> {
-        return mutableListOf<Int>(
+    fun configurationGet(): MutableList<Any> {
+        return mutableListOf<Any>(
             glucoseMax,
             glucoseMin,
             alarm,
             lowInsulin,
             sensitiveFactor,
             ratioInsulin,
-
-            )
+            user,
+            password
+        )
 
     }
 
-    fun configurationSet(mutableList: List<Int>) {
-        glucosaMaximaSet(mutableList[0])
-        glucosaMinimaSet(mutableList[1])
-        alarmaSet(mutableList[2])
-        lowInsulinSet(mutableList[3])
-        sensibilityFactorSet(mutableList[4])
-        ratioInsulinSet(mutableList[5])
+    fun configurationSet(mutableList: List<Any>) {
+        glucosaMaximaSet(mutableList[0].toString().toInt())
+        glucosaMinimaSet(mutableList[1].toString().toInt())
+        alarmaSet(mutableList[2].toString().toInt())
+        lowInsulinSet(mutableList[3].toString().toInt())
+        sensibilityFactorSet(mutableList[4].toString().toInt())
+        ratioInsulinSet(mutableList[5].toString().toInt())
+        userSet(mutableList[6].toString())
+        passwordSet(mutableList[7].toString())
         saveVAlues()
 
     }

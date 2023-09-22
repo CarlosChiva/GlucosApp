@@ -1,12 +1,10 @@
 package com.example.tfg.controllers
 
 import android.content.Context
-import android.util.Log
 import com.example.tfg.models.ConfiguracionModel
 import com.example.tfg.models.Data
 import com.example.tfg.models.Foreign
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+
 
 class PushPullDates(val context: Context) {
     val configuration = ConfiguracionModel(this.context)
@@ -48,7 +46,7 @@ class PushPullDates(val context: Context) {
         }
     }
 
-    fun pushConfiguration(): HashMap<String, Int> {
+    fun pushConfiguration(): HashMap<String, Any> {
         val list = configuration.configurationGet()
         return hashMapOf(
             "glucoseMax" to list[0],
@@ -56,11 +54,13 @@ class PushPullDates(val context: Context) {
             "alarm" to list[2],
             "lowInsulin" to list[3],
             "sensitiveFactor" to list[4],
-            "ratioInsulin" to list[5]
+            "ratioInsulin" to list[5],
+            "user" to list[6],
+            "password" to list[7]
         )
     }
 
-    fun pullConfiguration(mutableList: List<Int>) {
+    fun pullConfiguration(mutableList: List<Any>) {
         configuration.configurationSet(mutableList)
     }
 

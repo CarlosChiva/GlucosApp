@@ -248,6 +248,8 @@ class FireBaseController(val context: Context) {
                     it.result.get("lowInsulin").toString().toInt(),
                     it.result.get("sensitiveFactor").toString().toInt(),
                     it.result.get("ratioInsulin").toString().toInt(),
+                    it.result.get("user").toString(),
+                    it.result.get("password").toString()
                 )
 
                 pushPullDates.pullConfiguration(list)
