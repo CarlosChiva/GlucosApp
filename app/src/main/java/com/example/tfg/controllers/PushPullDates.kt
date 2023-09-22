@@ -68,7 +68,12 @@ class PushPullDates(val context: Context) {
         SQLController(this.context).insertForeignPull(mutableList)
 
     }
-    fun clearTables(){
-        SQLController(this.context).clearTables()
+
+    fun clearMeasureTable() {
+        SQLController(this.context).clearMeasureTab()
+    }
+
+    fun clearForeignTable() {
+        SQLController(this.context).clearForeignTab()
     }
 }

@@ -56,26 +56,21 @@ class FireBaseController(val context: Context) {
     }
 
     fun pull() {
-        clearBd()
         pullConfiguration()
         pullMeasure()
         pullForeign()
 
     }
 
-    private fun clearBd() {
-        pushPullDates.clearTables()
-    }
-
-
-
     //----------------------------------------------------Push/pull methods of Measure----------------
     private fun pushDatesMeasure() {
         db.collection(auth.currentUser!!.email.toString()).document(MEASURE).set(
             pushPullDates.pushDates(), SetOptions.merge()
-        ).addOnCompleteListener {if (it.isComplete){
-            pullMeasure()
-        }
+        ).addOnCompleteListener {
+            if (it.isComplete) {
+                pushPullDates.clearMeasureTable()
+                pullMeasure()
+            }
         }
     }
 
@@ -164,8 +159,9 @@ class FireBaseController(val context: Context) {
             .set(
                 originalMap, SetOptions.merge()
             ).addOnCompleteListener {
-                if(it.isComplete) {
-                 pullForeign()
+                if (it.isComplete) {
+                    pushPullDates.clearForeignTable()
+                    pullForeign()
                     Log.d("Write succesfuly", FOREIGN)
                 }
             }

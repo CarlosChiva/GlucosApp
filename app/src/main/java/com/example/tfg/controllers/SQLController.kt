@@ -7,7 +7,6 @@ import com.example.tfg.models.Foreign
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -320,5 +319,11 @@ class SQLController(context: Context) {
     fun clearTables(){
         sqlQueryer.execSQL("DELETE FROM $MEDIDA")
         sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
+    }
+    fun clearForeignTab(){
+        sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
+    }
+    fun clearMeasureTab(){
+        sqlQueryer.execSQL("DELETE FROM $MEDIDA")
     }
 }
