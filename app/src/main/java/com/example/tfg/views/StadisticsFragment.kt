@@ -44,7 +44,7 @@ class StadisticsFragment : Fragment() {
 
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.requireContext())
 
 
         val viewPager = binding.viewPager

@@ -47,11 +47,11 @@ class HistoricalFragment : Fragment() {
         hasMap["main"] = R.id.action_historicalFragment_to_Main
 
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.requireContext())
         //Inicialization of reciclerView of the main View of this screen
         val recyclerView = binding.recycler
         recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = HistoricalAdapter(this.context!!, demoList())
+        recyclerView.adapter = HistoricalAdapter(this.requireContext(), demoList())
         val backButton= binding.motion.backButton
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_historicalFragment_to_Main)
@@ -59,8 +59,8 @@ class HistoricalFragment : Fragment() {
     }
 
     //Function demo for addd information for testing class adapter
-    fun demoList(): MutableList<Data> {
-        val sqlController = SQLController(this.context!!)
+    private fun demoList(): MutableList<Data> {
+        val sqlController = SQLController(this.requireContext())
         return sqlController.loadDatesMedida()
     }
 

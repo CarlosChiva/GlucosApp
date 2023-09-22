@@ -50,7 +50,7 @@ class ConfigurationFragment : Fragment() {
         val bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
         mainButton.setImageDrawable(BitmapDrawable(resources, bitmapextraction))
         //-------------------------Inicialize the ConfigurationModel to load the values recorded before
-        configuration = ConfiguracionModel(this.context!!)
+        configuration = ConfiguracionModel(this.requireContext())
         //-------------------------------------------------Inicialize the components of view
         glucMin = binding.glucMin
         glucMax = binding.glucMaxim
@@ -70,7 +70,7 @@ class ConfigurationFragment : Fragment() {
         hasMap["measure"] = R.id.action_ConfigurationFragment_to_measureFragment
         hasMap["main"]=R.id.action_ConfigurationFragment_to_Main
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.context!!)
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap,this.requireContext())
         val backButton= binding.motion.backButton
         backButton.setOnClickListener {
                 findNavController().navigate(R.id.action_ConfigurationFragment_to_Main)
@@ -101,9 +101,9 @@ class ConfigurationFragment : Fragment() {
         }
         saveButton.setOnClickListener {
             val has: HashMap<String, String> = hashMapOf()
-            has.put("glucMax", glucMax.text.toString())
-            has.put("glucMin", glucMin.text.toString())
-            has.put("alarm", alarm.text.toString())
+            has["glucMax"] = glucMax.text.toString()
+            has["glucMin"] = glucMin.text.toString()
+            has["alarm"] = alarm.text.toString()
             alertDialog(has)
         }
         //------------------------------------- Method fo Seekbar to setter the value of cards views
@@ -142,13 +142,12 @@ class ConfigurationFragment : Fragment() {
 
     }
 
-    fun valuesOfRating(enumActivitys: EnumActivitys): Array<Int> {
-        val number: Array<Int>
-        when (enumActivitys) {
-            EnumActivitys.GLUCOSAMAXIMACARD -> number = arrayOf(200, 120)
-            EnumActivitys.GLUCOSAMINIMACARD -> number = arrayOf(100, 65)
+    private fun valuesOfRating(enumActivitys: EnumActivitys): Array<Int> {
+        val number: Array<Int> = when (enumActivitys) {
+            EnumActivitys.GLUCOSAMAXIMACARD -> arrayOf(200, 120)
+            EnumActivitys.GLUCOSAMINIMACARD -> arrayOf(100, 65)
             EnumActivitys.ALARMA -> return arrayOf(10, 1)
-            else -> number = arrayOf()
+            else -> arrayOf()
         }
         return number
     }
@@ -159,7 +158,7 @@ class ConfigurationFragment : Fragment() {
         _binding = null
     }
 
-    fun alertDialog(has:HashMap<String,String>) {
+    private fun alertDialog(has:HashMap<String,String>) {
         val builder = AlertDialog.Builder(
             this.context
         )
@@ -180,11 +179,11 @@ class ConfigurationFragment : Fragment() {
 
 
 
-        builder.setPositiveButton(android.R.string.ok) { dialog, which ->
+        builder.setPositiveButton(android.R.string.ok) { _, _ ->
             saveData()
 
         }
-        builder.setNegativeButton(android.R.string.cancel) { dialog, which ->
+        builder.setNegativeButton(android.R.string.cancel) { _, _ ->
             Toast.makeText(context, "ok", Toast.LENGTH_SHORT).show()
         }
         builder.setTitle("Guardar")
@@ -193,7 +192,7 @@ class ConfigurationFragment : Fragment() {
 
     }
 
-    fun saveData() {
+    private fun saveData() {
         configuration!!.glucosaMaximaSet((glucMax.text as String).toInt())
         configuration!!.glucosaMinimaSet((glucMin.text as String).toInt())
         configuration!!.alarmaSet((alarm.text as String).toInt())

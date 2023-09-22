@@ -73,7 +73,9 @@ class FireBaseController(val context: Context) {
     private fun pushDatesMeasure() {
         db.collection(auth.currentUser!!.email.toString()).document(MEASURE).set(
             pushPullDates.pushDates(), SetOptions.merge()
-        ).addOnCompleteListener {
+        ).addOnCompleteListener {if (it.isComplete){
+            pullMeasure()
+        }
         }
     }
 
@@ -162,8 +164,10 @@ class FireBaseController(val context: Context) {
             .set(
                 originalMap, SetOptions.merge()
             ).addOnCompleteListener {
-                Log.d("Write succesfuly", FOREIGN)
-
+                if(it.isComplete) {
+                 pullForeign()
+                    Log.d("Write succesfuly", FOREIGN)
+                }
             }
     }
 

@@ -42,13 +42,13 @@ class MeasureFragment : Fragment() {
         hasMap["stadistics"] = R.id.action_measureFragment_to_stadisticsFragment
         hasMap["historical"] = R.id.action_measureFragment_to_historicalFragment
         hasMap["measure"] = R.id.action_measureFragment_self
-        hasMap["main"]=R.id.action_measureFragment_to_Main
+        hasMap["main"] = R.id.action_measureFragment_to_Main
 
 
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         //cedemos control del motion layout a la clase encargada
-        ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
-        val backButton= binding.motion.backButton
+        ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.requireContext())
+        val backButton = binding.motion.backButton
         backButton.setOnClickListener {
             findNavController().navigate(R.id.action_measureFragment_to_Main)
         }
@@ -56,7 +56,7 @@ class MeasureFragment : Fragment() {
         button.setOnClickListener {
             val listValues: List<Pair<LocalDateTime, Int>> = loadValuesDemo()
             //   val currentDateTime= LocalDateTime.now().withYear(2022)
-            val controller = SQLController(this.context!!)
+            val controller = SQLController(this.requireContext())
             controller.insertIntofOREIGNMeasure(listValues)
             alertDialog(listValues.get(listValues.size - 1).second + 10, LocalDateTime.now())
         }
@@ -66,12 +66,12 @@ class MeasureFragment : Fragment() {
 
     //Llamada a alertDialog para configuracion de la medida actual
     fun alertDialog(value: Int, currentDateTime: LocalDateTime) {
-        val alert = AlertDialogMeasure(this.context!!, value, currentDateTime)
+        val alert = AlertDialogMeasure(this.requireContext(), value, currentDateTime)
     }
 
     //Carga de datos Demo
     private fun loadValuesDemo(): List<Pair<LocalDateTime, Int>> {
-        val sQLController = SQLController(this.context!!)
+        val sQLController = SQLController(this.requireContext())
         val ultimFecha = sQLController.readLastDatesToForeign()
         val now = LocalDateTime.now()
         val values = mutableListOf<Pair<LocalDateTime, Int>>()

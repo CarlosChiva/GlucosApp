@@ -33,10 +33,7 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //    var mainButton= binding.motion.mainButton
-//    var bundleextraction = arguments
-//    var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
-        //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
+
         fabFirebase = binding.firebaseConection
         lowInsulinConfig = binding.lowInsulin
         fabFirebase!!.setOnClickListener {
