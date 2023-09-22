@@ -127,10 +127,10 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
     private fun newUser(user: String, password: String) {
 
-        if (configuration.userGet().equals(user) || configuration.passwordGet()
+        if (!configuration.userGet().equals(user) || !configuration.passwordGet()
                 .equals(password)
         ) {
-        } else {
+
             configuration.userSet(user)
             configuration.passwordSet(password)
             configuration.saveVAlues()
@@ -143,7 +143,5 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
 
         }
-
-
     }
 }
