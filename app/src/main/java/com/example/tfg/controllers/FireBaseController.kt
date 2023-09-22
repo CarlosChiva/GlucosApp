@@ -229,7 +229,7 @@ class FireBaseController(val context: Context) {
             .document(CONFIGURATION)
             .set(
                 pushPullDates.pushConfiguration()
-            )
+            ).addOnCompleteListener { if (it.isSuccessful) pullConfiguration() }
     }
 
     private fun pullConfiguration() {
@@ -247,7 +247,6 @@ class FireBaseController(val context: Context) {
                     it.result.get("user").toString(),
                     it.result.get("password").toString()
                 )
-
                 pushPullDates.pullConfiguration(list)
             }
     }

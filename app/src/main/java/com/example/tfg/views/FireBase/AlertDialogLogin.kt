@@ -127,12 +127,16 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
     private fun newUser(user: String, password: String) {
 
-        if (!configuration.userGet().equals(user) || !configuration.passwordGet()
+        if (configuration.userGet().equals(user) || configuration.passwordGet()
                 .equals(password)
         ) {
-           val firebase= FireBaseController(this.context!!)
-            firebase.autentication(user,password){
-                if (it){
+        } else {
+            configuration.userSet(user)
+            configuration.passwordSet(password)
+            configuration.saveVAlues()
+            val firebase = FireBaseController(this.context!!)
+            firebase.autentication(user, password) {
+                if (it) {
                     firebase.push()
                 }
             }
