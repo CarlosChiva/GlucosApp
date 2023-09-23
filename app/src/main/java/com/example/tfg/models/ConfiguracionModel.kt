@@ -130,8 +130,6 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
         lowInsulinSet(mutableList[3].toString().toInt())
         sensibilityFactorSet(mutableList[4].toString().toInt())
         ratioInsulinSet(mutableList[5].toString().toInt())
-        userSet(mutableList[6].toString())
-        passwordSet(mutableList[7].toString())
         saveVAlues()
 
     }

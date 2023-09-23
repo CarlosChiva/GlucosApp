@@ -2,6 +2,7 @@ package com.example.tfg.views.FireBase
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 
 import android.view.LayoutInflater
 import android.widget.Button
@@ -19,6 +20,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
     var nav: NavController? = null
     var configuration = ConfiguracionModel(context)
 
+    //Log.d("","")
     init {
 
         this.context = context
@@ -90,9 +92,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 registrer.registr(email.text.toString(), password.text.toString()) { registred ->
                     if (registred) {
-                        configuration.userSet(email.text.toString())
-                        configuration.passwordSet(password.text.toString())
-                        configuration.saveVAlues()
+                        Log.d("Paso:Registred", "Paso 1, usuario registrado")
                         newUser(email.text.toString(), password.text.toString())
                         alertDialog!!.dismiss()
                         Toast.makeText(this.context, "Registred sucessfully", Toast.LENGTH_SHORT)
@@ -108,6 +108,58 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         }
     }
 
+
+
+    private fun newUser(user: String, password: String) {
+
+        if (!isCurrentUser(user, password)
+        ) {
+            if (!firstConection()) {
+                Log.d("Paso","Change user second conexion")
+                val firebaseOld = FireBaseController(this.context!!)
+                firebaseOld.autentication(configuration.userGet(), configuration.passwordGet()) {
+                    if (it) {
+                        Log.d("Paso:", "Paso 2, usuario nuevo autenticado")
+                        firebaseOld.pushAll() { savedOld ->
+                            if (savedOld) {
+                                Log.d("Paso:", "Paso 3, guardado de datos antiguos")
+                                autenticationPush(user, password)
+                            }
+                        }
+                    }
+                }
+            } else {
+                Log.d("Paso", "2 Primera conexion")
+                autenticationPush(user, password)
+            }
+        } else {
+            Log.d("Paso","Is current user")
+            autenticationPush(user, password)
+        }
+    }
+
+    private fun autenticationPush(user: String, password: String) {
+        configuration.userSet(user)
+        configuration.passwordSet(password)
+        configuration.saveVAlues()
+        val firebase = FireBaseController(this.context!!)
+        firebase.autentication(user, password) {
+            if (it) {
+                firebase.push()
+                Log.d("Paso:", "Paso 4, subida de datos del usuario")
+
+            }
+        }
+    }
+
+    private fun firstConection(): Boolean {
+        return configuration.userGet().equals("") && configuration.passwordGet().equals("")
+    }
+
+    private fun isCurrentUser(user: String, password: String): Boolean {
+        return configuration.userGet().equals(user) && configuration.passwordGet()
+            .equals(password)
+    }
 
     private fun navViews() {
         nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
@@ -128,42 +180,4 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         }
     }
 
-    private fun newUser(user: String, password: String) {
-
-        if (!configuration.userGet().equals(user) || !configuration.passwordGet()
-                .equals(password)
-        ) {
-            if (!firstConection()) {
-                val firebaseOld = FireBaseController(this.context!!)
-                firebaseOld.autentication(configuration.userGet(), configuration.passwordGet()) {
-                    if (it) {
-                        firebaseOld.pushAll() { savedOld ->
-                            if (savedOld) {
-                                autenticationPush(user, password)
-                            }
-                        }
-                    }
-                }
-            }else{
-                autenticationPush(user, password)
-            }
-
-        }
-    }
-
-    private fun autenticationPush(user: String, password: String) {
-        configuration.userSet(user)
-        configuration.passwordSet(password)
-        configuration.saveVAlues()
-        val firebase = FireBaseController(this.context!!)
-        firebase.autentication(user, password) {
-            if (it) {
-                firebase.push()
-            }
-        }
-    }
-
-    private fun firstConection(): Boolean {
-        return configuration.userGet() == null && configuration.passwordGet() == null
-    }
 }

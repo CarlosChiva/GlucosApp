@@ -87,6 +87,7 @@ class FireBaseController(val context: Context) {
             pushPullDates.pushDates(), SetOptions.merge()
         ).addOnCompleteListener {
             if (it.isComplete) {
+                pushPullDates.clearMeasureTable()
                 callback(true)
             }
         }
@@ -189,6 +190,7 @@ class FireBaseController(val context: Context) {
                 originalMap, SetOptions.merge()
             ).addOnCompleteListener {
                 if (it.isComplete) {
+                    pushPullDates.clearForeignTable()
                     callback(true)
                 }
             }
@@ -293,8 +295,7 @@ class FireBaseController(val context: Context) {
                     it.result.get("lowInsulin").toString().toInt(),
                     it.result.get("sensitiveFactor").toString().toInt(),
                     it.result.get("ratioInsulin").toString().toInt(),
-                    it.result.get("user").toString(),
-                    it.result.get("password").toString()
+
                 )
                 pushPullDates.pullConfiguration(list)
             }

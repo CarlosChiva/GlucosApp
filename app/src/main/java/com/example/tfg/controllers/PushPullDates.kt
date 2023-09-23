@@ -55,8 +55,6 @@ class PushPullDates(val context: Context) {
             "lowInsulin" to list[3],
             "sensitiveFactor" to list[4],
             "ratioInsulin" to list[5],
-            "user" to list[6],
-            "password" to list[7]
         )
     }
 
