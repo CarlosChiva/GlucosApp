@@ -44,7 +44,7 @@ class StadisticsFragment : Fragment() {
 
         val motionLayout: MotionLayout = view.findViewById(R.id.motion)
         val controllerMotionLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.context!!)
+            ControllerMotionLayout(motionLayout, findNavController(), hasMap, this.requireContext())
 
 
         val viewPager = binding.viewPager
@@ -55,13 +55,6 @@ class StadisticsFragment : Fragment() {
             findNavController().navigate(R.id.action_stadisticFragment_to_Main)
         }
 
-//        recyclerView.layoutManager = LinearLayoutManager(this.context, RecyclerView.VERTICAL, false)
-//        recyclerView.adapter = StadisticAdapter(this.context!!, demoList())
     }
-//    fun demoList():MutableList<String>{
-//        val sqlController= SQLController(this.context!!)
-////        val read = LocalDateTime.now().minusMonths(3)
-////        return sqlController.readDatesInRange(read, LocalDateTime.now())
-//        return sqlController.readDatesAtDay()
-//    }
+
 }

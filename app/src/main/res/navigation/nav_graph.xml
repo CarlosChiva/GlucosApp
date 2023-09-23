@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_MainFragment_to_measureFragment"
             app:destination="@id/measureFragment" />
+        <action
+            android:id="@+id/action_MainFragment_to_viewPagerFirebase"
+            app:destination="@id/FirebaseFragment" />
     </fragment>
     <fragment
         android:id="@+id/ConfigurationFragment"
@@ -111,5 +114,14 @@
         <action
             android:id="@+id/action_measureFragment_to_historicalFragment"
             app:destination="@id/historicalFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/FirebaseFragment"
+        android:name="com.example.tfg.views.FireBase.FireBaseFragment"
+        android:label="firebaseFragment"
+        tools:layout="@layout/view_firebase" >
+        <action
+            android:id="@+id/action_viewPagerFirebase_to_MainFragment"
+            app:destination="@id/MainFragment" />
     </fragment>
 </navigation>

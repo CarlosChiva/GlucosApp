@@ -86,9 +86,9 @@ class HistoricalAdapter(
 //Falta añadir la configuracion
     private fun backgroundView(glucosa: Int?): Int {
         when {
-            glucosa!! >= configurationModel.glucoseMax || glucosa < configurationModel.glucoseMin - 10 -> return Color.RED
-            glucosa in configurationModel.glucoseMax - 20 until configurationModel.glucoseMax -> return Color.YELLOW
-            glucosa in configurationModel.glucoseMin - 10..configurationModel.glucoseMin -> return Color.YELLOW
+            glucosa!! >= configurationModel.glucosaMaximaGet() || glucosa < configurationModel.glucosaMinimaGet() - 10 -> return Color.RED
+            glucosa in configurationModel.glucosaMaximaGet() - 20 until configurationModel.glucosaMaximaGet() -> return Color.YELLOW
+            glucosa in configurationModel.glucosaMinimaGet() - 10..configurationModel.glucosaMinimaGet() -> return Color.YELLOW
             else -> return Color.GREEN
         }
 

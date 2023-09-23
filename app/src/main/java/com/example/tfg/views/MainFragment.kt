@@ -10,14 +10,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.databinding.FragmentMainBinding
+import com.example.tfg.views.FireBase.AlertDialogLogin
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
-private  var fabFirebase:FloatingActionButton? = null
-    private  var lowInsulinConfig:FloatingActionButton? = null
+    private var fabFirebase: FloatingActionButton? = null
+    private var lowInsulinConfig: FloatingActionButton? = null
     private val binding get() = _binding!!
     private lateinit var hashMap: HashMap<String, Int>
     override fun onCreateView(
@@ -32,19 +33,24 @@ private  var fabFirebase:FloatingActionButton? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //    var mainButton= binding.motion.mainButton
-//    var bundleextraction = arguments
-//    var bitmapextraction = bundleextraction?.getParcelable<Bitmap>("image")
-        //inicializacion de hasmap para direcciones de nav y inicializacion de Controller para este fragment
-       fabFirebase = binding.firebaseConection
+
+        fabFirebase = binding.firebaseConection
         lowInsulinConfig = binding.lowInsulin
-        fabFirebase!!.setOnClickListener { println("Firebase!!!!!!!!!!!!!!-----------------") }
-        lowInsulinConfig!!.setOnClickListener {AlertDialogLowInsulin(this.context!!)
+        fabFirebase!!.setOnClickListener {
+            AlertDialogLogin(this.requireContext(), findNavController())
+        }
+        lowInsulinConfig!!.setOnClickListener {
+            AlertDialogLowInsulin(this.requireContext())
         }
         hashMap = loadHasMap()
         val motionLayout: MotionLayout = binding.root
         val controllerLayout =
-            ControllerMotionLayout(motionLayout, findNavController(), hashMap,this.context!!)
+            ControllerMotionLayout(
+                motionLayout,
+                findNavController(),
+                hashMap,
+                this.requireContext()
+            )
 
     }
 

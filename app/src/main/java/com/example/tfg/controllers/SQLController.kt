@@ -2,7 +2,9 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.example.tfg.models.Data
+import com.example.tfg.models.Foreign
 import com.example.tfg.models.SQLMaker
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
@@ -14,11 +16,11 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 class SQLController(context: Context) {
-    var context: Context
-    var sqlMaker: SQLMaker
-    var sqlQueryer: SQLiteDatabase
-    val MEDIDA = "measure"
-    val FOREIGN_MEDIDA = "foreignMeasure"
+    private var context: Context
+    private var sqlMaker: SQLMaker
+    private var sqlQueryer: SQLiteDatabase
+    private val MEDIDA = "measure"
+    private val FOREIGN_MEDIDA = "foreignMeasure"
 
     init {
         this.context = context
@@ -50,14 +52,38 @@ class SQLController(context: Context) {
     fun insertIntoMeasure(datos: Data) {
         val date = transformDate(datos.date)
         println("inster measure")
-        sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucose},${datos.pick},${datos.pickIcon},${datos.alarm},${datos.CHfood},${datos.food});")
+        try {
+
+
+            sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucose},${datos.pick},${datos.pickIcon},${datos.alarm},${datos.CHfood},${datos.food});")
+        } catch (e: android.database.sqlite.SQLiteConstraintException) {
+            Log.d("Error de SQLiteConstraintException: UNIQUE constraint failed", "dato erroneo")
+            e.printStackTrace()
+        }
 
     }
 
     fun insertIntofOREIGNMeasure(lista: List<Pair<LocalDateTime, Int>>) {
         lista.forEach {
             val date = transformDate(it.first)
-            sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
+            try {
+
+                sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
+            } catch (e: android.database.sqlite.SQLiteConstraintException) {
+                Log.d(
+                    "Error de SQLiteConstraintException: UNIQUE constraint failed",
+                    "dato erroneo"
+                )
+                e.printStackTrace()
+            }
+        }
+
+    }
+
+    fun insertForeignPull(lista: List<Foreign>) {
+        lista.forEach {
+            val date = transformDate(it.date)
+            sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.glucose});")
         }
 
     }
@@ -84,11 +110,40 @@ class SQLController(context: Context) {
         result.close()
         closeAll()
         return datos
-
-
     }
 
-    fun readLastDatesToMeasure(): Pair<LocalDateTime, Int> {
+
+    fun loadDatesForeign(): MutableList<Foreign> {
+        val dateFormat = SimpleDateFormat("yyyy-MM HH", Locale.getDefault())
+        val query = """
+        SELECT 
+            strftime('%Y-%m %H', fecha) AS mes,
+            AVG(glucosa) AS media_glucosa 
+        FROM $FOREIGN_MEDIDA 
+        GROUP BY mes
+        ORDER BY mes  DESC
+    """.trimIndent()
+        val result = sqlQueryer.rawQuery(query, null)
+        val datos = mutableListOf<Foreign>()
+
+        while (result.moveToNext()) {
+            val fecha = dateFormat.parse(result.getString(0))
+            datos.add(
+                Foreign(
+                    fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                    result.getInt(1)
+                )
+            )
+
+        }
+
+        result.close()
+        closeAll()
+        return datos
+    }
+
+
+    fun readLastDatesToForeign(): Pair<LocalDateTime, Int> {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
         var dateForeign: Pair<LocalDateTime, Int>? = null
         var dateMedida: Pair<LocalDateTime, Int>? = null
@@ -101,7 +156,6 @@ class SQLController(context: Context) {
             null
         )
         result.moveToFirst()
-        println("RESULT FIRST QUERY  :      ${result.getString(0)}    ${result.getInt(1)}")
         val fechaforeign = dateFormat.parse(result.getString(0))
         val fechaString =
             fechaforeign!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
@@ -116,7 +170,6 @@ class SQLController(context: Context) {
                     "LIMIT 1;", null
         )
         result.moveToFirst()
-        println("RESULT Second QUERY  :      ${result.getString(0)}    ${result.getInt(1)}")
 
         val fechaMedida = dateFormat.parse(result.getString(0))
         val fechaString2 =
@@ -261,7 +314,7 @@ class SQLController(context: Context) {
     }
 
     fun totalFastInsulin(): Int {
-        var totalFastInsulin:Int
+        var totalFastInsulin: Int
         val query =
             "SELECT sum(m.pick) FROM $MEDIDA m WHERE m.fecha BETWEEN datetime('now', '-7 days') AND CURRENT_DATE ;"
         val result = sqlQueryer.rawQuery(query, null)
@@ -280,4 +333,16 @@ class SQLController(context: Context) {
         this.sqlMaker.close()
     }
 
+    fun clearTables() {
+        sqlQueryer.execSQL("DELETE FROM $MEDIDA")
+        sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
+    }
+
+    fun clearForeignTab() {
+        sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
+    }
+
+    fun clearMeasureTab() {
+        sqlQueryer.execSQL("DELETE FROM $MEDIDA")
+    }
 }

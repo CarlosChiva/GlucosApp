@@ -1,24 +1,14 @@
 package com.example.tfg
 
-import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Context
-import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
+
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.tfg.controllers.NotificationService
 import com.example.tfg.databinding.ActivityMainBinding
 import com.example.tfg.models.DemoDatosBase
-import java.util.Calendar
 
 class MainActivity : AppCompatActivity() {
     companion object {

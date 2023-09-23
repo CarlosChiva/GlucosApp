@@ -38,7 +38,7 @@ class StadisticResultFragment : Fragment() {
         val ratioRap = binding.ratioInsulRapida
         ratioRap.text = "${analizer.ratioInsul} x por Ración"
         var configurationModel = ConfiguracionModel(this.context!!)
-        insulLenRegis.text = configurationModel.lowInsulin.toString()
+        insulLenRegis.text = configurationModel.lowInsulinGet().toString()
         var sensibilityFactor= binding.sensibilityFactor
         sensibilityFactor.text= "1 Unidad x ${analizer.sensibilityFactor.toString()} mg/dl"
 

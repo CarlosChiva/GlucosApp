@@ -13,7 +13,7 @@ class Analizer(val context: Context) {
 
     init {
         avgGlucMorning = loadGlucMorning()
-        insulLenRecord = configurationModel.lowInsulin
+        insulLenRecord = configurationModel.lowInsulinGet()
         sensibilityFactor = calcSensibilityFactor(totalFastQuery())
         ratioInsul = analizeInsulCH(loadArrayGLuc_CH())
         insulLenRecom = insulLenRecom()
