@@ -1,4 +1,4 @@
-package com.example.tfg.views.FireBase
+package com.example.tfg.views.fireBase
 
 import android.app.AlertDialog
 import android.content.Context
@@ -80,7 +80,8 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
 
         val email = view.findViewById<EditText>(R.id.useremail)
         val password = view.findViewById<EditText>(R.id.passwordText)
-        val registrerButton = view.findViewById<Button>(R.id.buttonsignUp)
+        val passwordRep = view.findViewById<EditText>(R.id.passwordTextRp)
+        val registrerButton = view.findViewById<Button>(R.id.buttonRegistrer)
 
         val builder = AlertDialog.Builder(context)
             .setView(view)
@@ -88,39 +89,56 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
         val alertDialog: AlertDialog? = builder.create()
         alertDialog?.show()
         registrerButton.setOnClickListener {
-            val registrer = FireBaseController(context!!)
-            if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
-                registrer.registr(email.text.toString(), password.text.toString()) { registred ->
-                    if (registred) {
-                        Log.d("Paso:Registred", "Paso 1, usuario registrado")
-                        newUser(email.text.toString(), password.text.toString())
-                        alertDialog!!.dismiss()
-                        Toast.makeText(this.context, "Registred sucessfully", Toast.LENGTH_SHORT)
-                            .show()
-                        navViews()
-                    }
+            if (checkPassword(password.text.toString(), passwordRep.text.toString())) {
+                val registrer = FireBaseController(context!!)
+                if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
+                    registrer.registr(
+                        email.text.toString(),
+                        password.text.toString()
+                    ) { registred ->
+                        if (registred) {
+                            Log.d("Paso:Registred", "Paso 1, usuario registrado")
+                            newUser(email.text.toString(), password.text.toString())
+                            alertDialog!!.dismiss()
+                            Toast.makeText(
+                                this.context,
+                                "Registred sucessfully",
+                                Toast.LENGTH_SHORT
+                            )
+                                .show()
+                            navViews()
+                        }
 
+                    }
                 }
 
-
+            } else {
+                Toast.makeText(
+                    this.context,
+                    "Write the password twice to registre",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
         }
     }
 
 
+    private fun checkPassword(password1: String, password2: String): Boolean {
+        return password1 == password2
+    }
 
     private fun newUser(user: String, password: String) {
 
         if (!isCurrentUser(user, password)
         ) {
             if (!firstConection()) {
-                Log.d("Paso","Change user second conexion")
+                Log.d("Paso", "Change user second conexion")
                 val firebaseOld = FireBaseController(this.context!!)
                 firebaseOld.autentication(configuration.userGet(), configuration.passwordGet()) {
                     if (it) {
                         Log.d("Paso:", "Paso 2, usuario nuevo autenticado")
-                        firebaseOld.pushAll() { savedOld ->
+                        firebaseOld.pushAll { savedOld ->
                             if (savedOld) {
                                 Log.d("Paso:", "Paso 3, guardado de datos antiguos")
                                 autenticationPush(user, password)
@@ -133,7 +151,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
                 autenticationPush(user, password)
             }
         } else {
-            Log.d("Paso","Is current user")
+            Log.d("Paso", "Is current user")
             autenticationPush(user, password)
         }
     }

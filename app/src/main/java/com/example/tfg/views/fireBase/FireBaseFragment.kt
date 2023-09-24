@@ -1,4 +1,4 @@
-package com.example.tfg.views.FireBase
+package com.example.tfg.views.fireBase
 
 import android.os.Bundle
 import android.view.LayoutInflater

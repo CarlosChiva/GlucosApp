@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.databinding.FragmentMainBinding
-import com.example.tfg.views.FireBase.AlertDialogLogin
+import com.example.tfg.views.fireBase.AlertDialogLogin
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 

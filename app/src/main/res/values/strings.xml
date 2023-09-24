@@ -42,4 +42,6 @@
     <string name="back">back</string>
     <string name="push_dates">Push dates</string>
     <string name="pull_dates">Pull dates</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="registrer">Registrer</string>
 </resources>
