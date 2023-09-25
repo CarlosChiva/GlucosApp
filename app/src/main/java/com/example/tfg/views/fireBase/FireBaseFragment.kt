@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
@@ -22,6 +23,7 @@ class FireBaseFragment : Fragment() {
     lateinit var configuration: ConfiguracionModel
     private lateinit var progresBarHoriz: ProgressBar
     private lateinit var progresIndicator: TextView
+    private lateinit var nav:NavController
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,6 +37,7 @@ class FireBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val fireBaseController = FireBaseController(this.requireContext())
         configuration = ConfiguracionModel(this.requireContext())
+        nav=findNavController()
         val loginCard = binding.loginCard
         val registrerCard = binding.registrerCard
         val emailLogin = binding.userMailLogin
@@ -201,7 +204,7 @@ class FireBaseFragment : Fragment() {
     }
 
     private fun navViews() {
-        // nav!!.navigate(R.id.action_MainFragment_to_viewPagerFirebase)
+         nav!!.navigate(R.id.action_viewPagerFirebase_to_MainFragment)
 
     }
 
