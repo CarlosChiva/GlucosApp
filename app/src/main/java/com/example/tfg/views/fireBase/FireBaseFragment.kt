@@ -5,6 +5,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -18,6 +20,8 @@ class FireBaseFragment : Fragment() {
     private var _binding: FragmentFirebaseBinding? = null
     private val binding get() = _binding!!
     lateinit var configuration: ConfiguracionModel
+    private lateinit var progresBarHoriz: ProgressBar
+    private lateinit var progresIndicator: TextView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,12 +45,18 @@ class FireBaseFragment : Fragment() {
         val loginButton = binding.buttonLogin
         val registrerButton = binding.buttonRegistrer
         val progressBar = binding.progressBar
+        progresIndicator = binding.processDescriptor
+        progresBarHoriz = binding.progressBarHorizontal
         emailLogin.setText(configuration.userGet())
         passwordLogin.setText(configuration.passwordGet())
+
         loginButton.setOnClickListener {
             Log.d("Buttons", "press login button")
             loginCard.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
+            progresBarHoriz.visibility = View.VISIBLE
+            progresIndicator.visibility = View.VISIBLE
+
             val autentication = FireBaseController(requireContext())
             if (emailLogin.text.isNotEmpty() && passwordLogin.text.isNotEmpty()) {
                 autentication.autentication(
@@ -54,6 +64,8 @@ class FireBaseFragment : Fragment() {
                     passwordLogin.text.toString()
                 ) { isAuthenticated ->
                     if (isAuthenticated) {
+                        progresIndicator.setText("User Autenticated")
+                        progresBarHoriz.progress += 20
                         newUser(
                             emailLogin.text.toString(),
                             passwordLogin.text.toString()
@@ -74,11 +86,15 @@ class FireBaseFragment : Fragment() {
             Log.d("Buttons", "press Registrer button button")
             registrerCard.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
+            progresBarHoriz.visibility = View.VISIBLE
+            progresIndicator.visibility = View.VISIBLE
             if (checkPassword(
                     passwordRegistrer.text.toString(),
                     passwordRegistrerRep.text.toString()
                 )
             ) {
+                progresIndicator.setText("Password Accepted")
+                progresBarHoriz.progress+=20
                 val registrer = FireBaseController(requireContext())
                 if (emailRegistrer.text.isNotEmpty() && passwordRegistrer.text.isNotEmpty()) {
                     registrer.registr(
@@ -86,6 +102,9 @@ class FireBaseFragment : Fragment() {
                         passwordRegistrer.text.toString()
                     ) { registred ->
                         if (registred) {
+
+                            progresIndicator.setText("New user registrated")
+                            progresBarHoriz.progress+=20
                             Log.d("Paso:Registred", "Paso 1, usuario registrado")
                             newUser(
                                 emailRegistrer.text.toString(),
@@ -128,9 +147,14 @@ class FireBaseFragment : Fragment() {
                 val firebaseOld = FireBaseController(this.requireContext())
                 firebaseOld.autentication(configuration.userGet(), configuration.passwordGet()) {
                     if (it) {
+
                         Log.d("Paso:", "Paso 2, usuario nuevo autenticado")
+                        progresIndicator.setText("Saving old dates of old user")
+                        progresBarHoriz.progress += 20
                         firebaseOld.pushAll { savedOld ->
                             if (savedOld) {
+                                progresIndicator.setText("Changing user")
+                                progresBarHoriz.progress += 20
                                 Log.d("Paso:", "Paso 3, guardado de datos antiguos")
                                 autenticationPush(user, password)
                             }
@@ -138,11 +162,13 @@ class FireBaseFragment : Fragment() {
                     }
                 }
             } else {
+                progresBarHoriz.progress += 20
                 Log.d("Paso", "2 Primera conexion")
                 autenticationPush(user, password)
             }
         } else {
             Log.d("Paso", "Is current user")
+            progresBarHoriz.progress += 40
             autenticationPush(user, password)
         }
     }
@@ -154,7 +180,11 @@ class FireBaseFragment : Fragment() {
         val firebase = FireBaseController(this.requireContext())
         firebase.autentication(user, password) {
             if (it) {
+                progresIndicator.setText("Update Data")
+                progresBarHoriz.progress += 20
                 firebase.push()
+                progresIndicator.setText("Update finish succesfully")
+                progresBarHoriz.progress += 20
                 Log.d("Paso:", "Paso 4, subida de datos del usuario")
 
             }
