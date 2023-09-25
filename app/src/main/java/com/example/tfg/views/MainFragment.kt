@@ -37,7 +37,7 @@ class MainFragment : Fragment() {
         fabFirebase = binding.firebaseConection
         lowInsulinConfig = binding.lowInsulin
         fabFirebase!!.setOnClickListener {
-            AlertDialogLogin(this.requireContext(), findNavController())
+            findNavController().navigate(R.id.action_MainFragment_to_viewPagerFirebase)
         }
         lowInsulinConfig!!.setOnClickListener {
             AlertDialogLowInsulin(this.requireContext())
