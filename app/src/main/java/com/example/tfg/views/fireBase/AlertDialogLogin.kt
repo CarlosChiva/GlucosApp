@@ -48,7 +48,8 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
             alertDialog!!.dismiss()
         }
         buttonLogin.setOnClickListener {
-            val autentication = FireBaseController(context!!)
+            navViews()
+        /*    val autentication = FireBaseController(context!!)
             if (email.text.isNotEmpty() && password.text.isNotEmpty()) {
                 autentication.autentication(
                     email.text.toString(),
@@ -70,7 +71,7 @@ class AlertDialogLogin(context: Context, findNavController: NavController) {
                             .show()
                     }
                 }
-            }
+            }*/
         }
     }
 

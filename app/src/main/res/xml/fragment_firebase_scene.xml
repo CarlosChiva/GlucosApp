@@ -3,17 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
-    <Transition
-        motion:constraintSetEnd="@+id/end"
-        motion:constraintSetStart="@id/start"
-        app:duration="100">
-        <KeyFrameSet></KeyFrameSet>
-        <OnSwipe
-            app:dragDirection="dragRight"
-            app:rotationCenterId="@id/loginCard"
-             />
-    </Transition>
-
     <ConstraintSet android:id="@+id/start">
         <Constraint
             android:id="@+id/loginCard"
@@ -42,7 +31,7 @@
             android:id="@+id/loginCard"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:rotationY="0"
+            android:rotationY="180"
             android:visibility="invisible"
             android:focusable="false"
             motion:layout_constraintBottom_toBottomOf="parent"
@@ -62,16 +51,28 @@
             motion:layout_constraintTop_toTopOf="parent" />
 
     </ConstraintSet>
-
+<!-- good transition right -->
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
         app:duration="100">
         <KeyFrameSet></KeyFrameSet>
         <OnSwipe
-            app:dragDirection="dragLeft"
+            app:dragDirection="dragRight"
             app:rotationCenterId="@id/loginCard"
             />
     </Transition>
+
+    <Transition
+        motion:constraintSetEnd="@+id/start"
+        motion:constraintSetStart="@id/end"
+        app:duration="100">
+        <KeyFrameSet></KeyFrameSet>
+        <OnSwipe
+            app:dragDirection="dragRight"
+            app:rotationCenterId="@id/registrerCard"
+            />
+    </Transition>
+
 </MotionScene>
 
