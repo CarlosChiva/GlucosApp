@@ -2,6 +2,7 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
+import android.provider.MediaStore.Audio.Media
 import android.util.Log
 import com.example.tfg.models.Data
 import com.example.tfg.models.Foreign
@@ -63,12 +64,12 @@ class SQLController(context: Context) {
 
     }
 
-    fun insertIntofOREIGNMeasure(lista: List<Pair<LocalDateTime, Int>>) {
+    fun insertIntofOREIGNMeasure(lista: List<Foreign>) {
         lista.forEach {
-            val date = transformDate(it.first)
+            val date = transformDate(it.date)
             try {
 
-                sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.second});")
+                sqlQueryer.execSQL("insert into $FOREIGN_MEDIDA(fecha,glucosa) values('$date',${it.glucose});")
             } catch (e: android.database.sqlite.SQLiteConstraintException) {
                 Log.d(
                     "Error de SQLiteConstraintException: UNIQUE constraint failed",
@@ -143,11 +144,11 @@ class SQLController(context: Context) {
     }
 
 
-    fun readLastDatesToForeign(): Pair<LocalDateTime, Int> {
+    fun readLastDatesToForeign(): Foreign {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        var dateForeign: Pair<LocalDateTime, Int>? = null
-        var dateMedida: Pair<LocalDateTime, Int>? = null
-        var dateResult: Pair<LocalDateTime, Int>
+        var dateForeign:Foreign
+        var dateMedida: Foreign
+        var dateResult: Foreign
         var result = sqlQueryer.rawQuery(
             "SELECT fecha, glucosa FROM $FOREIGN_MEDIDA " +
                     "WHERE fecha <= CURRENT_DATE " +
@@ -161,7 +162,7 @@ class SQLController(context: Context) {
             fechaforeign!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
                 .toString()
         val glucForeign = result.getInt(1)
-        dateForeign = Pair(LocalDateTime.parse(fechaString), glucForeign)
+        dateForeign = Foreign(LocalDateTime.parse(fechaString), glucForeign)
 
         result = sqlQueryer.rawQuery(
             "SELECT fecha, glucosa FROM $MEDIDA " +
@@ -176,9 +177,9 @@ class SQLController(context: Context) {
             fechaMedida!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
                 .toString()
         val glucMedida = result.getInt(1)
-        dateMedida = Pair(LocalDateTime.parse(fechaString), glucMedida)
+        dateMedida = Foreign(LocalDateTime.parse(fechaString),glucMedida)
 
-        if (dateForeign?.first?.isAfter(dateMedida?.first)!!) {
+        if (dateForeign.date.isAfter(dateMedida?.date)!!) {
             dateResult = dateForeign!!
         } else {
             dateResult = dateMedida!!

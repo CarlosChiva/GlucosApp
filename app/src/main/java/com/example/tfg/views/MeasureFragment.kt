@@ -13,6 +13,7 @@ import com.example.tfg.R
 import com.example.tfg.controllers.ControllerMotionLayout
 import com.example.tfg.controllers.SQLController
 import com.example.tfg.databinding.FragmentMeasureBinding
+import com.example.tfg.models.Foreign
 import java.time.LocalDateTime
 import java.util.HashMap
 
@@ -54,11 +55,11 @@ class MeasureFragment : Fragment() {
         }
         //boton para insertar datos cargados desde la ultima medicion y creacion de la medicion actual
         button.setOnClickListener {
-            val listValues: List<Pair<LocalDateTime, Int>> = loadValuesDemo()
+            val listValues: List<Foreign> = loadValuesDemo()
             //   val currentDateTime= LocalDateTime.now().withYear(2022)
             val controller = SQLController(this.requireContext())
             controller.insertIntofOREIGNMeasure(listValues)
-            alertDialog(listValues.get(listValues.size - 1).second + 10, LocalDateTime.now())
+            alertDialog(listValues.get(listValues.size - 1).glucose + 10, LocalDateTime.now())
         }
 
 
@@ -70,13 +71,13 @@ class MeasureFragment : Fragment() {
     }
 
     //Carga de datos Demo
-    private fun loadValuesDemo(): List<Pair<LocalDateTime, Int>> {
+    private fun loadValuesDemo(): List<Foreign> {
         val sQLController = SQLController(this.requireContext())
         val ultimFecha = sQLController.readLastDatesToForeign()
         val now = LocalDateTime.now()
-        val values = mutableListOf<Pair<LocalDateTime, Int>>()
-        var dateLoaded = ultimFecha.first.plusMinutes(5)
-        var valueLoaded = ultimFecha.second
+        val values = mutableListOf<Foreign>()
+        var dateLoaded = ultimFecha.date.plusMinutes(5)
+        var valueLoaded = ultimFecha.glucose
         var value = 0
         var direccionValues = true
         while (dateLoaded < now) {
@@ -101,7 +102,7 @@ class MeasureFragment : Fragment() {
             }
 
             println(dateLoaded)
-            values.add(dateLoaded to value)
+            values.add(Foreign(dateLoaded , value))
 
             dateLoaded = dateLoaded.plusMinutes(5)
         }
