@@ -12,12 +12,12 @@
         android:id="@+id/loginCard"
         android:layout_width="300dp"
         android:layout_height="300dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -104,18 +104,18 @@
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:visibility="invisible"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="10dp"
+        android:focusable="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="10dp">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/loginBackground"
-            >
+            android:background="@color/loginBackground">
 
             <TextView
                 android:id="@+id/titlesign_up"

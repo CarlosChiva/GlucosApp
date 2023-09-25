@@ -6,12 +6,12 @@
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000">
+        app:duration="100">
         <KeyFrameSet></KeyFrameSet>
         <OnSwipe
             app:dragDirection="dragRight"
-            app:touchAnchorId="@id/loginCard"
-            app:touchAnchorSide="right" />
+            app:rotationCenterId="@id/loginCard"
+             />
     </Transition>
 
     <ConstraintSet android:id="@+id/start">
@@ -42,8 +42,9 @@
             android:id="@+id/loginCard"
             android:layout_width="300dp"
             android:layout_height="300dp"
-            android:rotationY="180"
-            android:visibility="gone"
+            android:rotationY="0"
+            android:visibility="invisible"
+            android:focusable="false"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
@@ -54,40 +55,23 @@
             android:layout_height="wrap_content"
             android:rotationY="0"
             android:visibility="visible"
+            android:focusable="true"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
 
     </ConstraintSet>
-    <Transition
-        motion:constraintSetStart="@+id/end"
-        motion:constraintSetEnd="@+id/start">
-        <OnSwipe
-            app:dragDirection="dragRight"
-            app:touchAnchorId="@id/registrerCard"
-            app:touchAnchorSide="right" />
-    </Transition>
 
-    <!-- now to left -->
     <Transition
         motion:constraintSetEnd="@+id/end"
         motion:constraintSetStart="@id/start"
-        motion:duration="1000">
+        app:duration="100">
         <KeyFrameSet></KeyFrameSet>
         <OnSwipe
             app:dragDirection="dragLeft"
-            app:touchAnchorId="@id/loginCard"
-            app:touchAnchorSide="left" />
-    </Transition>
-    <Transition
-        motion:constraintSetEnd="@+id/start"
-        motion:constraintSetStart="@id/end"
-        motion:duration="1000">
-        <KeyFrameSet></KeyFrameSet>
-        <OnSwipe
-            app:dragDirection="dragLeft"
-            app:touchAnchorId="@id/registrerCard"
-            app:touchAnchorSide="left" />
+            app:rotationCenterId="@id/loginCard"
+            />
     </Transition>
 </MotionScene>
+

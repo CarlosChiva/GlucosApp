@@ -9,16 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
-import com.example.tfg.databinding.ViewFirebaseBinding
+import com.example.tfg.databinding.FragmentFirebaseBinding
 
 class FireBaseFragment : Fragment() {
-    private var _binding: ViewFirebaseBinding? = null
+    private var _binding: FragmentFirebaseBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ViewFirebaseBinding.inflate(inflater, container, false)
+        _binding = FragmentFirebaseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -26,6 +26,7 @@ class FireBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val fireBaseController = FireBaseController(this.requireContext())
 
+    /*
         val pushButton = binding.pushButton
         val pullButton = binding.pullButton
         val backButton = binding.backButton
@@ -41,5 +42,5 @@ class FireBaseFragment : Fragment() {
             fireBaseController.pull()
             Toast.makeText(this.context, "pull button", Toast.LENGTH_SHORT).show()
         }
-    }
+  */  }
 }
