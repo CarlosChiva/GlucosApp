@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -67,7 +66,7 @@ class FireBaseFragment : Fragment() {
                     passwordLogin.text.toString()
                 ) { isAuthenticated ->
                     if (isAuthenticated) {
-                        progresIndicator.setText("User Autenticated")
+                        progresIndicator.setText("User Authenticated")
                         progresBarHoriz.progress += 20
                         newUser(
                             emailLogin.text.toString(),
@@ -96,8 +95,7 @@ class FireBaseFragment : Fragment() {
                     passwordRegistrerRep.text.toString()
                 )
             ) {
-                progresIndicator.setText("Password Accepted")
-                progresBarHoriz.progress+=20
+
                 val registrer = FireBaseController(requireContext())
                 if (emailRegistrer.text.isNotEmpty() && passwordRegistrer.text.isNotEmpty()) {
                     registrer.registr(
@@ -105,7 +103,6 @@ class FireBaseFragment : Fragment() {
                         passwordRegistrer.text.toString()
                     ) { registred ->
                         if (registred) {
-
                             progresIndicator.setText("New user registrated")
                             progresBarHoriz.progress+=20
                             Log.d("Paso:Registred", "Paso 1, usuario registrado")
@@ -165,7 +162,8 @@ class FireBaseFragment : Fragment() {
                     }
                 }
             } else {
-                progresBarHoriz.progress += 20
+                progresIndicator.setText("Saving configuration of user")
+                progresBarHoriz.progress += 40
                 Log.d("Paso", "2 Primera conexion")
                 autenticationPush(user, password)
             }
