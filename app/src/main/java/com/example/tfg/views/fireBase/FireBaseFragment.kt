@@ -41,7 +41,6 @@ class FireBaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val fireBaseController = FireBaseController(this.requireContext())
         configuration = ConfiguracionModel(this.requireContext())
         nav = findNavController()
         loginCard = binding.loginCard
@@ -72,8 +71,7 @@ class FireBaseFragment : Fragment() {
                 ) { isAuthenticated ->
                     if (isAuthenticated) {
                         Log.d("Paso", "User autentificated")
-                        progresIndicator.setText("User Authenticated")
-                        progresBarHoriz.progress += 20
+                        updateProcessBar("User Authenticated",20)
                         newUser(
                             emailLogin.text.toString(),
                             passwordLogin.text.toString()
@@ -107,8 +105,8 @@ class FireBaseFragment : Fragment() {
                     ) { registred ->
                         if (registred) {
                             Log.d("Paso", "New user registred")
-                            progresIndicator.setText("New user registrated")
-                            progresBarHoriz.progress += 20
+                            updateProcessBar("New user registrated",20)
+
                             newUser(
                                 emailRegistrer.text.toString(),
                                 passwordRegistrer.text.toString()
@@ -163,15 +161,10 @@ class FireBaseFragment : Fragment() {
                 val firebaseOld = FireBaseController(this.requireContext())
                 firebaseOld.autentication(configuration.userGet(), configuration.passwordGet()) {
                     if (it) {
-
-
-                        progresIndicator.setText("Saving old dates of old user")
-                        progresBarHoriz.progress += 20
+                        updateProcessBar("Saving old dates of old user",20)
                         firebaseOld.pushAll { savedOld ->
                             if (savedOld) {
-
-                                progresIndicator.setText("Changing user")
-                                progresBarHoriz.progress += 20
+                                updateProcessBar("Changing user",20)
                                 Log.d("Paso:", "Paso 3, guardado de datos antiguos")
                                 autenticationPush(user, password)
                             }
@@ -179,14 +172,13 @@ class FireBaseFragment : Fragment() {
                     }
                 }
             } else {
-                progresIndicator.setText("Saving configuration of user")
-                progresBarHoriz.progress += 40
+                updateProcessBar("Saving configuration of user",40)
                 Log.d("Paso", "First conexion")
                 autenticationPush(user, password)
             }
         } else {
+            updateProcessBar("Updating your data",40)
             Log.d("Paso", "Is current user")
-            progresBarHoriz.progress += 40
             autenticationPush(user, password)
         }
     }
@@ -199,12 +191,10 @@ class FireBaseFragment : Fragment() {
         firebase.autentication(user, password) {
             if (it) {
                 Log.d("Paso:", "current user autenticated")
-                progresIndicator.setText("Update Data")
-                progresBarHoriz.progress += 20
+                updateProcessBar("Update Data",20)
                 firebase.push()
                 Log.d("Paso:Registred", "Subida de datos final y bajada")
-                progresIndicator.setText("Update finish succesfully")
-                progresBarHoriz.progress += 20
+                updateProcessBar("Update finish succesfully",20)
             }
         }
     }
@@ -219,8 +209,12 @@ class FireBaseFragment : Fragment() {
     }
 
     private fun navViews() {
-        nav!!.navigate(R.id.action_viewPagerFirebase_to_MainFragment)
+        nav.navigate(R.id.action_viewPagerFirebase_to_MainFragment)
 
+    }
+    private fun updateProcessBar(menssage:String,valueAdd:Int){
+        progresBarHoriz.progress+=valueAdd
+        progresIndicator.setText(menssage)
     }
 
 }
