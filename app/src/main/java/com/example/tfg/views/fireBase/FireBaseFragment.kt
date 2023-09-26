@@ -15,6 +15,9 @@ import com.example.tfg.R
 import com.example.tfg.controllers.FireBaseController
 import com.example.tfg.databinding.FragmentFirebaseBinding
 import com.example.tfg.models.ConfiguracionModel
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+import androidx.cardview.widget.CardView
 
 class FireBaseFragment : Fragment() {
     private var _binding: FragmentFirebaseBinding? = null
@@ -23,6 +26,10 @@ class FireBaseFragment : Fragment() {
     private lateinit var progresBarHoriz: ProgressBar
     private lateinit var progresIndicator: TextView
     private lateinit var nav: NavController
+    private lateinit var loginCard: CardView
+    private lateinit var progressBar: ProgressBar
+    private lateinit var fadeIn: Animation
+    private lateinit var fadeOut: Animation
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,7 +44,7 @@ class FireBaseFragment : Fragment() {
         val fireBaseController = FireBaseController(this.requireContext())
         configuration = ConfiguracionModel(this.requireContext())
         nav = findNavController()
-        val loginCard = binding.loginCard
+        loginCard = binding.loginCard
         val registrerCard = binding.registrerCard
         val emailLogin = binding.userMailLogin
         val emailRegistrer = binding.useremailRegistrer
@@ -46,19 +53,17 @@ class FireBaseFragment : Fragment() {
         val passwordRegistrerRep = binding.passwordRegistrerRep
         val loginButton = binding.buttonLogin
         val registrerButton = binding.buttonRegistrer
-        val progressBar = binding.progressBar
+        progressBar = binding.progressBar
         progresIndicator = binding.processDescriptor
         progresBarHoriz = binding.progressBarHorizontal
         emailLogin.setText(configuration.userGet())
         passwordLogin.setText(configuration.passwordGet())
-
+        fadeIn = AnimationUtils.loadAnimation(this.requireContext(), R.anim.fade_in)
+        fadeOut =
+            AnimationUtils.loadAnimation(this.requireContext(), R.anim.fade_out)
         loginButton.setOnClickListener {
             Log.d("Paso", "press login button")
-            loginCard.visibility = View.INVISIBLE
-            progressBar.visibility = View.VISIBLE
-            progresBarHoriz.visibility = View.VISIBLE
-            progresIndicator.visibility = View.VISIBLE
-
+            changeVisibilitiesLogin(loginCard)
             val autentication = FireBaseController(requireContext())
             if (emailLogin.text.isNotEmpty() && passwordLogin.text.isNotEmpty()) {
                 autentication.autentication(
@@ -87,10 +92,7 @@ class FireBaseFragment : Fragment() {
         }
         registrerButton.setOnClickListener {
             Log.d("Paso", "press Registrer button button")
-            registrerCard.visibility = View.INVISIBLE
-            progressBar.visibility = View.VISIBLE
-            progresBarHoriz.visibility = View.VISIBLE
-            progresIndicator.visibility = View.VISIBLE
+            changeVisibilitiesLogin(registrerCard)
             if (checkPassword(
                     passwordRegistrer.text.toString(),
                     passwordRegistrerRep.text.toString()
@@ -132,6 +134,19 @@ class FireBaseFragment : Fragment() {
             }
 
         }
+
+    }
+
+    private fun changeVisibilitiesLogin(cardView: CardView) {
+        Log.d("Paso","change visibility of components")
+        cardView.setVisibility(View.INVISIBLE)
+        cardView.startAnimation(fadeOut)
+        progressBar.setVisibility(View.VISIBLE)
+        progressBar.startAnimation(fadeIn)
+        progresBarHoriz.setVisibility(View.VISIBLE)
+        progresBarHoriz.startAnimation(fadeOut)
+        progresIndicator.setVisibility(View.VISIBLE)
+        progresIndicator.startAnimation(fadeOut)
 
     }
 
@@ -183,7 +198,7 @@ class FireBaseFragment : Fragment() {
         val firebase = FireBaseController(this.requireContext())
         firebase.autentication(user, password) {
             if (it) {
-                Log.d("Paso:", "New user autenticated")
+                Log.d("Paso:", "current user autenticated")
                 progresIndicator.setText("Update Data")
                 progresBarHoriz.progress += 20
                 firebase.push()
