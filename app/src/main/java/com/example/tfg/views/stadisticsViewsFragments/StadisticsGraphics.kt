@@ -3,30 +3,36 @@ package com.example.tfg.views.stadisticsViewsFragments
 import android.content.Context
 import android.graphics.Color
 import com.example.tfg.models.ConfiguracionModel
+import com.example.tfg.models.Foreign
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.ValueFormatter
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
+import com.github.mikephil.charting.utils.ColorTemplate
 import java.time.Duration
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class StadisticsGraphics(
     context: Context?,
-    viewLineal: LineChart,
+    viewColumn: BarChart,
     viewPie: PieChart,
-    list: List<Pair<LocalDateTime, Int>>
+    list: List<Foreign>
 ) {
     var minimValue=0
     var maxValue=0
-    val chart: LineChart
+    val chart: BarChart
     val pieChart: PieChart
-    val lista: List<Pair<LocalDateTime, Int>>
+    val lista: List<Foreign>
 
     init {
         val values=ConfiguracionModel(context!!)
         this.minimValue=values.glucosaMinimaGet()
         this.maxValue=values.glucosaMaximaGet()
-        this.chart = viewLineal
+        this.chart = viewColumn
         this.pieChart = viewPie
         this.lista = list
         drawing()
@@ -34,61 +40,62 @@ class StadisticsGraphics(
 
     fun drawing() {
 // Configurar las propiedades de la vista de la gráfica
-        chart.xAxis.textSize = 10f
-        chart.axisLeft.textSize = 12f
-        val rightAxis = chart.axisRight
-        rightAxis.textSize = 12f
-
-        rightAxis.setDrawAxisLine(true)
-        rightAxis.setDrawGridLines(false)
-        rightAxis.setDrawLabels(false)
-        val yAxis = chart.axisLeft
-        yAxis.axisMinimum = 40f
-        yAxis.axisMaximum = 300f
+        chart.setDrawBarShadow(false)
+        chart.setDrawValueAboveBar(true)
         chart.description.isEnabled = false
         chart.setTouchEnabled(true)
         chart.isDragEnabled = true
         chart.setScaleEnabled(true)
         chart.setPinchZoom(true)
-        chart.axisRight.isEnabled = true
-        chart.xAxis.granularity = 1f
-        chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.WHITE)
-       chart.xAxis.labelCount = lista.size
-        chart.xAxis.setValueFormatter(object : ValueFormatter() {
+        chart.setDrawGridBackground(false)
+
+// Configurar el eje X
+        val xAxis = chart.xAxis
+        xAxis.position = XAxis.XAxisPosition.BOTTOM
+        xAxis.setDrawGridLines(false)
+        xAxis.setDrawAxisLine(true)
+        xAxis.valueFormatter = object : ValueFormatter() {
             override fun getFormattedValue(value: Float): String {
-
-                // Devolver la etiqueta correspondiente según el valor
-                return when (value.toInt()) {
-                    0 -> "00:00"
-                    72->"06:00"
-                    144 -> "12:00"
-                    216 -> "18:00"
-                    288 -> "24:00"
-                    else -> "" // Devolver una cadena vacía para las etiquetas que no se muestran
+                // Personaliza las etiquetas del eje X según el valor de LocalDateTime
+                if (value >= 0 && value < lista.size) {
+                    val localDateTime = lista[value.toInt()].date
+                    val formatter = DateTimeFormatter.ofPattern("HH") // Puedes ajustar el formato
+                    return localDateTime.format(formatter)
                 }
+                return ""
             }
-        })
-
-// Configurar los datos de la gráfica
-        val entries: MutableList<Entry> = ArrayList()
-        for (i in 0 until lista.size) {
-            val valor = lista[i].second.toFloat()
-            entries.add(Entry(i.toFloat(), valor))
         }
-        val dataSet = LineDataSet(entries, "Nivel de Glucosa")
-        dataSet.color = Color.BLACK
-        dataSet.setCircleColors(Color.RED)
-        dataSet.circleRadius = 1f
-        dataSet.lineWidth = 1f
-        dataSet.valueTextSize = 10f
-        dataSet.fillColor = Color.RED // Agregar el color del relleno
-        val lineData = LineData(dataSet)
 
-// Agregar los datos de la gráfica a la vista de la gráfica
-        chart.data = lineData
+// Configurar el eje Y izquierdo
+        val yAxisLeft = chart.axisLeft
+        yAxisLeft.axisMinimum = 40f
+        yAxisLeft.axisMaximum = 300f
 
-// Actualizar la vista de la gráfica
+// Configurar el eje Y derecho (puedes quitarlo si no lo necesitas)
+        val yAxisRight = chart.axisRight
+        yAxisRight.isEnabled = false
+
+// Configurar los datos de la gráfica de barras
+        val entries: MutableList<BarEntry> = ArrayList()
+        for (i in lista.indices) {
+            val valor = lista[i].glucose.toFloat()
+            entries.add(BarEntry(i.toFloat(), valor))
+        }
+
+        val dataSet = BarDataSet(entries, "Nivel de Glucosa")
+        dataSet.setColor(Color.BLUE) // Puedes personalizar el color de las barras
+
+        val dataSets: MutableList<IBarDataSet> = ArrayList()
+        dataSets.add(dataSet)
+
+        val barData = BarData(dataSets)
+        barData.barWidth = 0.9f
+
+// Agregar los datos de la gráfica al gráfico de barras
+        chart.data = barData
+
+// Actualizar la vista del gráfico de barras
         chart.invalidate()
         //-----------------------------------------------------------------
 
@@ -99,9 +106,9 @@ class StadisticsGraphics(
 
 // Calcular la cantidad de tiempo en que la glucosa ha estado en diferentes rangos
         for (i in 0 until lista.size - 1) {
-            val current = lista[i].second
-            val next = lista[i + 1].second
-            val timeDiff = Duration.between(lista[i].first, lista[i + 1].first).toMinutes()
+            val current = lista[i].glucose
+            val next = lista[i + 1].glucose
+            val timeDiff = Duration.between(lista[i].date, lista[i + 1].date).toMinutes()
 
             if (current > 180 && next > 180) {
                 above180 += timeDiff.toInt()

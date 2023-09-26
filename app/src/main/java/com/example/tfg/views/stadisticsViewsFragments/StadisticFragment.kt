@@ -13,13 +13,15 @@ import com.github.mikephil.charting.charts.PieChart
 import com.example.tfg.databinding.FragmentStadisticBinding
 import com.example.tfg.models.EnumActivitys
 import com.example.tfg.models.EnumActivitys.*
+import com.example.tfg.models.Foreign
+import com.github.mikephil.charting.charts.BarChart
 
 import java.time.LocalDateTime
 
 class StadisticFragment(val enum: EnumActivitys) : Fragment() {
     lateinit var title: TextView
-    lateinit var list: List<Pair<LocalDateTime, Int>>
-    lateinit var chart: LineChart
+    lateinit var list: List<Foreign>
+    lateinit var chart: BarChart
     lateinit var pieChart: PieChart
     lateinit var stadisticsGraphics: StadisticsGraphics
     var _binding: FragmentStadisticBinding? = null
@@ -40,7 +42,7 @@ class StadisticFragment(val enum: EnumActivitys) : Fragment() {
         initComponents()
         this.chart = binding.lineStadistics
         this.pieChart = binding.pieChart
-        this.stadisticsGraphics = makeStadisctic(this.context!!)
+        this.stadisticsGraphics = makeStadisctic(this.requireContext())
     }
 
 
@@ -51,7 +53,7 @@ class StadisticFragment(val enum: EnumActivitys) : Fragment() {
     }
 
     private fun initComponents() {
-        val sqlController = SQLController(this.context!!)
+        val sqlController = SQLController(this.requireContext())
 
         when (this.enum) {
             DAY -> {

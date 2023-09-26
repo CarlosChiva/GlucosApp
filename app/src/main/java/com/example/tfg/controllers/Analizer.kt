@@ -5,7 +5,7 @@ import com.example.tfg.models.ConfiguracionModel
 
 class Analizer(val context: Context) {
     val avgGlucMorning: Int
-    val ratioInsul: Int
+    val ratioInsul: Float
     val insulLenRecord: Int
     var sensibilityFactor: Int
     private val configurationModel = ConfiguracionModel(this.context)
@@ -20,7 +20,7 @@ class Analizer(val context: Context) {
         updateDates()
     }
 
-    private fun analizeInsulCH(data: List<Array<Int>>): Int {
+    private fun analizeInsulCH(data: List<Array<Int>>): Float {
         // Separate the data into three lists
         val insulinList = data.map { it[0] }
         val carbList = data.map { it[1] }
@@ -29,7 +29,7 @@ class Analizer(val context: Context) {
             .map { it.first.toDouble() / it.second }
             .average()
         // Calculate the insulin ratio
-        return (insulinToCarbRatio * sensibilityFactor).toInt()
+        return (insulinToCarbRatio * sensibilityFactor).toFloat()
     }
 
     private fun calcSensibilityFactor(dosisFastDiariaTotal: Int): Int {
@@ -67,7 +67,7 @@ class Analizer(val context: Context) {
     }
 
     //-----------------------------------falta añadir
-    fun insulFastRecom(racion: Int): Int {
+    fun insulFastRecom(racion: Int): Float {
         return racion * ratioInsul
     }
 

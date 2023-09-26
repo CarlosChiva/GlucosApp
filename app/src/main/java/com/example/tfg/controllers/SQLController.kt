@@ -146,7 +146,7 @@ class SQLController(context: Context) {
 
     fun readLastDatesToForeign(): Foreign {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        var dateForeign:Foreign
+        var dateForeign: Foreign
         var dateMedida: Foreign
         var dateResult: Foreign
         var result = sqlQueryer.rawQuery(
@@ -177,7 +177,7 @@ class SQLController(context: Context) {
             fechaMedida!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
                 .toString()
         val glucMedida = result.getInt(1)
-        dateMedida = Foreign(LocalDateTime.parse(fechaString),glucMedida)
+        dateMedida = Foreign(LocalDateTime.parse(fechaString), glucMedida)
 
         if (dateForeign.date.isAfter(dateMedida?.date)!!) {
             dateResult = dateForeign!!
@@ -191,19 +191,25 @@ class SQLController(context: Context) {
     }
 
     //-------------------------------------------Proximamente en analisis de glucosa
-    fun readDatesAtDay(): List<Pair<LocalDateTime, Int>> {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    fun readDatesAtDay(): List<Foreign> {
+        val dateFormat = SimpleDateFormat("HH", Locale.getDefault())
 
         val query =
-            "SELECT m.fecha ,m.glucosa FROM $MEDIDA m WHERE DATE(m.fecha) = CURRENT_DATE UNION SELECT f.fecha, f.glucosa FROM $FOREIGN_MEDIDA f  WHERE DATE(f.fecha) = CURRENT_DATE  order by 1 asc"
+            "SELECT strftime('%H', fecha) as hour, AVG(glucosa) as avg_glucose " +
+                    "FROM (" +
+                    "  SELECT m.fecha, m.glucosa FROM $MEDIDA m WHERE DATE(m.fecha) = CURRENT_DATE " +
+                    "  UNION ALL " +
+                    "  SELECT f.fecha, f.glucosa FROM $FOREIGN_MEDIDA f WHERE DATE(f.fecha) = CURRENT_DATE" +
+                    ") " +
+                    "GROUP BY hour " +
+                    "ORDER BY hour ASC"
         val result = sqlQueryer.rawQuery(query, null)
-        var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
+        var mutable = mutableListOf<Foreign>()
         while (result.moveToNext()) {
             val fecha = dateFormat.parse(result.getString(0))
             val localDateTime = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
-
             val glucosa = result.getInt(1)
-            mutable.add(localDateTime to glucosa)
+            mutable.add(Foreign(localDateTime, glucosa))
         }
         result.close()
         closeAll()
@@ -213,33 +219,33 @@ class SQLController(context: Context) {
     fun readDatesInRange(
         startDate: LocalDateTime,
         endDate: LocalDateTime
-    ): List<Pair<LocalDateTime, Int>> {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+    ): List<Foreign> {
+        val dateFormat = SimpleDateFormat("HH", Locale.getDefault())
         val start = startDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val end = endDate.format(DateTimeFormatter.ISO_LOCAL_DATE)
         val query =
-            " SELECT strftime('%H:%M:%S', fecha) AS hora, AVG(media_glucosa) AS media_glucosa" +
+            " SELECT strftime('%H', fecha) AS hora, AVG(media_glucosa) AS media_glucosa" +
                     " FROM (" +
                     "   SELECT datetime(m.fecha) AS fecha, AVG(m.glucosa) AS media_glucosa" +
                     "   FROM $MEDIDA m" +
                     "   WHERE DATE(m.fecha) BETWEEN DATE(?) AND DATE(?)" +
-                    " GROUP BY strftime('%Y-%m-%d %H:%M',m.fecha)" +
+                    " GROUP BY strftime('%H',m.fecha)" +
                     "   UNION ALL" +
                     "   SELECT datetime(f.fecha) AS fecha, AVG(f.glucosa) AS media_glucosa" +
                     "   FROM $FOREIGN_MEDIDA f" +
                     "   WHERE DATE(f.fecha) BETWEEN DATE(?) AND DATE(?)" +
-                    " GROUP BY strftime('%Y-%m-%d %H:%M',f.fecha)" +
+                    " GROUP BY strftime('%H',f.fecha)" +
                     " ) AS subquery GROUP BY 1 ORDER BY 1 ASC"
         val result = sqlQueryer.rawQuery(query, arrayOf(start, end, start, end))
-        var mutable = mutableListOf<Pair<LocalDateTime, Int>>()
-        val formatOutput = DateTimeFormatter.ofPattern("HH:mm:ss")
+        var mutable = mutableListOf<Foreign>()
+        val formatOutput = DateTimeFormatter.ofPattern("HH")
         while (result.moveToNext()) {
             val hora = result.getString(0)
             if (!hora.isNullOrBlank()) {
                 val fechaHora: LocalDateTime =
                     LocalTime.parse(hora, formatOutput).atDate(LocalDate.MIN)
                 val glucosa = result.getInt(1)
-                mutable.add(fechaHora to glucosa)
+                mutable.add(Foreign(fechaHora , glucosa))
             }
         }
         result.close()

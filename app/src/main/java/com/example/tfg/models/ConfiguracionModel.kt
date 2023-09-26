@@ -10,7 +10,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
     private var glucoseMax = 180
     private var glucoseMin = 90
     private var sensitiveFactor = 0
-    private var ratioInsulin = 0
+    private var ratioInsulin = 0f
     private var lowInsulin: Int = 26
     private var user = ""
     private var password = ""
@@ -33,7 +33,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
             alarmaSet(array[2].toInt())
             lowInsulinSet(array[3].toInt())
             sensibilityFactorSet(array[4].toInt())
-            ratioInsulinSet(array[5].toInt())
+            ratioInsulinSet(array[5].toFloat())
             userSet(array[6])
             passwordSet(array[7])
             fileIn.close()
@@ -85,11 +85,11 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
         return sensitiveFactor
     }
 
-    fun ratioInsulinSet(integer: Int) {
+    fun ratioInsulinSet(integer: Float) {
         ratioInsulin = integer
     }
 
-    fun ratioInsulinGet(): Int {
+    fun ratioInsulinGet(): Float {
         return ratioInsulin
     }
 
@@ -129,7 +129,7 @@ class ConfiguracionModel(val context: Context) : java.io.Serializable {
         alarmaSet(mutableList[2].toString().toInt())
         lowInsulinSet(mutableList[3].toString().toInt())
         sensibilityFactorSet(mutableList[4].toString().toInt())
-        ratioInsulinSet(mutableList[5].toString().toInt())
+        ratioInsulinSet(mutableList[5].toString().toFloat())
         saveVAlues()
 
     }
