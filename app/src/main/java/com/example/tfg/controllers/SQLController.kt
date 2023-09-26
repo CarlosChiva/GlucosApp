@@ -52,10 +52,7 @@ class SQLController(context: Context) {
     //-------------------------------------------------------------Inserts
     fun insertIntoMeasure(datos: Data) {
         val date = transformDate(datos.date)
-        println("inster measure")
         try {
-
-
             sqlQueryer.execSQL("insert into $MEDIDA values('$date',${datos.glucose},${datos.pick},${datos.pickIcon},${datos.alarm},${datos.CHfood},${datos.food});")
         } catch (e: android.database.sqlite.SQLiteConstraintException) {
             Log.d("Error de SQLiteConstraintException: UNIQUE constraint failed", "dato erroneo")
