@@ -28,7 +28,7 @@ class StadisticResultFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val analizer = Analizer(this.context!!)
+        val analizer = Analizer(this.requireContext())
         val glucMañana = binding.valGlucPromMa
         glucMañana.text=analizer.avgGlucMorning.toString()
         val insulLenRegis = binding.valInsulRegistrada
@@ -36,11 +36,11 @@ class StadisticResultFragment : Fragment() {
         val insulLenRecom = binding.valdosisLenRecomendada
         insulLenRecom.text = analizer.insulLenRecom.toString()
         val ratioRap = binding.ratioInsulRapida
-        ratioRap.text = "${analizer.ratioInsul} x por Ración"
-        var configurationModel = ConfiguracionModel(this.context!!)
+        ratioRap.text = "${String.format("%.2f",analizer.ratioInsul)} x por Ración"
+        var configurationModel = ConfiguracionModel(this.requireContext())
         insulLenRegis.text = configurationModel.lowInsulinGet().toString()
         var sensibilityFactor= binding.sensibilityFactor
-        sensibilityFactor.text= "1 Unidad x ${analizer.sensibilityFactor.toString()} mg/dl"
+        sensibilityFactor.text= "1 Unidad x ${analizer.sensibilityFactor} mg/dl"
 
     }
 }
