@@ -41,9 +41,11 @@ class PushPullDates(val context: Context) {
     }
 
     fun pullDatesMeasure(mutableList: MutableList<Data>) {
+        val sqlController=SQLController(this.context)
         mutableList.forEach {
-            SQLController(this.context).insertIntoMeasure(it)
+            sqlController.insertIntoMeasure(it)
         }
+        sqlController.closeDataBase()
     }
 
     fun pushConfiguration(): HashMap<String, Any> {
@@ -63,7 +65,9 @@ class PushPullDates(val context: Context) {
     }
 
     fun pullForeign(mutableList: List<Foreign>) {
-        SQLController(this.context).insertForeignPull(mutableList)
+        val sqlController = SQLController(this.context)
+        sqlController.insertForeignPull(mutableList)
+        sqlController.closeDataBase()
 
     }
 
@@ -74,4 +78,5 @@ class PushPullDates(val context: Context) {
     fun clearForeignTable() {
         SQLController(this.context).clearForeignTab()
     }
+
 }

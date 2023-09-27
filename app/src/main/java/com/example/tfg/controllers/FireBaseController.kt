@@ -55,12 +55,6 @@ class FireBaseController(val context: Context) {
         pushDatesForeign()
     }
 
-    fun pull() {
-        pullConfiguration()
-        pullMeasure()
-        pullForeign()
-
-    }
 
     fun pushAll(callback: (Boolean) -> Unit) {
 
@@ -294,7 +288,7 @@ class FireBaseController(val context: Context) {
                     it.result.get("alarm").toString().toInt(),
                     it.result.get("lowInsulin").toString().toInt(),
                     it.result.get("sensitiveFactor").toString().toInt(),
-                    it.result.get("ratioInsulin").toString().toInt(),
+                    it.result.get("ratioInsulin").toString().toFloat(),
 
                 )
                 pushPullDates.pullConfiguration(list)

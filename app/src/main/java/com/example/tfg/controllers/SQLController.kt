@@ -2,7 +2,6 @@ package com.example.tfg.controllers
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
-import android.provider.MediaStore.Audio.Media
 import android.util.Log
 import com.example.tfg.models.Data
 import com.example.tfg.models.Foreign
@@ -143,9 +142,8 @@ class SQLController(context: Context) {
 
     fun readLastDatesToForeign(): Foreign {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-        var dateForeign: Foreign
-        var dateMedida: Foreign
-        var dateResult: Foreign
+        val dateForeign: Foreign
+        val dateMedida: Foreign
         var result = sqlQueryer.rawQuery(
             "SELECT fecha, glucosa FROM $FOREIGN_MEDIDA " +
                     "WHERE fecha <= CURRENT_DATE " +
@@ -176,10 +174,10 @@ class SQLController(context: Context) {
         val glucMedida = result.getInt(1)
         dateMedida = Foreign(LocalDateTime.parse(fechaString), glucMedida)
 
-        if (dateForeign.date.isAfter(dateMedida?.date)!!) {
-            dateResult = dateForeign!!
+        val dateResult: Foreign = if (dateForeign.date.isAfter(dateMedida.date)) {
+            dateForeign
         } else {
-            dateResult = dateMedida!!
+            dateMedida
         }
         println(dateResult)
         result.close()
@@ -204,7 +202,7 @@ class SQLController(context: Context) {
         var mutable = mutableListOf<Foreign>()
         while (result.moveToNext()) {
             val fecha = dateFormat.parse(result.getString(0))
-            val localDateTime = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+            val localDateTime = fecha!!.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
             val glucosa = result.getInt(1)
             mutable.add(Foreign(localDateTime, glucosa))
         }
@@ -337,16 +335,15 @@ class SQLController(context: Context) {
         this.sqlMaker.close()
     }
 
-    fun clearTables() {
-        sqlQueryer.execSQL("DELETE FROM $MEDIDA")
-        sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
-    }
-
     fun clearForeignTab() {
         sqlQueryer.execSQL("DELETE FROM $FOREIGN_MEDIDA")
     }
 
     fun clearMeasureTab() {
         sqlQueryer.execSQL("DELETE FROM $MEDIDA")
+    }
+     fun closeDataBase() {
+        this.sqlQueryer.close()
+        this.sqlMaker.close()
     }
 }
