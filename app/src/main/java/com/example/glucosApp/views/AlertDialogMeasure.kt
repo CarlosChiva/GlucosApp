@@ -2,10 +2,13 @@ package com.example.glucosApp.views
 
 import android.app.AlarmManager
 import android.app.AlertDialog
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.os.Build
 import android.view.LayoutInflater
 import android.widget.*
 import com.example.glucosApp.R
@@ -16,8 +19,13 @@ import com.example.glucosApp.models.ConfiguracionModel
 import com.example.glucosApp.models.Data
 import com.google.android.material.imageview.ShapeableImageView
 import java.time.LocalDateTime
+import java.util.Calendar
 
 class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDateTime) {
+    companion object {
+        const val MY_CHANNEL_ID = "myChannel"
+    }
+
     //----------------------------------------------------------------------------------------- sql controller
     var controller: SQLController
     val value: Int
@@ -136,14 +144,25 @@ class AlertDialogMeasure(context: Context, value: Int, currentDateTime: LocalDat
     }
 
     private fun scheduleNotification() {
-        val intent = Intent(context.applicationContext, NotificationService::class.java)
+        val intent = Intent(this.context, NotificationService::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
-            context.applicationContext,
+            this.context,
             NOTIFICATION_ID,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        //alarmManager.setExact(AlarmManager.RTC_WAKEUP, hourToAlarm.toLong(), pendingIntent)
+
+        // Verifica si la app puede programar alarmas exactas.
+        if (alarmManager.canScheduleExactAlarms()) {
+            // Programa la alarma exacta.
+            alarmManager.setExact(
+                AlarmManager.RTC_WAKEUP,
+                Calendar.getInstance().timeInMillis + (ConfiguracionModel(context).alarmaGet() * 3600000),
+                pendingIntent
+            )
+        }
     }
+
+
 }
