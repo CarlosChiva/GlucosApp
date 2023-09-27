@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TFG</string>
+    <string name="app_name">GlucosApp</string>
     <string name="mainbutton">mainButton</string>
     <string name="configurationbutton">ConfigurationButton</string>
     <string name="estadisticsbutton">EstadisticsButton</string>
