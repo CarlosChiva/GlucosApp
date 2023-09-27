@@ -22,16 +22,16 @@ class StadisticsGraphics(
     viewPie: PieChart,
     list: List<Foreign>
 ) {
-    var minimValue=0
-    var maxValue=0
+    var minimValue = 0
+    var maxValue = 0
+    var betweenMinMax = 0
     val chart: BarChart
     val pieChart: PieChart
     val lista: List<Foreign>
+    val values: ConfiguracionModel
 
     init {
-        val values=ConfiguracionModel(context!!)
-        this.minimValue=values.glucosaMinimaGet()
-        this.maxValue=values.glucosaMaximaGet()
+        values = ConfiguracionModel(context!!)
         this.chart = viewColumn
         this.pieChart = viewPie
         this.lista = list
@@ -99,31 +99,26 @@ class StadisticsGraphics(
         chart.invalidate()
         //-----------------------------------------------------------------
 
-        // Contadores para los diferentes rangos de glucosa
-        var above180 = 0
-        var below80 = 0
-        var between = 0
-
 // Calcular la cantidad de tiempo en que la glucosa ha estado en diferentes rangos
-        for (i in 0 until lista.size - 1) {
+        for (i in 0 until lista.size) {
             val current = lista[i].glucose
-            val next = lista[i + 1].glucose
-            val timeDiff = Duration.between(lista[i].date, lista[i + 1].date).toMinutes()
-
-            if (current > 180 && next > 180) {
-                above180 += timeDiff.toInt()
-            } else if (current < 80 && next < 80) {
-                below80 += timeDiff.toInt()
-            } else {
-                between += timeDiff.toInt()
+            if (current< values.glucosaMinimaGet()){
+                minimValue++
+            }else if (current >=values.glucosaMinimaGet() &&current >=values.glucosaMaximaGet() ){
+                betweenMinMax++
+            }else{
+                maxValue++
             }
         }
 
         // Crear una lista de entradas para la gráfica de pastel
         val entriesPie = listOf(
-            PieEntry(above180.toFloat(), "Por encima de 180"),
-            PieEntry(between.toFloat(), "Entre 80 y 180"),
-            PieEntry(below80.toFloat(), "Por debajo de 80")
+            PieEntry(maxValue.toFloat(), "Por encima de ${values.glucosaMaximaGet()}"),
+            PieEntry(
+                betweenMinMax.toFloat(),
+                "Entre ${values.glucosaMinimaGet()} y ${values.glucosaMaximaGet()}"
+            ),
+            PieEntry(minimValue.toFloat(), "Por debajo de ${values.glucosaMinimaGet()}")
         )
 
         // Crear el conjunto de datos y configurar sus propiedades

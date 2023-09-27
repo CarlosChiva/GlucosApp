@@ -58,7 +58,6 @@ class HistoricalFragment : Fragment() {
         }
     }
 
-    //Function demo for addd information for testing class adapter
     private fun demoList(): MutableList<Data> {
         val sqlController = SQLController(this.requireContext())
         return sqlController.loadDatesMedida()

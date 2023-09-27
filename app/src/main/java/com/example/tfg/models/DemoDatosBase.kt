@@ -9,10 +9,8 @@ class DemoDatosBase(context: Context) {
     var fehca_actual: LocalDateTime
 
     init {
-        println("inicio")
         sqlController = SQLController(context)
         fehca_actual = LocalDateTime.now()
-        println("insertar")
         initInsertDAta()
     }
 
@@ -28,7 +26,7 @@ class DemoDatosBase(context: Context) {
             val datosForeign = crearDatosCada5Minutos(fehca_actual.minusDays(long))
             sqlController.insertIntofOREIGNMeasure(datosForeign)
         }
-
+        sqlController.closeDataBase()
     }
 
     //datos de medida Demo
@@ -65,7 +63,7 @@ class DemoDatosBase(context: Context) {
         var valorMinimo = 80
         while (fechaActual <= fechaFinal) {
             if (!horasAEvitar.contains(fechaActual)) {
-                  datos.add(Foreign(fechaActual, valorInt))
+                datos.add(Foreign(fechaActual, valorInt))
             }
 
             fechaActual = fechaActual.plusMinutes(5)

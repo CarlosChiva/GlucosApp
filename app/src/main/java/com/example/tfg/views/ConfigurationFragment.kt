@@ -181,6 +181,8 @@ class ConfigurationFragment : Fragment() {
 
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
             saveData()
+            findNavController().navigate(R.id.action_ConfigurationFragment_to_Main)
+
 
         }
         builder.setNegativeButton(android.R.string.cancel) { _, _ ->

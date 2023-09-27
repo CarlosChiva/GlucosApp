@@ -72,7 +72,6 @@ class FireBaseController(val context: Context) {
                 }
             }
         }
-
     }
 
     //----------------------------------------------------Push/pull methods of Measure----------------
