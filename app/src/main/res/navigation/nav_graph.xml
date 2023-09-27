@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MainFragment"
-        android:name="com.example.tfg.views.MainFragment"
+        android:name="com.example.glucosApp.views.MainFragment"
         tools:layout="@layout/fragment_main">
 
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/ConfigurationFragment"
-        android:name="com.example.tfg.views.ConfigurationFragment"
+        android:name="com.example.glucosApp.views.ConfigurationFragment"
         tools:layout="@layout/fragment_configuration">
 
         <action
@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/historicalFragment"
-        android:name="com.example.tfg.views.HistoricalFragment"
+        android:name="com.example.glucosApp.views.HistoricalFragment"
         android:label="@null"
         tools:layout="@layout/fragment_historical" >
         <action
@@ -73,7 +73,7 @@
 
     <fragment
         android:id="@+id/stadisticsFragment"
-        android:name="com.example.tfg.views.StadisticsFragment"
+        android:name="com.example.glucosApp.views.StadisticsFragment"
         android:label="fragment_stadistics"
         tools:layout="@layout/fragment_stadistics" >
         <action
@@ -95,7 +95,7 @@
     </fragment>
     <fragment
         android:id="@+id/measureFragment"
-        android:name="com.example.tfg.views.MeasureFragment"
+        android:name="com.example.glucosApp.views.MeasureFragment"
         android:label="fragment_measure"
         tools:layout="@layout/fragment_measure" >
         <action
@@ -117,7 +117,7 @@
     </fragment>
     <fragment
         android:id="@+id/FirebaseFragment"
-        android:name="com.example.tfg.views.fireBase.FireBaseFragment"
+        android:name="com.example.glucosApp.views.fireBase.FireBaseFragment"
         android:label="firebaseFragment"
         tools:layout="@layout/fragment_firebase" >
         <action

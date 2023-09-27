@@ -1,10 +1,40 @@
 {
   "project_info": {
     "project_number": "782507832265",
+    "firebase_url": "https://glucosapp-e7d20-default-rtdb.firebaseio.com",
     "project_id": "glucosapp-e7d20",
     "storage_bucket": "glucosapp-e7d20.appspot.com"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:782507832265:android:b50e0399a6fd771da42e18",
+        "android_client_info": {
+          "package_name": "com.example.glucosApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "782507832265-c021osq5dofde39l5pc9scbpr7ogfoq1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHixQC05McHZgX9Q-ufHCPnymbV6rLiwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "782507832265-c021osq5dofde39l5pc9scbpr7ogfoq1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:782507832265:android:7fbd1d12113e3cb6a42e18",

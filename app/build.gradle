@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.tfg'
+    namespace 'com.example.glucosApp'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.tfg"
+        applicationId "com.example.glucosApp"
         minSdk 33
         targetSdk 33
         versionCode 1
