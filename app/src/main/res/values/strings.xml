@@ -44,4 +44,9 @@
     <string name="pull_dates">Pull dates</string>
     <string name="repeat_password">Repeat Password</string>
     <string name="registrer">Registrer</string>
+    <string name="dosis_recomendada">Dosis recomendada</string>
+    <string name="glucosa_promedio_en_la_ma_ana">Glucosa promedio en la mañana</string>
+    <string name="insulina_lenta_registrada">Insulina lenta registrada:</string>
+    <string name="ratio_de_insulina_rapida">Ratio de Insulina Rapida</string>
+    <string name="factor_de_sensibilidad_actual">Factor de sensibilidad actual</string>
 </resources>
