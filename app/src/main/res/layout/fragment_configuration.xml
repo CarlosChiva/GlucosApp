@@ -108,7 +108,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         app:cardCornerRadius="40dp"
         app:cardElevation="10dp">
 
@@ -149,14 +149,14 @@
         android:id="@+id/seekbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="50dp"
         android:visibility="invisible" />
 
     <TextView
         android:id="@+id/previewValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:textAlignment="center"
         android:textSize="24sp" />
 
@@ -165,8 +165,8 @@
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="20dp"
+        android:layout_gravity="end"
+        android:layout_marginEnd="20dp"
         android:contentDescription="@string/fab"
         android:foreground="@drawable/ic_baseline_save_24"
         android:foregroundGravity="center" />
