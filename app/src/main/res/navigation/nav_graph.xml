@@ -12,19 +12,39 @@
 
         <action
             android:id="@+id/action_MainFragment_to_ConfigurationFragment"
-            app:destination="@id/ConfigurationFragment" />
+            app:destination="@id/ConfigurationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_MainFragment_to_HistoricalFragment"
-            app:destination="@id/historicalFragment" />
+            app:destination="@id/historicalFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_MainFragment_to_stadisticsFragment"
-            app:destination="@id/stadisticsFragment" />
+            app:destination="@id/stadisticsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_MainFragment_to_measureFragment"
-            app:destination="@id/measureFragment" />
+            app:destination="@id/measureFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_MainFragment_to_viewPagerFirebase"
-            app:destination="@id/FirebaseFragment" />
+            app:destination="@id/FirebaseFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/ConfigurationFragment"
@@ -34,94 +54,174 @@
         <action
             android:id="@+id/action_ConfigurationFragment_to_Main"
             app:destination="@+id/MainFragment"
-            />
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_ConfigurationFragment_to_historicalFragment"
-            app:destination="@id/historicalFragment" />
+            app:destination="@id/historicalFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_ConfigurationFragment_to_stadisticsFragment"
-            app:destination="@id/stadisticsFragment" />
+            app:destination="@id/stadisticsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_ConfigurationFragment_self"
-            app:destination="@id/ConfigurationFragment" />
+            app:destination="@id/ConfigurationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_ConfigurationFragment_to_measureFragment"
-            app:destination="@id/measureFragment" />
+            app:destination="@id/measureFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/historicalFragment"
         android:name="com.example.glucosApp.views.HistoricalFragment"
         android:label="@null"
-        tools:layout="@layout/fragment_historical" >
+        tools:layout="@layout/fragment_historical">
         <action
             android:id="@+id/action_historicalFragment_to_Main"
             app:destination="@+id/MainFragment"
-            />
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_historicalFragment_to_stadisticsFragment"
-            app:destination="@id/stadisticsFragment" />
+            app:destination="@id/stadisticsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_historicalFragment_to_ConfigurationFragment"
-            app:destination="@id/ConfigurationFragment" />
+            app:destination="@id/ConfigurationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_historicalFragment_self"
-            app:destination="@id/historicalFragment" />
+            app:destination="@id/historicalFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_historicalFragment_to_measureFragment"
-            app:destination="@id/measureFragment" />
+            app:destination="@id/measureFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
 
     <fragment
         android:id="@+id/stadisticsFragment"
         android:name="com.example.glucosApp.views.StadisticsFragment"
         android:label="fragment_stadistics"
-        tools:layout="@layout/fragment_stadistics" >
+        tools:layout="@layout/fragment_stadistics">
         <action
             android:id="@+id/action_stadisticFragment_to_Main"
             app:destination="@+id/MainFragment"
-            />
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_stadisticsFragment_to_historicalFragment"
-            app:destination="@id/historicalFragment" />
+            app:destination="@id/historicalFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_stadisticsFragment_to_ConfigurationFragment"
-            app:destination="@id/ConfigurationFragment" />
+            app:destination="@id/ConfigurationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_stadisticsFragment_self"
-            app:destination="@id/stadisticsFragment" />
+            app:destination="@id/stadisticsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_stadisticsFragment_to_measureFragment"
-            app:destination="@id/measureFragment" />
+            app:destination="@id/measureFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/measureFragment"
         android:name="com.example.glucosApp.views.MeasureFragment"
         android:label="fragment_measure"
-        tools:layout="@layout/fragment_measure" >
+        tools:layout="@layout/fragment_measure">
         <action
             android:id="@+id/action_measureFragment_to_Main"
             app:destination="@+id/MainFragment"
-            />
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_measureFragment_self"
-            app:destination="@id/measureFragment" />
+            app:destination="@id/measureFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_measureFragment_to_stadisticsFragment"
-            app:destination="@id/stadisticsFragment" />
+            app:destination="@id/stadisticsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_measureFragment_to_ConfigurationFragment"
-            app:destination="@id/ConfigurationFragment" />
+            app:destination="@id/ConfigurationFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
         <action
             android:id="@+id/action_measureFragment_to_historicalFragment"
-            app:destination="@id/historicalFragment" />
+            app:destination="@id/historicalFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
     <fragment
         android:id="@+id/FirebaseFragment"
         android:name="com.example.glucosApp.views.fireBase.FireBaseFragment"
         android:label="firebaseFragment"
-        tools:layout="@layout/fragment_firebase" >
+        tools:layout="@layout/fragment_firebase">
         <action
             android:id="@+id/action_viewPagerFirebase_to_MainFragment"
-            app:destination="@id/MainFragment" />
+            app:destination="@id/MainFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_out"
+            app:popExitAnim="@anim/fade_in" />
     </fragment>
 </navigation>
