@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/cardRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blackground"
-    android:orientation="vertical"
+    android:background="@color/white"
+
     tools:context=".views.ConfigurationFragment">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/cardRoot"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/label_historical_fragment"
-        android:fontFamily="@font/madjoe"
-        android:text="@string/configuration"
-        android:textAlignment="center"
-        android:textSize="25sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardMax"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="80dp"
-        app:cardCornerRadius="40dp"
-        app:cardElevation="10dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/madjoe"
+            android:text="@string/configuration"
+            android:textAlignment="center"
+            android:textSize="30sp" />
 
         <LinearLayout
+            android:id="@+id/cardMax"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/gradient_result_cards"
-            android:orientation="horizontal">
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="120dp"
+            android:background="@drawable/gradient_configuration_cards"
+            app:cardElevation="10dp">
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="10dp"
-                android:paddingTop="17dp"
-                android:text="@string/glucosa_maxima" />
+                android:paddingTop="13dp"
+                android:text="@string/glucosa_maxima"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/glucMaxim"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="15dp"
-                android:paddingTop="17dp"
+                android:paddingTop="13dp"
                 android:textSize="15sp" />
 
             <TextView
@@ -54,41 +54,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="15dp"
-                android:paddingTop="17dp"
+                android:paddingTop="13dp"
                 android:text="@string/glucmax"
-                android:textSize="15sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardMin"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="80dp"
-        app:cardCornerRadius="40dp"
-        app:cardElevation="10dp">
 
         <LinearLayout
+            android:id="@+id/cardMin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="@drawable/gradient_result_cards">
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/gradient_configuration_cards"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="10dp"
-                android:paddingTop="17dp"
-                android:text="@string/glucosa_minima" />
+                android:paddingTop="13dp"
+                android:text="@string/glucosa_minima"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/glucMin"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="30dp"
-                android:paddingTop="17dp"
+                android:paddingTop="13dp"
                 android:textSize="15sp" />
 
             <TextView
@@ -96,41 +94,38 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="15dp"
-                android:paddingTop="17dp"
+                android:paddingTop="13dp"
                 android:text="@string/glucmin"
-                android:textSize="15sp" />
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardAlarm"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="50dp"
-        app:cardCornerRadius="40dp"
-        app:cardElevation="10dp">
 
         <LinearLayout
+            android:id="@+id/cardAlarm"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/gradient_result_cards"
-            android:orientation="horizontal">
+            android:layout_height="60dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="60dp"
+            android:background="@drawable/gradient_configuration_cards"
+            app:cardCornerRadius="40dp"
+            app:cardElevation="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="10dp"
-                android:paddingTop="17dp"
-                android:text="@string/alarma" />
+                android:paddingTop="13dp"
+                android:text="@string/alarma"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/alarm"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:paddingStart="95dp"
-                android:paddingTop="17dp"
+                android:paddingStart="115dp"
+                android:paddingTop="13dp"
                 android:textSize="15sp" />
 
             <TextView
@@ -138,41 +133,43 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingStart="15dp"
-                android:paddingTop="17dp"
+                android:paddingTop="13dp"
                 android:text="@string/h"
-                android:textSize="15sp" />
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
 
-    <SeekBar
-        android:id="@+id/seekbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:visibility="invisible" />
+        <SeekBar
+            android:id="@+id/seekbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/previewValue"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textAlignment="center"
-        android:textSize="24sp" />
+        <TextView
+            android:id="@+id/previewValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:textAlignment="center"
+            android:textSize="24sp" />
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="@string/fab"
-        android:foreground="@drawable/ic_baseline_save_24"
-        android:foregroundGravity="center" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/saveButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="80dp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="20dp"
+            android:contentDescription="@string/fab"
+            android:foreground="@drawable/ic_baseline_save_24"
+            android:foregroundGravity="center" />
+    </LinearLayout>
 
     <include
         android:id="@+id/motion"
         layout="@layout/motionlayout" />
 
-</LinearLayout>
+</FrameLayout>
