@@ -3,7 +3,6 @@
     <!-- Capa 2: Gradiente -->
     <item>
         <shape android:shape="rectangle">
-            <stroke android:width="0.1sp" />
             <padding
                 android:bottom="10sp"
                 android:left="10sp"

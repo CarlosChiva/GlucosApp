@@ -98,11 +98,11 @@ class StadisticsGraphics(
 // Calcular la cantidad de tiempo en que la glucosa ha estado en diferentes rangos
         for (i in 0 until lista.size) {
             val current = lista[i].glucose
-            if (current< values.glucosaMinimaGet()){
+            if (current < values.glucosaMinimaGet()) {
                 minimValue++
-            }else if (current >=values.glucosaMinimaGet() &&current >=values.glucosaMaximaGet() ){
+            } else if (current >= values.glucosaMinimaGet() && current <= values.glucosaMaximaGet()) {
                 betweenMinMax++
-            }else{
+            } else {
                 maxValue++
             }
         }
