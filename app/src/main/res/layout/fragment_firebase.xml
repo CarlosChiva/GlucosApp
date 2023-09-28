@@ -17,12 +17,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/loginBackground">
+            android:background="@drawable/gradient_cards">
 
             <TextView
                 android:id="@+id/titleLogin"
@@ -77,7 +78,7 @@
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="70dp"
-                android:background="@drawable/style_border"
+                android:background="@drawable/border_style"
                 android:backgroundTint="@color/loginButton"
                 android:text="@string/login"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -89,7 +90,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/registrerCard"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="650dp"
         android:focusable="false"
         android:visibility="invisible"
         app:cardCornerRadius="24dp"
@@ -102,7 +103,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/loginBackground">
+            android:background="@drawable/gradient_cards">
 
             <TextView
                 android:id="@+id/titleRegistrer"
@@ -174,7 +175,7 @@
                 android:layout_marginStart="70dp"
                 android:layout_marginTop="30dp"
                 android:layout_marginEnd="70dp"
-                android:background="@drawable/style_border"
+                android:background="@drawable/border_style"
                 android:backgroundTint="@color/loginButton"
                 android:text="@string/registrer"
                 app:layout_constraintLeft_toLeftOf="parent"

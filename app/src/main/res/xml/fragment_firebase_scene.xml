@@ -17,7 +17,7 @@
         <Constraint
             android:id="@+id/registrerCard"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:rotationY="-180"
             android:visibility="invisible"
             motion:layout_constraintBottom_toBottomOf="parent"
@@ -41,7 +41,7 @@
         <Constraint
             android:id="@+id/registrerCard"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
+            android:layout_height="350dp"
             android:rotationY="0"
             android:visibility="visible"
             android:focusable="true"
