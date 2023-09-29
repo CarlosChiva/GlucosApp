@@ -18,6 +18,7 @@ import com.example.glucosApp.models.ConfiguracionModel
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.cardview.widget.CardView
+import com.example.glucosApp.databinding.FragmentFirebaseLoginBinding
 
 class FireBaseFragment : Fragment() {
     private var _binding: FragmentFirebaseBinding? = null
@@ -26,6 +27,7 @@ class FireBaseFragment : Fragment() {
     private lateinit var progresBarHoriz: ProgressBar
     private lateinit var progresIndicator: TextView
     private lateinit var nav: NavController
+    private lateinit var motion: FragmentFirebaseLoginBinding
     private lateinit var loginCard: CardView
     private lateinit var progressBar: ProgressBar
     private lateinit var fadeIn: Animation
@@ -43,20 +45,25 @@ class FireBaseFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         configuration = ConfiguracionModel(this.requireContext())
         nav = findNavController()
-        loginCard = binding.loginCard
-        val registrerCard = binding.registrerCard
-        val emailLogin = binding.userMailLogin
-        val emailRegistrer = binding.useremailRegistrer
-        val passwordLogin = binding.passwordLogin
-        val passwordRegistrer = binding.passwordRegistrer
-        val passwordRegistrerRep = binding.passwordRegistrerRep
-        val loginButton = binding.buttonLogin
-        val registrerButton = binding.buttonRegistrer
-        progressBar = binding.progressBar
-        progresIndicator = binding.processDescriptor
-        progresBarHoriz = binding.progressBarHorizontal
+        motion= binding.motionLogin
+        loginCard = motion.loginCard
+        val backButton=binding.backButton
+        val registrerCard = motion.registrerCard
+        val emailLogin = motion.userMailLogin
+        val emailRegistrer = motion.useremailRegistrer
+        val passwordLogin = motion.passwordLogin
+        val passwordRegistrer = motion.passwordRegistrer
+        val passwordRegistrerRep = motion.passwordRegistrerRep
+        val loginButton = motion.buttonLogin
+        val registrerButton = motion.buttonRegistrer
+        progressBar = motion.progressBar
+        progresIndicator = motion.processDescriptor
+        progresBarHoriz = motion.progressBarHorizontal
         emailLogin.setText(configuration.userGet())
         passwordLogin.setText(configuration.passwordGet())
+        backButton.setOnClickListener {
+            navViews()
+        }
         fadeIn = AnimationUtils.loadAnimation(this.requireContext(), R.anim.fade_in)
         fadeOut =
             AnimationUtils.loadAnimation(this.requireContext(), R.anim.fade_out)

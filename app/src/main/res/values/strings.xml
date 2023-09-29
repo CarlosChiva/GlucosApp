@@ -49,4 +49,5 @@
     <string name="insulina_lenta_registrada">Insulina lenta registrada:</string>
     <string name="ratio_de_insulina_rapida">Ratio de Insulina Rapida</string>
     <string name="factor_de_sensibilidad_actual">Factor de sensibilidad actual</string>
+    <string name="back_to_main">Back to main</string>
 </resources>
